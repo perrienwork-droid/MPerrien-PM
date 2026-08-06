@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Criteria · Reframe</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet"/>
+<link href="studio.css" rel="stylesheet"/>
+<style>
+  .content{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+  .content .lede{margin-left:auto;margin-right:auto}
+  .choice2{display:grid;grid-template-columns:2fr 1fr;gap:18px;width:100%;margin:22px auto 0;max-width:820px;text-align:left}
+  .manual{width:100%;text-align:left}
+  .cbox{position:relative;display:flex;flex-direction:column;justify-content:center;padding:34px 24px;border-radius:18px;background:var(--bg-card);border:1.5px solid var(--line);cursor:pointer;transition:transform .16s,box-shadow .2s,border-color .2s}
+  .cbox:hover{transform:translateY(-2px);box-shadow:0 14px 30px var(--shadow-soft)}
+  .cbox.ai{border-color:var(--rasp);background:linear-gradient(180deg,#FCEDF0,var(--bg-card))}
+  .cbox.on{border-color:var(--rasp);box-shadow:0 16px 34px var(--shadow-med)}
+  .cbox .rec{position:absolute;top:-12px;left:22px;font-size:11.5px;font-weight:600;letter-spacing:.03em;color:#fff;background:var(--rasp);padding:5px 12px;border-radius:999px}
+  .cbox .badge{position:absolute;top:18px;right:18px;width:24px;height:24px;border-radius:999px;border:1.5px solid var(--ink-mute);display:grid;place-items:center;color:#fff;font-size:13px}
+  .cbox.on .badge{background:var(--rasp);border-color:var(--rasp)}
+  .cbox .ic{width:44px;height:44px;border-radius:12px;background:var(--bg-soft);display:grid;place-items:center;font-size:22px;color:var(--rasp);margin-bottom:14px}
+  .cbox h3{font-family:var(--serif);font-weight:400;font-size:23px;margin-bottom:8px;line-height:1.15}
+  .cbox h3 em{font-style:normal;color:inherit}
+  .cbox p{font-size:14px;color:var(--ink-soft);line-height:1.5}
+  /* framed manual panel, v1 style but smaller */
+  .manual{display:none;max-width:820px;margin:16px auto 0;padding:18px 20px;border-radius:16px;background:var(--bg-soft);border:1px solid var(--line)}
+  .manual.show{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .manual h4{font-family:var(--serif);font-weight:400;font-size:16px;margin-bottom:2px}
+  .manual .sub{font-size:12.5px;color:var(--ink-mute);margin-bottom:14px}
+  .critrow{display:grid;grid-template-columns:88px 1fr;align-items:center;gap:14px;margin-bottom:12px}
+  .critrow:last-child{margin-bottom:0}
+  .critrow label{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{font-size:12.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg-card);color:var(--ink-soft);cursor:pointer;transition:.15s}
+  .chip.on{background:var(--rasp);color:#fff;border-color:var(--rasp)}
+  @media(max-width:720px){.choice2{grid-template-columns:1fr}.critrow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="tablet">
+  <div class="appbar">
+    <div class="wordmark"><a href="index.html" style="text-decoration:none;color:inherit">Re<em>frame</em><span class="dot">.</span></a></div>
+    <div class="appbar-right"><span class="session-chip">Session #SR-2048 · Camille R.</span><span class="tpo-mark">A Product Office study<span class="dot">.</span></span></div>
+  </div>
+  <div class="stepnav">
+    <div class="step done"><span class="n">✓</span><span class="lbl">Welcome</span></div><span class="sep">›</span>
+    <div class="step done"><span class="n">✓</span><span class="lbl">Capture</span></div><span class="sep">›</span>
+    <div class="step active"><span class="n">3</span><span class="lbl">Criteria</span></div><span class="sep">›</span>
+    <div class="step"><span class="n">4</span><span class="lbl">Profile</span></div><span class="sep">›</span>
+    <div class="step"><span class="n">5</span><span class="lbl">Shortlist</span></div><span class="sep">›</span>
+    <div class="step"><span class="n">6</span><span class="lbl">Report</span></div>
+  </div>
+
+  <div class="content">
+    <div class="eyebrow">Step 3 · How we choose</div>
+    <h1 class="title">How should we choose your frames?</h1>
+    <p class="lede">You can adjust anything on the next screen.</p>
+
+    <div class="choice2">
+      <div class="cbox ai on" id="cAI" onclick="pick('ai')">
+        <span class="rec">Recommended</span>
+        <span class="badge">✓</span>
+        <div class="ic">✧</div>
+        <h3>Read the face <em>automatically</em></h3>
+        <p>Reads colouring, shape and proportions, then finds what suits. Most people choose this.</p>
+      </div>
+      <div class="cbox" id="cMan" onclick="pick('man')">
+        <span class="badge">✓</span>
+        <div class="ic">⌥</div>
+        <h3>Set the criteria <em>yourself</em></h3>
+        <p>Set colour, shape and size by hand. Best when the client knows what they want.</p>
+      </div>
+    </div>
+
+    <div class="manual" id="manual">
+      <h4>Manual priorities</h4>
+      <p class="sub">Anything you leave open is read from the face.</p>
+      <div class="critrow">
+        <label>Colour</label>
+        <div class="chips">
+          <span class="chip on" onclick="t(this)">Warm tortoise</span><span class="chip on" onclick="t(this)">Translucent pink</span>
+          <span class="chip" onclick="t(this)">Cream</span><span class="chip" onclick="t(this)">Cognac</span><span class="chip" onclick="t(this)">Black</span>
+        </div>
+      </div>
+      <div class="critrow">
+        <label>Shape</label>
+        <div class="chips">
+          <span class="chip on" onclick="t(this)">Soft cat-eye</span><span class="chip" onclick="t(this)">Soft squared</span>
+          <span class="chip" onclick="t(this)">Oval</span><span class="chip" onclick="t(this)">Round</span>
+        </div>
+      </div>
+      <div class="critrow">
+        <label>Size</label>
+        <div class="chips">
+          <span class="chip on" onclick="t(this)">Medium</span><span class="chip on" onclick="t(this)">Medium-large</span><span class="chip" onclick="t(this)">Statement</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actionbar">
+    <a class="back" href="02-capture.html">← Capture</a>
+    <span class="actionbar-note" id="note">Reads the face and sets all seven criteria.</span>
+    <a class="btn btn-primary" id="cta" href="04-profile.html">Choose for me →</a>
+  </div>
+</div>
+<script>
+  function pick(m){
+    document.getElementById('cAI').classList.toggle('on',m==='ai');
+    document.getElementById('cMan').classList.toggle('on',m==='man');
+    document.getElementById('manual').classList.toggle('show',m==='man');
+    var cta=document.getElementById('cta'), note=document.getElementById('note');
+    if(m==='man'){cta.textContent='Use these settings →';note.textContent='Scores the inventory against your priorities.';}
+    else{cta.textContent='Choose for me →';note.textContent='Reads the face and sets all seven criteria.';}
+  }
+  function t(el){el.classList.toggle('on')}
+</script>
+</body>
+</html>

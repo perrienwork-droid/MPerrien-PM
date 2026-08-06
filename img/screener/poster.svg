@@ -1,0 +1,59 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="&#39;Fira Sans&#39;,system-ui,sans-serif">
+  <rect width="800" height="500" fill="#0D1210"></rect>
+  <rect x="0" y="0" width="800" height="500" fill="url(#g)" opacity="0.5"></rect>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#161A18"></stop>
+      <stop offset="1" stop-color="#0D1210"></stop>
+    </linearGradient>
+  </defs>
+
+  
+  <text x="64" y="72" font-size="14" font-weight="600" letter-spacing="3" fill="#D4956A">SELF-INITIATED · PRODUCT OFFICE STUDY</text>
+  <text x="64" y="112" font-size="30" font-weight="600" fill="#EEF0EA">Neurodivergent Traits Screener</text>
+  <text x="64" y="140" font-size="15" font-weight="400" fill="#A0ACA5">Eight dimensions, one honest screen that routes, not diagnoses</text>
+
+  
+  <line x1="501.6" y1="176" x2="501.6" y2="420" stroke="#D4956A" stroke-width="1.4" stroke-dasharray="5,4" opacity="0.7"></line>
+  <text x="501.6" y="168" font-size="11.5" font-weight="600" letter-spacing="1.5" fill="#D4956A" text-anchor="middle">60% ELEVATED</text>
+
+  
+  <g font-size="12.5" font-weight="500" fill="#A0ACA5">
+    
+    <text x="64" y="195">AUT</text>
+    <rect x="150" y="182" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="182" width="515.7" height="16" rx="8" fill="#D4956A"></rect>
+    
+    <text x="64" y="225">AD-I</text>
+    <rect x="150" y="212" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="212" width="246.1" height="16" rx="8" fill="#A06A42"></rect>
+    
+    <text x="64" y="255">AD-H</text>
+    <rect x="150" y="242" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="242" width="357.5" height="16" rx="8" fill="#D4956A"></rect>
+    
+    <text x="64" y="285">DYX</text>
+    <rect x="150" y="272" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="272" width="205.1" height="16" rx="8" fill="#A06A42"></rect>
+    
+    <text x="64" y="315">DCD</text>
+    <rect x="150" y="302" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="302" width="410.2" height="16" rx="8" fill="#D4956A"></rect>
+    
+    <text x="64" y="345">DCA</text>
+    <rect x="150" y="332" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="332" width="169.9" height="16" rx="8" fill="#A06A42"></rect>
+    
+    <text x="64" y="375">SEN</text>
+    <rect x="150" y="362" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="362" width="322.3" height="16" rx="8" fill="#A06A42"></rect>
+    
+    <text x="64" y="405">OCD</text>
+    <rect x="150" y="392" width="586" height="16" rx="8" fill="rgba(238,240,234,.06)"></rect>
+    <rect x="150" y="392" width="457.1" height="16" rx="8" fill="#D4956A"></rect>
+  </g>
+
+  <line x1="64" y1="440" x2="736" y2="440" stroke="#2A302D" stroke-width="1"></line>
+  <text x="64" y="466" font-size="13" fill="#A0ACA5">96 items, engineered for reliability</text>
+  <text x="736" y="466" font-size="13" font-weight="600" fill="#D4956A" text-anchor="end">Layer 1 of 3</text>
+</svg>

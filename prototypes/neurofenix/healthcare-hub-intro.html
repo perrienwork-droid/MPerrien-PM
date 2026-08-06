@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurofenix Hub, intro</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hub-navy-900: #0A1B4D;
+    --hub-navy-800: #10257A;
+    --hub-navy-700: #1B3AA6;
+    --hub-navy-600: #2A4EC7;
+    --hub-teal-500: #00C4C4;
+    --hub-teal-400: #3ED6D6;
+    --hub-teal-100: #D6F6F6;
+    --hub-grey-900: #0F1430;
+    --hub-grey-800: #1F2647;
+    --hub-grey-500: #6B7293;
+    --hub-white: #FFFFFF;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --radius-md: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-body);
+    color: var(--hub-grey-900);
+    -webkit-font-smoothing: antialiased;
+    width: 1280px;
+    height: 800px;
+    overflow: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  .hub-intro {
+    width: 1280px;
+    height: 800px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(110deg, #C6F0EF 0%, #C6F0EF 52%, var(--hub-white) 52%, var(--hub-white) 100%);
+  }
+  .hub-intro-logo {
+    position: absolute;
+    top: 36px;
+    left: 56px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 2;
+  }
+  .hub-intro-logo-mark {
+    width: 32px; height: 32px;
+    background: var(--hub-navy-900);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hub-intro-logo-text {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--hub-grey-900);
+    letter-spacing: -0.01em;
+  }
+  .hub-intro-inner {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 640px) minmax(0, 1fr);
+    align-items: center;
+    padding: 0 80px 0 96px;
+    gap: 64px;
+  }
+  .hub-intro-copy { max-width: 560px; }
+  .hub-intro-copy h1 {
+    font-size: 46px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--hub-grey-900);
+    margin-bottom: 32px;
+  }
+  .hub-intro-copy h1 .accent { color: var(--hub-navy-700); }
+  .hub-intro-sub {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+  .hub-intro-icon {
+    width: 52px; height: 52px;
+    flex-shrink: 0;
+    background: var(--hub-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(10,27,77,0.08);
+  }
+  .hub-intro-icon svg { width: 28px; height: 28px; }
+  .hub-intro-sub p {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--hub-grey-800);
+    line-height: 1.5;
+    padding-top: 4px;
+  }
+  .hub-intro-sub p strong { font-weight: 700; color: var(--hub-grey-900); }
+  .hub-intro-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--hub-navy-700);
+    color: var(--hub-white);
+    padding: 18px 36px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    min-width: 280px;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .hub-intro-cta:hover { background: var(--hub-navy-600); transform: translateY(-1px); }
+  .hub-intro-cta svg { width: 16px; height: 16px; }
+  .hub-intro-photo {
+    position: relative;
+    width: 440px;
+    height: 440px;
+    justify-self: center;
+  }
+  .hub-intro-circle {
+    position: absolute;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 40px rgba(10,27,77,0.18);
+  }
+  .hub-intro-circle.main {
+    width: 320px; height: 320px;
+    top: 60px; left: 60px;
+    background: linear-gradient(145deg, #5AA7C9 0%, #2E6E92 100%);
+  }
+  .hub-intro-circle.top {
+    width: 110px; height: 110px;
+    top: 10px; left: 10px;
+    background: linear-gradient(145deg, #C48862 0%, #8B5A3C 100%);
+  }
+  .hub-intro-circle.right {
+    width: 125px; height: 125px;
+    bottom: 40px; right: 10px;
+    background: linear-gradient(145deg, #E4BB8E 0%, #C08A5A 100%);
+  }
+  .hub-intro-circle svg { width: 62%; height: 62%; opacity: 0.5; }
+  .hub-intro-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  :focus-visible { outline: 2px solid var(--hub-teal-500); outline-offset: 2px; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<section class="hub-intro" aria-label="Neurofenix Hub intro">
+  <div class="hub-intro-logo" aria-hidden="true">
+    <div class="hub-intro-logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+        <path d="M12 3v8"/><path d="M7 11l-3 4 2 2"/><path d="M17 11l3 4-2 2"/>
+      </svg>
+    </div>
+    <span class="hub-intro-logo-text">Neurofenix Hub</span>
+  </div>
+
+  <div class="hub-intro-inner">
+
+    <div class="hub-intro-copy">
+      <h1>Track your patients in <span class="accent">Virtual Neuro Rehab,</span> every step of the way</h1>
+
+      <div class="hub-intro-sub">
+        <div class="hub-intro-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M24 8 L24 22" stroke="#2A4EC7" stroke-width="3" stroke-linecap="round"/>
+            <path d="M24 22 L12 30" stroke="#3ED6D6" stroke-width="3" stroke-linecap="round"/>
+            <path d="M24 22 L36 30" stroke="#2A4EC7" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="24" cy="8" r="3" fill="#2A4EC7"/>
+            <circle cx="12" cy="30" r="3" fill="#3ED6D6"/>
+            <circle cx="36" cy="30" r="3" fill="#2A4EC7"/>
+          </svg>
+        </div>
+        <p><strong>Start with a hassle free screening using the Neurofenix Bifurcator.</strong> No registration or ePHI involvement required.</p>
+      </div>
+
+      <a class="hub-intro-cta" href="healthcare-hub.html">
+        Screen a patient
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="hub-intro-photo" aria-hidden="true">
+      <div class="hub-intro-circle main">
+        <img src="../../img/neurofenix/healthcare-hub-intro-hero.webp" alt="">
+      </div>
+      <div class="hub-intro-circle top">
+        <img src="../../img/neurofenix/healthcare-hub-intro-accent1.webp" alt="">
+      </div>
+      <div class="hub-intro-circle right">
+        <img src="../../img/neurofenix/healthcare-hub-intro-accent2.webp" alt="">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

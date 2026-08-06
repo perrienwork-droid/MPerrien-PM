@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opensignal: a B2B analytics platform · Malgo Perrien, Product Manager</title>
+<meta name="description" content="Product discovery and design for a family of B2B analytics products, with prototypes that closed enterprise deals before engineering started.">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="stylesheet" href="tokens.css">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mperrien.com/opensignal.html">
+<meta property="og:title" content="Opensignal: a B2B analytics platform · Malgo Perrien, Product Manager">
+<meta property="og:description" content="Product discovery and design for a family of B2B analytics products, with prototypes that closed enterprise deals before engineering started.">
+<meta property="og:image" content="https://mperrien.com/img/intel/dash-together.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Opensignal: a B2B analytics platform · Malgo Perrien, Product Manager">
+<meta name="twitter:description" content="Product discovery and design for a family of B2B analytics products, with prototypes that closed enterprise deals before engineering started.">
+<meta name="twitter:image" content="https://mperrien.com/img/intel/dash-together.webp">
+<script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"vendor/react-dom.production.min.js"};</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200..700;1,300&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;--read:680px;--wide:1120px;
+    /* ---- key banner (hero) width: phones + tablets unchanged, desktop flows out to media width ---- */
+    --hero-max:var(--read);
+    --hero-measure:20ch;
+    /* ---- type scale (single source of truth for this page) ---- */
+    --fs-lead:1.55rem;        /* case study intro paragraph */
+    --lh-lead:1.5;
+    --fs-body:1.30rem;        /* main body copy            (was 1.12rem) */
+    --fs-body-md:1.22rem;     /* secondary body copy       (was 1.05rem) */
+    --fs-body-sm:1.18rem;     /* tertiary body copy        (was 1.02rem) */
+    --lh-body:1.7;
+    --fs-hero-sub:1.32rem;    /* hero meta line            (was 1.15rem) */
+    /* ---- pinned: captions and figure notes keep their current size ---- */
+    --fs-note:.95rem;
+    --fs-caption:.85rem;
+    --fs-caption-sm:.82rem;
+    --fs-caption-xs:.78rem;
+    /* ---- grids: desktop values, mobile overrides below ---- */
+    --grid-4:repeat(4,1fr);
+    --grid-3:repeat(3,1fr);
+    --grid-2:1fr 1fr;
+  }
+  @media (max-width:820px){
+    html{--grid-4:repeat(2,1fr);--grid-3:1fr;--grid-2:1fr;}
+  }
+  @media (min-width:1100px){
+    html{--hero-max:var(--wide);--hero-measure:26ch;}
+  }
+  body{font-family:'Inter',system-ui,sans-serif;background:#12213F;color:#EDEFF6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  a.tpo-navlink:hover{color:#D48D98;}
+  ::selection{background:#C26A79;color:#FAF7F0;}
+  .cs-body p{font-size:var(--fs-body);font-weight:300;line-height:var(--lh-body);color:#C4CAD8;margin-bottom:1.5rem;}
+  .cs-body p strong{color:#EDEFF6;font-weight:600;}
+  .cs-body p.cs-lead{font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:250;letter-spacing:-.01em;color:#EDEFF6;margin-bottom:1.7rem;}
+  .cs-body p.cs-lead strong{font-weight:500;color:#FFFFFF;}
+  .cs-h2{font-size:clamp(1.9rem,3.8vw,3rem);font-weight:200;letter-spacing:-.03em;line-height:1.12;color:#EDEFF6;margin-bottom:2.2rem;max-width:22ch;}
+
+  /* ---- navigation: desktop row, mobile sheet ---------------------------- */
+  html{--nav-bg:rgba(var(--navy-rgb),.66);}
+  .mp-nav{max-width:1200px;margin:0 auto;padding:1.15rem 2.5rem;display:flex;justify-content:space-between;align-items:center;}
+  .mp-nav-links{display:flex;gap:2.4rem;align-items:center;}
+  .mp-burger{display:none;}
+  .mp-nav-panel{display:none;}
+  @media (max-width:820px){
+    .mp-nav{padding:.85rem 1.4rem;}
+    .mp-nav-links{display:none;}
+    .mp-burger{display:flex;flex-direction:column;justify-content:center;gap:6px;
+      width:44px;height:44px;margin-right:-.55rem;padding:0;background:none;border:0;
+      cursor:pointer;-webkit-tap-highlight-color:transparent;}
+    .mp-burger span{display:block;width:19px;height:1.5px;margin:0 auto;border-radius:2px;
+      background:var(--text-on-dark);
+      transition:transform .4s cubic-bezier(.4,.01,.2,1),opacity .2s ease;}
+    html.mp-nav-open .mp-burger span:first-child{transform:translateY(3.75px) rotate(45deg);}
+    html.mp-nav-open .mp-burger span:last-child{transform:translateY(-3.75px) rotate(-45deg);}
+    .mp-nav-panel{display:block;max-height:0;opacity:0;overflow:hidden;
+      transition:max-height .45s cubic-bezier(.4,.01,.2,1),opacity .3s ease;}
+    html.mp-nav-open .mp-nav-panel{max-height:26rem;opacity:1;}
+    .mp-nav-panel-inner{padding:.2rem 1.4rem 1.5rem;}
+    .mp-nav-panel a{display:block;padding:1.05rem .1rem;font-size:1.3rem;font-weight:300;
+      letter-spacing:-.015em;color:var(--text-on-dark);
+      border-bottom:1px solid rgba(var(--white-rgb),.09);}
+    .mp-nav-panel a:last-child{border-bottom:0;color:var(--rose);font-weight:400;}
+    html.mp-nav-open{--nav-bg:rgba(var(--navy-rgb),.98);}
+    html.mp-nav-open,html.mp-nav-open body{overflow:hidden;}
+  }
+</style>
+</helmet>
+<div style="background:var(--navy);">
+
+  <div class="mp-navbar" style="position:fixed;top:0;left:0;right:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(16px);">
+    <nav class="mp-nav">
+      <a href="index.html" style="color:var(--white);font-size:1.02rem;font-weight:500;display:flex;align-items:center;gap:.55rem;letter-spacing:-.01em;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D48D98" stroke-width="2" stroke-linecap="square"><path d="M3 8V3h5M21 8V3h-5M3 16v5h5M21 16v5h-5"/><circle cx="12" cy="12" r="1.6" fill="#D48D98" stroke="none"/></svg>
+        <span>Malgo Perrien</span>
+      </a>
+      <div class="mp-nav-links">
+        <a class="tpo-navlink" href="index.html#work" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">Work</a>
+        <a class="tpo-navlink" href="index.html#services" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">How I work</a>
+        <a class="tpo-navlink" href="index.html#about" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">About</a>
+        <a class="tpo-navlink" href="mailto:perrien.work@gmail.com?subject=CV%20request\&body=Hi%20Malgo%2C%20I%27d%20like%20a%20copy%20of%20your%20CV.%0A%0ARole%3A%20%0ACompany%3A%20" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">CV</a>
+        <a class="tpo-navlink" href="index.html#contact" style="color:var(--rose);font-size:.82rem;font-weight:500;transition:color .2s;">Get in touch →</a>
+      </div>
+        <button class="mp-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mp-nav-panel">
+          <span></span><span></span>
+        </button>
+      </nav>
+    <div class="mp-nav-panel" id="mp-nav-panel">
+      <div class="mp-nav-panel-inner">
+          <a href="index.html#work">Work</a>
+          <a href="index.html#services">How I work</a>
+          <a href="index.html#about">About</a>
+          <a href="mailto:perrien.work@gmail.com?subject=CV%20request\&body=Hi%20Malgo%2C%20I%27d%20like%20a%20copy%20of%20your%20CV.%0A%0ARole%3A%20%0ACompany%3A%20">CV</a>
+          <a href="index.html#contact">Get in touch →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HERO -->
+  <section style="background:var(--wine);color:var(--cream);padding:11rem 2.5rem 6rem;">
+    <div style="max-width:var(--hero-max);margin:0 auto;">
+      <a href="index.html#work" data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1s ease,transform 1s ease;display:inline-block;font-size:.9rem;font-weight:500;color:var(--navy);margin-bottom:2.5rem;">← All work</a>
+      <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1s ease .06s,transform 1s ease .06s;display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;font-size:.82rem;font-weight:500;letter-spacing:.04em;color:var(--navy);margin-bottom:2rem;">
+        <span>B2B SaaS</span><span>Telecom</span><span>Enterprise Analytics</span><span>Data Visualization</span><span>Multi-Audience</span>
+      </div>
+      <h1 data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1.1s ease .12s,transform 1.1s ease .12s;font-size:clamp(2.4rem,5.6vw,4.6rem);font-weight:200;line-height:1.06;letter-spacing:-.04em;max-width:var(--hero-measure);margin-bottom:1.8rem;">Building an analytics platform that closed enterprise deals before engineering started</h1>
+      <p data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1.1s ease .18s,transform 1.1s ease .18s;font-size:var(--fs-hero-sub);font-weight:400;color:var(--navy);letter-spacing:.01em;">Opensignal · Product Design Lead · 2016–2021</p>
+    </div>
+  </section>
+
+  <!-- HERO IMAGE + STATS -->
+  <section style="padding:5rem 2.5rem;">
+    <div style="max-width:var(--wide);margin:0 auto;">
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;border-radius:24px;overflow:hidden;margin-bottom:4.5rem;background:var(--navy-2);">
+        <img data-src="img/intel/dash-together.webp" alt="Competitive Intelligence and Performance Intelligence dashboards side by side" style="width:100%;display:block;">
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;max-width:var(--read);margin:0 auto;display:grid;grid-template-columns:var(--grid-4);gap:2.5rem;">
+        <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">4 products</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">For distinct audiences</div></div>
+        <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">Pre-dev deals</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Prototypes closed contracts</div></div>
+        <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">20→300</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Company growth</div></div>
+        <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">→Acquisition</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Design quality maintained</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="cs-body" style="padding:5rem 2.5rem 3rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Context: from data company to intelligence company</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <div style="border-left:2px solid var(--wine);padding-left:1.6rem;margin-bottom:2rem;">
+          <p class="cs-lead" style="margin-bottom:0;"><strong>What I owned:</strong> Product discovery, prioritisation (RICE), information architecture, and strategic direction for a 4-product platform serving 4 distinct audiences (C-suite, CTO, marketing, field engineers). Direct line to the SVP of Products through hypergrowth (20 to 300 people) and acquisition.</p>
+        </div>
+        <p>Opensignal collects billions of mobile network measurements weekly from consumer apps like Meteor. The B2B business monetised this data by selling analytics to telecom operators, Vodafone, AT&amp;T, Free, EE and others. But the company's ambition was bigger: shift from being a data vendor to being a competitive intelligence partner.</p>
+        <p>In 2017–2018, the strategy moved from public reports to a SaaS platform model. I led product discovery and drove the platform build during hypergrowth, from 20 to 300 employees, through to acquisition, with no established product process and direct accountability to the SVP of Products.</p>
+        <p>The challenge: each audience within a telecom operator had fundamentally different questions, technical literacy, and decision-making contexts, but they all needed to trust the same underlying data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGRAM: Audience spectrum -->
+  <section style="padding:1rem 2.5rem 3rem;">
+    <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;max-width:var(--wide);margin:0 auto;background:var(--cream);border-radius:24px;padding:2.5rem 2rem;">
+      <div style="text-align:center;font-size:.82rem;font-weight:600;letter-spacing:.06em;color:var(--wine-deep);margin-bottom:1rem;">AUDIENCE SPECTRUM – ONE PLATFORM, FOUR DISTINCT USERS</div>
+      <svg viewBox="0 0 1060 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" font-family="Inter, sans-serif">
+        <defs>
+          <filter id="aud-shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="rgba(114,49,58,.13)"/></filter>
+          <filter id="aud-shadow-lg" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="rgba(114,49,58,.18)"/></filter>
+        </defs>
+        <text x="155" y="466" font-size="16" font-weight="500" fill="#1A1815" text-anchor="middle">National strategy</text>
+        <text x="932" y="466" font-size="16" font-weight="500" fill="#1A1815" text-anchor="middle">City-level diagnostics</text>
+        <circle cx="155" cy="255" r="155" fill="rgba(163,62,78,.36)" filter="url(#aud-shadow-lg)"/>
+        <text x="155" y="210" font-size="19" font-weight="400" fill="#1A1815" text-anchor="middle">CEO / CMO</text>
+        <text x="155" y="235" font-size="15" font-weight="400" fill="#48443C" text-anchor="middle" font-style="italic">Where do we rank?</text>
+        <text x="155" y="258" font-size="15" font-weight="400" fill="#48443C" text-anchor="middle" font-style="italic">What's changing?</text>
+        <text x="155" y="290" font-size="14" font-weight="500" fill="#48443C" text-anchor="middle">Competitive Intelligence</text>
+        <circle cx="455" cy="255" r="125" fill="rgba(163,62,78,.26)" filter="url(#aud-shadow)"/>
+        <text x="455" y="218" font-size="19" font-weight="400" fill="#1A1815" text-anchor="middle">VP Strategy</text>
+        <text x="455" y="242" font-size="15" font-weight="400" fill="#48443C" text-anchor="middle" font-style="italic">How are we trending?</text>
+        <text x="455" y="274" font-size="14" font-weight="500" fill="#48443C" text-anchor="middle">CI + Regional</text>
+        <circle cx="710" cy="255" r="110" fill="rgba(163,62,78,.18)" filter="url(#aud-shadow)"/>
+        <text x="710" y="222" font-size="18" font-weight="400" fill="#1A1815" text-anchor="middle">CTO / Network Ops</text>
+        <text x="710" y="246" font-size="15" font-weight="400" fill="#48443C" text-anchor="middle" font-style="italic">Why did X drop?</text>
+        <text x="710" y="274" font-size="14" font-weight="500" fill="#48443C" text-anchor="middle">Performance Intelligence</text>
+        <circle cx="932" cy="255" r="92" fill="rgba(163,62,78,.12)" filter="url(#aud-shadow)"/>
+        <text x="932" y="224" font-size="17" font-weight="400" fill="#1A1815" text-anchor="middle">Field Engineers</text>
+        <text x="932" y="248" font-size="15" font-weight="400" fill="#48443C" text-anchor="middle" font-style="italic">Root cause,</text>
+        <text x="932" y="268" font-size="15" font-weight="400" fill="#48443C" text-anchor="middle" font-style="italic">city X?</text>
+        <text x="932" y="292" font-size="14" font-weight="500" fill="#48443C" text-anchor="middle">PI city-level</text>
+        <text x="543" y="500" font-size="16" font-weight="400" fill="#1A1815" text-anchor="middle">Same underlying data. Entirely different product surface for each audience.</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- TWO PRODUCTS -->
+  <section class="cs-body" style="padding:3rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Two products, two mental models: same data, different questions</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>I made the early call that this couldn't be one dashboard with permission levels. The C-suite and the engineering team don't just have different access needs, they have entirely different relationships with the data. Building one product for both would serve neither.</p>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;display:grid;grid-template-columns:var(--grid-2);gap:1.5rem;margin:2.5rem 0;">
+        <div style="display:flex;flex-direction:column;background:var(--cream);border-radius:20px;padding:1.75rem;">
+          <img data-src="img/intel/logo-ci.webp" alt="Competitive Intelligence logo" style="height:26px;width:auto;align-self:flex-start;margin-bottom:1.25rem;opacity:.85;">
+          <h3 style="font-size:1.1rem;font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:.25rem;">Competitive Intelligence</h3>
+          <div style="font-size:.7rem;color:var(--wine-deep);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;">C-suite &amp; Marketing</div>
+          <p style="font-size:.88rem;color:var(--ink-3);line-height:1.7;font-weight:300;margin-bottom:1rem;">Executives want a 30-second answer: "How does my network rank against competitors, and is our position improving or declining?"</p>
+          <div style="font-size:.95rem;color:var(--ink);font-style:italic;font-weight:400;line-height:1.5;padding:.6rem 0 .6rem 1rem;border-left:2px solid var(--wine-deep);margin:.5rem 0 1.25rem;">"Where do I stand, and what's changing?"</div>
+          <div style="margin-top:auto;overflow:hidden;border-radius:10px;border:1px solid var(--cream-3);background:var(--white);"><img data-src="img/intel/ci-screen-overview.webp" alt="CI dashboard preview" style="width:100%;display:block;"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;background:var(--cream);border-radius:20px;padding:1.75rem;">
+          <img data-src="img/intel/logo-pi.webp" alt="Performance Intelligence logo" style="height:26px;width:auto;align-self:flex-start;margin-bottom:1.25rem;opacity:.85;">
+          <h3 style="font-size:1.1rem;font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:.25rem;">Performance Intelligence</h3>
+          <div style="font-size:.7rem;color:var(--wine-deep);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;">CTOs &amp; Network Engineering</div>
+          <p style="font-size:.88rem;color:var(--ink-3);line-height:1.7;font-weight:300;margin-bottom:1rem;">Engineers want deep decomposition: break speed into peak speed, consistency, time-of-day patterns, regional distribution.</p>
+          <div style="font-size:.95rem;color:var(--ink);font-style:italic;font-weight:400;line-height:1.5;padding:.6rem 0 .6rem 1rem;border-left:2px solid var(--wine-deep);margin:.5rem 0 1.25rem;">"Why did our performance drop in Region X?"</div>
+          <div style="margin-top:auto;overflow:hidden;border-radius:10px;border:1px solid var(--cream-3);background:var(--white);"><img data-src="img/intel/pi-hero-new.webp" alt="PI dashboard preview" style="width:100%;display:block;"></div>
+        </div>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;display:flex;flex-direction:column;gap:2.5rem;">
+        <figure style="margin:0;"><div style="border-radius:18px;overflow:hidden;"><img data-src="img/intel/ci-exec-summary.webp" alt="Competitive Intelligence executive summary" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption);color:var(--text-dim);margin-top:.9rem;">CI: scoping the questions executives bring to the platform</figcaption></figure>
+        <figure style="margin:0;"><div style="border-radius:18px;overflow:hidden;"><img data-src="img/intel/pi-exec-summary.webp" alt="Performance Intelligence executive summary" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption);color:var(--text-dim);margin-top:.9rem;">PI: mapping the diagnostic questions engineering teams need answered</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET GAP -->
+  <section class="cs-body" style="padding:3rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Market gap: what existed, and why it wasn't enough</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>Telecom analytics tools at the time were either internal engineering platforms, technically powerful but inaccessible to non-technical stakeholders, or lightweight competitive reports with no analytical depth. Nothing bridged executive decision-making and engineering diagnostics in one coherent platform.</p>
+        <p>That gap was the strategic opportunity. The pivot from data delivery to competitive intelligence meant the product had to do something none of the competition had attempted: make complex network data genuinely useful to business leaders, not just engineers.</p>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;display:grid;grid-template-columns:var(--grid-2);gap:1.5rem;margin-top:2rem;">
+        <figure style="margin:0;"><div style="border-radius:16px;overflow:hidden;"><img data-src="img/intel/ci-competitor-1.webp" alt="Competitor 1" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption-sm);color:var(--text-dim);margin-top:.8rem;">Built for engineers, unusable for executives</figcaption></figure>
+        <figure style="margin:0;"><div style="border-radius:16px;overflow:hidden;"><img data-src="img/intel/ci-competitor-2.webp" alt="Competitor 2" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption-sm);color:var(--text-dim);margin-top:.8rem;">Data-dense but no analytical narrative</figcaption></figure>
+        <figure style="margin:0;"><div style="border-radius:16px;overflow:hidden;"><img data-src="img/intel/pi-comp-1.webp" alt="PI competitor 1" style="width:100%;display:block;"></div></figure>
+        <figure style="margin:0;"><div style="border-radius:16px;overflow:hidden;"><img data-src="img/intel/pi-comp-2.webp" alt="PI competitor 2" style="width:100%;display:block;"></div></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIORITISATION -->
+  <section class="cs-body" style="padding:3rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Prioritisation: how I decided what to build first</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>With four products serving distinct audiences, prioritisation was the hardest ongoing challenge. I used a two-axis framework: <strong>client value</strong> (how much business impact for telecom operators, and how directly it served the intelligence-vs-data positioning) against <strong>engineering effort</strong>. The goal was to find the decisions that moved the strategic pivot forward fastest.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGRAM: Prioritisation -->
+  <section style="padding:1rem 2.5rem 2rem;">
+    <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;max-width:var(--read);margin:0 auto;background:var(--cream);border-radius:24px;padding:2.5rem 1.5rem 2rem;">
+      <div style="text-align:center;font-size:.82rem;font-weight:600;letter-spacing:.06em;color:var(--wine-deep);margin-bottom:1rem;">PRIORITISATION FRAMEWORK</div>
+      <svg viewBox="40 20 750 550" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" font-family="Inter, sans-serif">
+        <defs>
+          <filter id="pri-shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="rgba(114,49,58,.13)"/></filter>
+          <filter id="pri-shadow-lg" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="rgba(114,49,58,.18)"/></filter>
+        </defs>
+        <line x1="90" y1="450" x2="770" y2="450" stroke="rgba(26,24,21,.40)" stroke-width="1.2"/>
+        <line x1="90" y1="450" x2="90" y2="46" stroke="rgba(26,24,21,.40)" stroke-width="1.2"/>
+        <polygon points="776,450 762,444 762,456" fill="rgba(26,24,21,.40)"/>
+        <polygon points="90,40 84,54 96,54" fill="rgba(26,24,21,.40)"/>
+        <line x1="430" y1="450" x2="430" y2="46" stroke="rgba(26,24,21,.22)" stroke-width="1" stroke-dasharray="6,5"/>
+        <line x1="90" y1="248" x2="770" y2="248" stroke="rgba(26,24,21,.22)" stroke-width="1" stroke-dasharray="6,5"/>
+        <text x="260" y="64" font-size="15" font-weight="400" fill="rgba(163,62,78,.75)" text-anchor="middle">Do first</text>
+        <text x="600" y="64" font-size="15" font-weight="400" fill="rgba(163,62,78,.65)" text-anchor="middle">Major bets</text>
+        <text x="260" y="443" font-size="15" font-weight="400" fill="rgba(163,62,78,.55)" text-anchor="middle">Fill-ins</text>
+        <text x="600" y="443" font-size="15" font-weight="400" fill="rgba(163,62,78,.50)" text-anchor="middle">Deprioritise</text>
+        <text x="430" y="482" font-size="15" font-weight="400" fill="rgba(90,86,78,.70)" text-anchor="middle">effort →</text>
+        <text x="62" y="248" font-size="15" font-weight="400" fill="rgba(90,86,78,.70)" text-anchor="middle" transform="rotate(-90,62,248)">impact →</text>
+        <circle cx="172" cy="140" r="80" fill="rgba(163,62,78,.36)" filter="url(#pri-shadow-lg)"/>
+        <text x="172" y="130" font-size="15" font-weight="400" fill="#1A1815" text-anchor="middle">Executive</text>
+        <text x="172" y="150" font-size="15" font-weight="400" fill="#1A1815" text-anchor="middle">overview</text>
+        <circle cx="345" cy="178" r="65" fill="rgba(163,62,78,.28)" filter="url(#pri-shadow)"/>
+        <text x="345" y="169" font-size="15" font-weight="400" fill="#1A1815" text-anchor="middle">Ranking</text>
+        <text x="345" y="189" font-size="15" font-weight="400" fill="#1A1815" text-anchor="middle">trends</text>
+        <circle cx="192" cy="228" r="47" fill="rgba(163,62,78,.22)" filter="url(#pri-shadow)"/>
+        <text x="192" y="222" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">Confidence</text>
+        <text x="192" y="238" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">intervals</text>
+        <circle cx="555" cy="140" r="75" fill="rgba(163,62,78,.18)" filter="url(#pri-shadow-lg)"/>
+        <text x="555" y="130" font-size="15" font-weight="400" fill="#1A1815" text-anchor="middle">Regional</text>
+        <text x="555" y="150" font-size="15" font-weight="400" fill="#1A1815" text-anchor="middle">drill-down</text>
+        <circle cx="692" cy="182" r="65" fill="rgba(163,62,78,.14)" filter="url(#pri-shadow)"/>
+        <text x="692" y="166" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">Shared</text>
+        <text x="692" y="182" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">component</text>
+        <text x="692" y="198" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">library</text>
+        <circle cx="488" cy="214" r="49" fill="rgba(163,62,78,.12)" filter="url(#pri-shadow)"/>
+        <text x="488" y="208" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">PI time-of-</text>
+        <text x="488" y="224" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">day analysis</text>
+        <circle cx="162" cy="352" r="47" fill="rgba(163,62,78,.12)" filter="url(#pri-shadow)"/>
+        <text x="162" y="346" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">Export</text>
+        <text x="162" y="362" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">formats</text>
+        <circle cx="308" cy="324" r="39" fill="rgba(163,62,78,.10)" filter="url(#pri-shadow)"/>
+        <text x="308" y="328" font-size="13" font-weight="400" fill="#1A1815" text-anchor="middle">Tooltips</text>
+        <circle cx="590" cy="340" r="44" fill="rgba(163,62,78,.08)" stroke="rgba(163,62,78,.40)" stroke-width="1.2" stroke-dasharray="5,4"/>
+        <text x="590" y="334" font-size="13" font-weight="400" fill="rgba(163,62,78,.65)" text-anchor="middle">Custom</text>
+        <text x="590" y="350" font-size="13" font-weight="400" fill="rgba(163,62,78,.65)" text-anchor="middle">alerts</text>
+        <circle cx="712" cy="316" r="44" fill="rgba(163,62,78,.08)" stroke="rgba(163,62,78,.40)" stroke-width="1.2" stroke-dasharray="5,4"/>
+        <text x="712" y="320" font-size="13" font-weight="400" fill="rgba(163,62,78,.65)" text-anchor="middle">White-label</text>
+        <text x="92" y="516" font-size="13" font-weight="400" fill="#48443C" text-anchor="start">Node size = strategic weight</text>
+        <text x="92" y="534" font-size="13" font-weight="400" fill="#48443C" text-anchor="start">Dashed = deliberately cut or deferred</text>
+      </svg>
+      <p style="max-width:480px;margin:1rem auto 0;color:var(--ink-3);font-style:italic;font-weight:300;font-size:.9rem;line-height:1.6;text-align:center;">Two-axis framework: client value vs. engineering effort. Executive overview and ranking trends shipped first, fast to build, immediately differentiating in demos.</p>
+    </div>
+  </section>
+
+  <section class="cs-body" style="padding:2rem 2.5rem 3rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The executive overview and ranking trends went first, fast to build, immediately differentiating in sales demos. Regional drill-down and the shared component library were the bigger bets: higher effort but essential for the platform to feel like one coherent product family rather than disconnected tools.</p>
+    </div>
+  </section>
+
+  <!-- HOW I WORKED -->
+  <section class="cs-body" style="padding:3rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">How I worked: discovery-led, not spec-led</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p><strong>I didn't wait for briefs.</strong> I ran user research directly with telecom operators, learned the analytical mental models from internal data scientists, and used structured frameworks (RICE) to translate findings into roadmap decisions. The product direction came from that, not from top-down requirements.</p>
+        <p><strong>Architecture before screens.</strong> The hardest problem in this product wasn't visual, it was information architecture. Opensignal's metrics are deeply complex: speed decomposes into sub-metrics, each available at national/regional/city level, across 2G/3G/4G/5G, with confidence intervals. I worked with data science teams to map every metric relationship before a single screen was designed.</p>
+      </div>
+      <figure data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;margin:2.5rem 0;">
+        <div style="border-radius:20px;overflow:hidden;"><img data-src="img/intel/sketch-2.webp" alt="Information architecture and layout explorations" style="width:100%;display:block;"></div>
+        <figcaption style="font-size:var(--fs-caption);color:var(--text-dim);margin-top:.9rem;">Information hierarchy, layout explorations, and visualisation studies before a single screen was designed</figcaption>
+      </figure>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p><strong>One design system, two density levels.</strong> CI needed white space and large trend indicators. PI needed data-dense views with multiple chart types per screen. I owned a shared component library (charts, filters, navigation, operator colour coding) while maintaining different layout grids per product. Both feel like siblings; each respects its audience's workflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY VISUAL: pi-charts (wide) -->
+  <section style="padding:2rem 2.5rem;">
+    <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;max-width:var(--wide);margin:0 auto;">
+      <div style="border-radius:20px;overflow:hidden;background:var(--navy-2);"><img data-src="img/intel/pi-charts.webp" alt="Custom chart explorations" style="width:100%;display:block;"></div>
+      <div style="font-size:.85rem;color:var(--text-dim);margin:1rem auto 0;max-width:var(--read);text-align:center;">Custom visualisations: hour-of-day patterns and distribution analysis, refined through iteration with data analysts</div>
+    </div>
+  </section>
+
+  <!-- CI PRODUCT -->
+  <section class="cs-body" style="padding:4rem 2.5rem 2rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Product 1, Competitive Intelligence: the 30-second C-suite answer</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>The core question I scoped this product around: "Where do I stand, and what's changing?" I defined an architecture that surfaced ranking positions across all key metrics with trend indicators on load, then allowed progressive disclosure into any metric. Every number included confidence intervals and methodology transparency, because C-suite users have high skepticism about data sources and low tolerance for anything that feels like a black box.</p>
+        <p>The critical business constraint: these are the buyers. They need to feel confident in the data before their CTO will sign a contract. The product had to earn their trust before it earned their usage.</p>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;background:var(--navy-2);border-radius:20px;padding:1.75rem 2rem;margin-top:2.5rem;border-left:3px solid var(--wine);">
+        <p style="font-size:var(--fs-body-md);color:var(--text-on-dark);font-weight:300;line-height:1.7;font-style:italic;margin-bottom:.8rem;">"It's very rare to see telecom operators lean forward and be actively excited by a demo, however, this is the effect Malgo's design has on customers. It's certainly a level above what they're used to."</p>
+        <p style="font-size:.8rem;color:var(--text-dim);font-weight:400;">– Iain Masden, SVP Products and Solutions, Opensignal</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CI SCREENS (wide) -->
+  <section style="padding:2rem 2.5rem;">
+    <div style="max-width:var(--wide);margin:0 auto;display:flex;flex-direction:column;gap:2.5rem;">
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;">
+        <div style="border-radius:20px;overflow:hidden;background:var(--navy-2);"><img data-src="img/intel/ci-screen-overview.webp" alt="CI executive overview" style="width:100%;display:block;"></div>
+        <div style="font-size:.85rem;color:var(--text-dim);margin:1rem auto 0;max-width:var(--read);text-align:center;">Executive overview: rankings, trends, competitive position at a glance</div>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;display:grid;grid-template-columns:var(--grid-2);gap:2rem;">
+        <div>
+          <div style="border-radius:20px;overflow:hidden;background:var(--navy-2);"><img data-src="img/intel/ci-screen-regions.webp" alt="CI regional comparison" style="width:100%;display:block;"></div>
+          <div style="font-size:.85rem;color:var(--text-dim);margin-top:1rem;text-align:center;">Regional analysis: competitive positioning across geography</div>
+        </div>
+        <div>
+          <div style="border-radius:20px;overflow:hidden;background:var(--navy-2);"><img data-src="img/intel/ci-screen-cities.webp" alt="CI city-level analysis" style="width:100%;display:block;"></div>
+          <div style="font-size:.85rem;color:var(--text-dim);margin-top:1rem;text-align:center;">City-level drill-down: granular competitive intelligence for local markets</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PI PRODUCT -->
+  <section class="cs-body" style="padding:4rem 2.5rem 2rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Product 2, Performance Intelligence: the engineering team's diagnostic tool</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>Performance Intelligence serves a fundamentally different workflow: CTOs and network engineers decomposing metrics to find root causes. The question I scoped this product around: "Our video experience dropped in Region X, is it a capacity issue, a throttling policy, or a specific CDN?"</p>
+        <p>I defined a product that supported analytical storytelling, users build a narrative by drilling into data across dimensions. Linked charts that update in context, time-of-day patterns, distribution views, geographic breakdowns. The guiding principle I set: <strong>density without confusion.</strong> Every screen is data-rich, but the hierarchy is clear.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PI SCREENS (wide) -->
+  <section style="padding:2rem 2.5rem;">
+    <div style="max-width:var(--wide);margin:0 auto;display:flex;flex-direction:column;gap:2.5rem;">
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;">
+        <div style="border-radius:20px;overflow:hidden;background:var(--navy-2);"><img data-src="img/intel/pi-hero-new.webp" alt="PI main analysis view" style="width:100%;display:block;"></div>
+        <div style="font-size:.85rem;color:var(--text-dim);margin:1rem auto 0;max-width:var(--read);text-align:center;">Main analysis view: data-dense but with clear visual hierarchy</div>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;">
+        <div style="border-radius:20px;overflow:hidden;background:var(--navy-2);"><img data-src="img/intel/pi-final-dark.webp" alt="PI dark theme" style="width:100%;display:block;"></div>
+        <div style="font-size:.85rem;color:var(--text-dim);margin:1rem auto 0;max-width:var(--read);text-align:center;">Dark theme variant for extended analysis sessions</div>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;">
+        <div style="border-radius:20px;overflow:hidden;background:var(--navy-2);"><img data-src="img/intel/pi-final-light.webp" alt="PI light theme" style="width:100%;display:block;"></div>
+        <div style="font-size:.85rem;color:var(--text-dim);margin:1rem auto 0;max-width:var(--read);text-align:center;">Light theme: optimised for presentations and screen sharing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEYOND -->
+  <section class="cs-body" style="padding:4rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Product leadership: what I owned beyond the products</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p><strong>Prototype-as-sales-tool:</strong> The Competitive Intelligence prototype didn't just validate the product internally, it became a revenue-generating asset. The sales team used it to close enterprise deals before engineering had built the product. This was a deliberate strategy: invest in prototype fidelity early to compress the sales cycle.</p>
+        <p><strong>Cross-product coherence:</strong> With four products serving distinct audiences, I owned the design system that kept them feeling like one platform, shared components, consistent interaction patterns, unified operator colour coding. This mattered commercially: operators expected a cohesive intelligence suite, not a collection of separate tools.</p>
+        <p><strong>Scaling through hypergrowth:</strong> As the company grew from 20 to 300 employees and through acquisition, I maintained product quality and kept the discovery-led culture intact. That meant setting standards, building shared systems, and making deliberate calls about what not to build.</p>
+      </div>
+      <figure data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;margin:2.5rem 0 0;">
+        <div style="border-radius:20px;overflow:hidden;"><img data-src="img/intel/pi-teams.webp" alt="Cross-functional team structure" style="width:100%;display:block;"></div>
+        <figcaption style="font-size:var(--fs-caption);color:var(--text-dim);margin-top:.9rem;">Cross-functional collaboration across product, data science, and commercial teams</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section style="background:var(--cream);color:var(--ink);padding:6rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;font-size:clamp(1.9rem,3.8vw,3rem);font-weight:200;letter-spacing:-.03em;line-height:1.12;color:var(--ink);margin-bottom:3rem;">Outcomes: what it delivered</h2>
+      <div style="display:grid;grid-template-columns:var(--grid-2);gap:3rem 4rem;">
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><div style="font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:200;color:var(--wine-deep);line-height:1.05;letter-spacing:-.03em;margin-bottom:.8rem;">Pre-dev deals</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Prototypes directly contributed to enterprise sales, operators signed before the platform was built.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;"><div style="font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:200;color:var(--wine-deep);line-height:1.05;letter-spacing:-.03em;margin-bottom:.8rem;">4 products</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Coherent platform family serving C-suite, engineering, marketing, and brand partnership audiences.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;"><div style="font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:200;color:var(--wine-deep);line-height:1.05;letter-spacing:-.03em;margin-bottom:.8rem;">20→300</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Maintained product quality and discovery culture through hypergrowth to acquisition.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .14s,transform 1.1s ease .14s;"><div style="font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:200;color:var(--wine-deep);line-height:1.05;letter-spacing:-.03em;margin-bottom:.8rem;">Strategic pivot</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Opensignal repositioned from data vendor to competitive intelligence partner, the product was the proof point.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFLECTION -->
+  <section class="cs-body" style="padding:6rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">What I'd do differently: if I ran it again</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>I'd push for direct user research access earlier. Due to the seniority and scarcity of our target users (C-level telecom executives), we relied heavily on internal consultants as proxies for much of the discovery work. That created gaps we only discovered later.</p>
+        <p>I'd also advocate for a unified analytics layer across all four products from the start. Each evolved somewhat independently, and building cross-product consistency retrospectively was harder and slower than designing for it from day one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT CASE -->
+  <section style="padding:0 2.5rem 5rem;">
+    <a href="neurofenix.html" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;display:flex;align-items:center;justify-content:space-between;gap:2rem;max-width:var(--read);margin:0 auto;background:var(--navy-2);border-radius:24px;padding:3rem 3.5rem;">
+      <div>
+        <div style="font-size:.8rem;font-weight:500;letter-spacing:.05em;color:var(--rose);margin-bottom:.8rem;">NEXT CASE STUDY</div>
+        <div style="font-size:clamp(1.4rem,2.6vw,2rem);font-weight:300;letter-spacing:-.02em;color:var(--text-on-dark);">Neurofenix – driving a B2C→B2B2C pivot for enterprise healthcare</div>
+      </div>
+      <div style="font-size:2.2rem;color:var(--wine);flex-shrink:0;">→</div>
+    </a>
+  </section>
+
+  <footer style="background:var(--navy-deep);padding:3rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;">
+      <a href="index.html#work" style="font-size:.9rem;color:var(--text-dim);">← Back to all work</a>
+      <a href="mailto:perrien.work@gmail.com?subject=Let%27s%20talk%3A%20B2B%20Analytics%20Platform%20case%20study" style="font-size:.9rem;font-weight:500;color:var(--rose);">Get in touch →</a>
+    </div>
+    <div style="max-width:var(--read);margin:2rem auto 0;font-size:.78rem;color:var(--navy-muted);">© 2026 Malgo Perrien · Paris</div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  syncImgs() {
+    document.querySelectorAll('img[data-src]').forEach(im => {
+      const s = im.getAttribute('data-src');
+      if (s && s.indexOf('{{') === -1 && im.getAttribute('src') !== s) im.setAttribute('src', s);
+    });
+  }
+  componentDidMount() {
+    this.syncImgs();
+    const check = () => {
+      const els = [...document.querySelectorAll('[data-reveal]')].filter(e => !e.__rev);
+      const vh = window.innerHeight || 800;
+      els.forEach(e => {
+        const r = e.getBoundingClientRect();
+        if (r.top < vh * 0.92 && r.bottom > -40) { e.__rev = 1; e.style.opacity = 1; e.style.transform = 'none'; }
+      });
+    };
+    requestAnimationFrame(check);
+    const onScroll = () => requestAnimationFrame(check);
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(check);
+    let ticks = 0;
+    this._iv = setInterval(() => { check(); if (++ticks > 40) clearInterval(this._iv); }, 250);
+  }
+  componentWillUnmount() { if (this._iv) clearInterval(this._iv); }
+}
+</script>
+<script>
+(function(){
+  var root=document.documentElement;
+  function closest(el,sel){while(el&&el.nodeType===1){if(el.matches&&el.matches(sel))return el;el=el.parentElement;}return null;}
+  document.addEventListener('click',function(e){
+    var b=closest(e.target,'.mp-burger');
+    if(b){e.preventDefault();
+      var open=!root.classList.contains('mp-nav-open');
+      root.classList.toggle('mp-nav-open',open);
+      b.setAttribute('aria-expanded',open?'true':'false');
+      return;}
+    if(closest(e.target,'.mp-nav-panel a')) root.classList.remove('mp-nav-open');
+    var m=closest(e.target,'.mp-more');
+    if(m){e.preventDefault();
+      var o=!root.classList.contains('mp-work-open');
+      root.classList.toggle('mp-work-open',o);
+      m.setAttribute('aria-expanded',o?'true':'false');}
+  },false);
+  window.addEventListener('resize',function(){
+    if(window.innerWidth>820) root.classList.remove('mp-nav-open');
+  },{passive:true});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Request access · Malgo Perrien</title>
+<meta name="description" content="Request the password for the protected case studies.">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="stylesheet" href="tokens.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200..700;1,300&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--navy);color:var(--text-on-dark);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:#C26A79;color:#FAF7F0;}
+
+  .top{padding:1.6rem 2.5rem;}
+  .top a{font-size:.95rem;font-weight:500;color:var(--text-muted);display:inline-flex;align-items:center;gap:.5rem;transition:color .2s;}
+  .top a:hover{color:var(--rose);}
+
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 2rem 5rem;}
+  .box{width:100%;max-width:420px;text-align:center;}
+
+  h1{font-size:1.95rem;font-weight:250;letter-spacing:-.025em;line-height:1.2;margin:0 0 .8rem;}
+  .lede{font-size:.95rem;font-weight:300;line-height:1.6;color:var(--text-dim);margin:0 0 2.6rem;}
+
+  .field{margin-bottom:.9rem;text-align:left;}
+  .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  input,textarea{width:100%;min-height:48px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:.8rem 1rem;font-size:1rem;font-weight:300;color:var(--text-on-dark);font-family:inherit;outline:none;resize:none;transition:border-color .2s,background .2s,box-shadow .2s;}
+  input::placeholder,textarea::placeholder{color:#98A0B3;opacity:1;}
+  input:hover,textarea:hover{border-color:rgba(255,255,255,.28);}
+  input:focus,textarea:focus{border-color:#C26A79;background:rgba(255,255,255,.07);box-shadow:0 0 0 3px rgba(194,106,121,.16);}
+  input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#E8837B;}
+  textarea{min-height:5rem;line-height:1.55;}
+  .fe{display:block;font-size:.8rem;font-weight:300;color:#E8837B;margin-top:.4rem;min-height:1em;}
+
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+
+  button{width:100%;margin-top:1rem;background:#C26A79;color:var(--navy);border:none;border-radius:999px;padding:.85rem;font-size:.95rem;font-weight:500;font-family:inherit;cursor:pointer;transition:background .25s,opacity .25s;}
+  button:hover{background:#D48D98;}
+  button[disabled]{opacity:.5;cursor:default;}
+
+  .note{font-size:.82rem;font-weight:300;color:#98A0B3;margin-top:1.6rem;line-height:1.55;}
+  .err{font-size:.84rem;font-weight:300;color:#E8837B;min-height:1.3em;margin-top:.9rem;}
+
+  .done{display:none;}
+  .done h1{margin-bottom:.9rem;}
+  body.sent .form-wrap{display:none;}
+  body.sent .done{display:block;}
+
+  footer{padding:2rem 2.5rem;text-align:center;font-size:.78rem;color:var(--text-dim);}
+  @media (max-width:520px){ .top,main,footer{padding-left:1.5rem;padding-right:1.5rem;} }
+</style>
+</head>
+<body>
+
+<div class="top"><a href="index.html">&larr; Malgo Perrien</a></div>
+
+<main>
+  <div class="box">
+
+    <div class="form-wrap">
+      <h1>Request access</h1>
+      <p class="lede">Two case studies cover client work and are password protected. Leave your details and I'll be in touch.</p>
+
+      <form id="ra-form" autocomplete="on" novalidate>
+        <div class="field">
+          <label class="sr" for="ra-name">Name</label>
+          <input id="ra-name" name="entry.1972189809" type="text" placeholder="Name" autocomplete="name" required>
+          <span class="fe" id="fe-name"></span>
+        </div>
+        <div class="field">
+          <label class="sr" for="ra-email">Email</label>
+          <input id="ra-email" name="entry.937630548" type="email" placeholder="Email" autocomplete="email" inputmode="email" required>
+          <span class="fe" id="fe-email"></span>
+        </div>
+        <div class="field">
+          <label class="sr" for="ra-company">Company or organisation</label>
+          <input id="ra-company" name="entry.369440243" type="text" placeholder="Company or organisation (optional)" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label class="sr" for="ra-msg">Anything you'd like me to know</label>
+          <textarea id="ra-msg" name="entry.1420646276" rows="3" placeholder="Anything you'd like me to know (optional)"></textarea>
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label class="sr" for="ra-website">Leave this empty</label>
+          <input id="ra-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button type="submit" id="ra-btn">Send request</button>
+        <div class="err" id="ra-err"></div>
+      </form>
+
+      <p class="note">I'll get back to you as soon as I can.</p>
+    </div>
+
+    <div class="done">
+      <h1>Thank you</h1>
+      <p class="lede">I'll be in touch as soon as I can.</p>
+      <p class="note"><a href="index.html" style="color:var(--rose);">Back to the work &rarr;</a></p>
+    </div>
+
+  </div>
+</main>
+
+<iframe name="ra-sink" style="display:none" title="hidden form target"></iframe>
+
+<footer>&copy; 2026 Malgo Perrien &middot; Paris</footer>
+
+<script>
+(function(){
+  var ENDPOINT='https://docs.google.com/forms/d/e/1FAIpQLSdOGpn8xki6gqWDZfqI402YR4fUmL9Q6yH-xd4LujaYmfM8fQ/formResponse';
+  var f=document.getElementById('ra-form'), btn=document.getElementById('ra-btn'), err=document.getElementById('ra-err');
+
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    err.textContent='';
+
+    var nEl=document.getElementById('ra-name'), eEl=document.getElementById('ra-email');
+    var feN=document.getElementById('fe-name'), feE=document.getElementById('fe-email');
+    feN.textContent=''; feE.textContent=''; nEl.removeAttribute('aria-invalid'); eEl.removeAttribute('aria-invalid');
+    var bad=null;
+    if(!nEl.value.trim()){ feN.textContent='Please add your name.'; nEl.setAttribute('aria-invalid','true'); bad=bad||nEl; }
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(eEl.value.trim())){ feE.textContent='Please check the email address.'; eEl.setAttribute('aria-invalid','true'); bad=bad||eEl; }
+    if(bad){ bad.focus(); return; }
+    if(document.getElementById('ra-website').value){ document.body.classList.add('sent'); return; }
+
+    btn.disabled=true; btn.textContent='Sending…';
+
+    var post=document.createElement('form');
+    post.action=ENDPOINT; post.method='POST'; post.target='ra-sink'; post.style.display='none';
+    ['ra-name','ra-email','ra-company','ra-msg'].forEach(function(id){
+      var src=document.getElementById(id);
+      var i=document.createElement('input');
+      i.type='hidden'; i.name=src.getAttribute('name'); i.value=src.value;
+      post.appendChild(i);
+    });
+    document.body.appendChild(post);
+    post.submit();
+
+    setTimeout(function(){ document.body.classList.add('sent'); window.scrollTo(0,0); }, 900);
+  });
+})();
+</script>
+</body>
+</html>

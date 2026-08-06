@@ -1,0 +1,58 @@
+/* The Product Office — design tokens (single source of truth for the palette).
+   Channel tokens (--x-rgb) hold raw R,G,B so solid and translucent uses share one source:
+   solid  -> var(--navy)               translucent -> rgba(var(--navy-rgb), .5)         */
+:root {
+  /* Navy family (dark surfaces + structure) */
+  --navy-rgb: 18,33,63;
+  --navy: rgb(var(--navy-rgb));
+  --navy-deep: #0f1a30;
+  --navy-2: #1c2e52;
+  --navy-line: #3a4d78;
+  --navy-border-rgb: 47,69,112;
+  --navy-border: rgb(var(--navy-border-rgb));
+  --navy-muted: #5a6a8a;
+
+  /* Wine / rose accents */
+  --wine-rgb: 194,106,121;
+  --wine: rgb(var(--wine-rgb));
+  --wine-deep-rgb: 163,62,78;
+  --wine-deep: rgb(var(--wine-deep-rgb));
+  --wine-shadow-rgb: 114,49,58;
+  --wine-shadow: rgb(var(--wine-shadow-rgb));
+  --rose-rgb: 212,141,152;
+  --rose: rgb(var(--rose-rgb));
+  --rose-deep-rgb: 184,84,107;
+  --rose-deep: rgb(var(--rose-deep-rgb));
+
+  /* Sage (secondary accent) */
+  --sage-rgb: 90,122,79;
+  --sage: rgb(var(--sage-rgb));
+
+  /* Cream / light surfaces */
+  --cream: #faf7f0;
+  --cream-2: #fbf3ee;
+  --cream-3: #e7e0d2;
+
+  /* Neutral white/black channels */
+  --white-rgb: 255,255,255;
+  --white: rgb(var(--white-rgb));
+  --black-rgb: 0,0,0;
+  --black: rgb(var(--black-rgb));
+
+  /* Text on dark */
+  --text-on-dark: #edeff6;
+  --text-muted: #c4cad8;
+  --text-dim: #98a0b3;
+
+  /* Ink (text on light) */
+  --ink-rgb: 26,24,21;
+  --ink: rgb(var(--ink-rgb));
+  --ink-2: #48443c;
+  --ink-3-rgb: 90,86,78;
+  --ink-3: rgb(var(--ink-3-rgb));
+  --ink-black: #12100e;
+
+  /* Illustration annotation tones (used inline in the SVG artwork) */
+  --label-muted: #8a857c;   /* chart axes, tick labels, footnotes */
+  --wine-emphasis: #8b3a4d; /* score numbers + emphasis on wine/rose bars */
+}

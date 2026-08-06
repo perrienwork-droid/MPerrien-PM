@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Session &amp; consent · Reframe</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet"/>
+<link href="studio.css" rel="stylesheet"/>
+<style>
+    .content{display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .welcome{max-width:640px;margin:0 auto;text-align:center}
+  .welcome .hi{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--rasp);margin-bottom:16px}
+  .welcome h1{font-family:var(--serif);font-weight:400;font-size:clamp(36px,4.6vw,50px);line-height:1.12;color:var(--ink);margin-bottom:18px;text-wrap:balance}
+  .welcome h1 em{font-style:normal;color:inherit}
+  .welcome p.say{font-size:20px;color:var(--ink-soft);margin:0 auto 32px;max-width:40ch;line-height:1.5;text-wrap:balance}
+  .reassure{max-width:520px;margin:0 auto 26px;display:flex;gap:16px;align-items:center;text-align:left;padding:20px 24px;border-radius:18px;background:var(--bg-soft);border:1px solid var(--line)}
+  .reassure .rico{flex:none;width:52px;height:52px;border-radius:14px;background:var(--bg-card);border:1px solid var(--line);display:grid;place-items:center;font-size:26px}
+  .reassure b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink);line-height:1.2;margin-bottom:4px}
+  .reassure span{font-size:14.5px;color:var(--ink-soft);line-height:1.45}
+  .consent-card{max-width:540px;margin:0 auto;padding:22px 24px;border:1px solid var(--line);border-radius:16px;background:var(--bg-card);box-shadow:0 8px 22px var(--shadow-soft);text-align:left;cursor:pointer;transition:border-color .2s,background .2s}
+  .consent-card.on{border-color:var(--rasp);background:#FCEDF0}
+  .consent-card .check{display:flex;gap:13px;align-items:flex-start}
+  .consent-card .box{flex:none;width:26px;height:26px;border-radius:8px;border:1.5px solid var(--ink-mute);display:grid;place-items:center;color:#fff;font-size:15px;transition:.2s}
+  .consent-card.on .box{background:var(--rasp);border-color:var(--rasp)}
+  .consent-card .ct{font-size:18.5px;color:var(--ink);line-height:1.5;font-weight:500}
+  .consent-card .re{display:block;font-size:15px;color:var(--ink-soft);font-weight:400;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="tablet">
+  <div class="appbar">
+    <div class="wordmark"><a href="index.html" style="text-decoration:none;color:inherit">Re<em>frame</em><span class="dot">.</span></a></div>
+    <div class="appbar-right">
+      <span class="session-chip">Session #SR-2048 · Optique du Marais</span>
+      <span class="tpo-mark">A Product Office study<span class="dot">.</span></span>
+    </div>
+  </div>
+
+  <div class="stepnav">
+    <div class="step active"><span class="n">1</span><span class="lbl">Welcome</span></div>
+<span class="sep">›</span>    <div class="step"><span class="n">2</span><span class="lbl">Capture</span></div>
+<span class="sep">›</span>    <div class="step"><span class="n">3</span><span class="lbl">Criteria</span></div>
+<span class="sep">›</span>    <div class="step"><span class="n">4</span><span class="lbl">Profile</span></div>
+<span class="sep">›</span>    <div class="step"><span class="n">5</span><span class="lbl">Shortlist</span></div>
+<span class="sep">›</span>    <div class="step"><span class="n">6</span><span class="lbl">Report</span></div>
+  </div>
+
+  <div class="content">
+    <div class="welcome">
+      <h1>Let's find frames that <em>suit you</em>.</h1>
+      <p class="say">One photo, matched to the frames in the shop today. About two minutes.</p>
+      <div class="consent-card" id="cc" onclick="toggle()">
+        <div class="check">
+          <span class="box">✓</span>
+          <span class="ct">Yes, take my photo for this fitting.
+            <span class="re">It stays on this iPad and is deleted after the session. Never saved, never shared.</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actionbar">
+    <a class="back" href="index.html">← Overview</a>
+    <span class="actionbar-note" id="note"></span>
+    <a class="btn btn-primary" id="cta" href="02-capture.html" disabled>Start →</a>
+  </div>
+</div>
+<script>
+  function toggle(){
+    var cc=document.getElementById('cc');cc.classList.toggle('on');
+    var on=cc.classList.contains('on');
+    document.getElementById('cta').toggleAttribute('disabled',!on);
+    document.getElementById('note').textContent = on ? '' : 'Tick the box to continue.';
+  }
+  document.getElementById('note').textContent='Tick the box to continue.';
+</script>
+</body>
+</html>

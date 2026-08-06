@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Face profile · Reframe</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet"/>
+<link href="studio.css" rel="stylesheet"/>
+<style>
+  .split{display:grid;grid-template-columns:.62fr 1.38fr;gap:30px;align-items:start}
+  .facewrap{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px var(--shadow-med);aspect-ratio:3/4}
+  .facewrap img{width:100%;height:100%;object-fit:cover;object-position:center 18%}
+  .facewrap .dot{position:absolute;width:9px;height:9px;border-radius:999px;background:rgba(216,120,147,.95);box-shadow:0 0 0 3px rgba(216,120,147,.25);animation:pop .4s ease both}
+  @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+  .facewrap .lbl{position:absolute;bottom:12px;left:12px;font-size:11.5px;color:#fff;background:rgba(0,0,0,.42);padding:5px 11px;border-radius:999px}
+  .rows{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .prow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 15px;border:1px solid var(--line);border-radius:12px;background:var(--bg-card);transition:border-color .2s,background .2s}
+  .flag{flex:none;font-size:11px;color:#8a6a2f;background:#F3E7CE;border:1px solid #E7D3A8;border-radius:999px;padding:3px 9px;white-space:nowrap}
+  .prow.is-edited{border-color:var(--rasp);background:#FCEDF0}
+  .kv{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+  .kv .k{flex-basis:100%;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-mute);margin-bottom:2px}
+  .v{font-family:var(--serif);font-size:18px;color:var(--ink);cursor:pointer;background:none;border:none;padding:0;text-align:left;border-bottom:1.5px dotted var(--ink-mute);transition:color .15s,border-color .15s}
+  .v:hover{color:var(--rasp);border-color:var(--rasp)}
+  .editmark{font-family:var(--sans);font-size:11px;color:var(--ink-mute)}
+  .prow.is-edited .editmark{display:none}
+  .undo{font-family:var(--sans);font-size:11.5px;color:var(--rasp);background:none;border:none;cursor:pointer;padding:0}
+  .undo:hover{text-decoration:underline}
+  .edited-tag{font-size:11px;color:var(--rasp);font-weight:500}
+  .conf{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink-mute);white-space:nowrap}
+  .conf .bar{width:46px;height:6px;border-radius:999px;background:var(--bg-soft);overflow:hidden}
+  .conf .bar i{display:block;height:100%;background:var(--green)}
+  .conf.mid .bar i{background:var(--gold)}
+  .formula{margin-top:20px;padding:16px 18px;border-radius:14px;background:var(--bg-soft);border:1px solid var(--line)}
+  .formula .fh{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute);margin-bottom:10px}
+  .formula .fl{display:flex;flex-wrap:wrap;gap:8px}
+  .formula .f{font-size:13px;padding:6px 12px;border-radius:999px;background:var(--bg-card);border:1px solid var(--line);color:var(--ink-soft)}
+  .formula .f b{color:var(--rasp);font-weight:600}
+  @media(max-width:900px){.rows{grid-template-columns:1fr}}@media(max-width:820px){.split{grid-template-columns:1fr}.facewrap{max-width:280px}}
+</style>
+</head>
+<body>
+<div class="tablet">
+  <div class="appbar">
+    <div class="wordmark"><a href="index.html" style="text-decoration:none;color:inherit">Re<em>frame</em><span class="dot">.</span></a></div>
+    <div class="appbar-right"><span class="session-chip">Session #SR-2048 · Camille R.</span><span class="tpo-mark">A Product Office study<span class="dot">.</span></span></div>
+  </div>
+  <div class="stepnav">
+    <div class="step done"><span class="n">✓</span><span class="lbl">Welcome</span></div>
+<span class="sep">›</span>    <div class="step done"><span class="n">✓</span><span class="lbl">Capture</span></div>
+<span class="sep">›</span>    <div class="step done"><span class="n">✓</span><span class="lbl">Criteria</span></div>
+<span class="sep">›</span>    <div class="step active"><span class="n">4</span><span class="lbl">Profile</span></div>
+<span class="sep">›</span>    <div class="step"><span class="n">5</span><span class="lbl">Shortlist</span></div>
+<span class="sep">›</span>    <div class="step"><span class="n">6</span><span class="lbl">Report</span></div>
+  </div>
+
+  <div class="content">
+    <div class="eyebrow">Step 4 · Profile</div>
+    <h1 class="title" style="font-size:32px;margin-bottom:16px">What we <em>read</em></h1>
+
+    <div class="split">
+      <div class="facewrap">
+        <img src="images/captured-client-3.jpg" alt="client"/>
+        <span class="dot" style="left:38%;top:40%"></span>
+        <span class="dot" style="left:58%;top:40%"></span>
+        <span class="dot" style="left:48%;top:52%"></span>
+        <span class="dot" style="left:40%;top:63%"></span>
+        <span class="dot" style="left:56%;top:63%"></span>
+        <span class="dot" style="left:48%;top:30%"></span>
+        <span class="lbl">Wears gold, so gold frame accents suit</span>
+      </div>
+
+      <div>
+        <div class="rows">
+          <div class="prow" data-key="undertone" data-detected="Warm"><div class="kv"><div class="k">Skin undertone</div><button class="v" data-opts="Warm|Warm-neutral|Cool" onclick="cycle(this)">Warm</button><button class="undo" hidden onclick="reset(this)">↩ reset to detected</button></div></div>
+          <div class="prow" data-key="eye" data-detected="Warm brown"><div class="kv"><div class="k">Eye colour</div><button class="v" data-opts="Warm brown|Hazel|Green" onclick="cycle(this)">Warm brown</button><button class="undo" hidden onclick="reset(this)">↩ reset to detected</button></div></div>
+          <div class="prow" data-key="hair" data-detected="Blonde, mixed warm/ash"><div class="kv"><div class="k">Hair tone</div><button class="v" data-opts="Blonde, mixed warm/ash|Warm honey|Cool ash" onclick="cycle(this)">Blonde, mixed warm/ash</button><button class="undo" hidden onclick="reset(this)">↩ reset to detected</button></div><span class="flag">worth a check</span></div>
+          <div class="prow" data-key="brow" data-detected="Low"><div class="kv"><div class="k">Brow contrast</div><button class="v" data-opts="Low|Medium|High" onclick="cycle(this)">Low</button><button class="undo" hidden onclick="reset(this)">↩ reset to detected</button></div></div>
+          <div class="prow" data-key="shape" data-detected="Soft oval, slightly long"><div class="kv"><div class="k">Face shape</div><button class="v" data-opts="Soft oval, slightly long|Oval|Round" onclick="cycle(this)">Soft oval, slightly long</button><button class="undo" hidden onclick="reset(this)">↩ reset to detected</button></div></div>
+          <div class="prow" data-key="spacing" data-detected="Slightly wide-set"><div class="kv"><div class="k">Eye spacing</div><button class="v" data-opts="Slightly wide-set|Average|Close-set" onclick="cycle(this)">Slightly wide-set</button><button class="undo" hidden onclick="reset(this)">↩ reset to detected</button></div><span class="flag">worth a check</span></div>
+          <div class="prow" data-key="nose" data-detected="Medium, low-to-medium"><div class="kv"><div class="k">Nose bridge</div><button class="v" data-opts="Medium, low-to-medium|High|Low" onclick="cycle(this)">Medium, low-to-medium</button><button class="undo" hidden onclick="reset(this)">↩ reset to detected</button></div></div>
+        </div>
+
+        <div class="formula">
+          <div class="fh">Which gives us the frame formula (updates as you change a read)</div>
+          <div class="fl">
+            <span class="f" id="f1"><b>Warm</b> frame</span><span class="f" id="f2"><b>Soft cat-eye</b> lift</span><span class="f" id="f3"><b>Medium</b>, wider than tall</span><span class="f" id="f4"><b>Warm</b> lens tint</span><span class="f" id="f5"><b>Gold</b> at the bridge</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actionbar">
+    <a class="back" href="03-criteria.html">← Criteria</a>
+    <span class="actionbar-note" id="note">Confirmed. Tap any value to change it.</span>
+    <a class="btn btn-primary" href="05-shortlist.html">Score the inventory →</a>
+  </div>
+</div>
+<script>
+  function cycle(btn){
+    var opts=btn.dataset.opts.split('|');
+    var i=(opts.indexOf(btn.textContent.trim())+1)%opts.length;
+    btn.textContent=opts[i];
+    mark(btn);
+  }
+  function reset(link){
+    var row=link.closest('.prow');
+    var btn=row.querySelector('.v');
+    btn.textContent=row.dataset.detected;
+    mark(btn);
+  }
+  function mark(btn){
+    var row=btn.closest('.prow');
+    var edited=btn.textContent.trim()!==row.dataset.detected;
+    row.classList.toggle('is-edited',edited);
+    row.querySelector('.undo').hidden=!edited;
+    updateNote();
+    formulaUpdate();
+  }
+  function formulaUpdate(){
+    var val=function(k){var el=document.querySelector('.prow[data-key="'+k+'"] .v');return el?el.textContent.trim():'';};
+    var under=val('undertone'), eye=val('eye'), hair=val('hair'),
+        brow=val('brow'), shape=val('shape'), spacing=val('spacing'), nose=val('nose');
+    var cool = under==='Cool';
+    // f1 frame: undertone warmth + hair lean
+    var frameWord = cool?'Cool':(under==='Warm-neutral'?'Warm-neutral':'Warm');
+    var hairLean = hair==='Warm honey'?'frame, warm-lean':(hair==='Cool ash'?'frame, cool-lean':'frame');
+    // f2 lift: shape
+    var lift = (shape.indexOf('Round')!==-1)?'Rounded':'Soft cat-eye';
+    // f3 size: shape + brow weight
+    var sizeText = (shape.indexOf('Round')!==-1)?'balanced':(shape==='Oval'?'proportional':'wider than tall');
+    var browText = brow==='High'?', bolder acetate':(brow==='Medium'?', medium acetate':'');
+    // f4 lens: undertone + eye nuance
+    var lensWord = cool?'Cool':'Warm';
+    var eyeNuance = eye==='Hazel'?', soft':(eye==='Green'?', neutral':'');
+    // f5 metal + bridge: undertone + spacing + nose
+    var metal = cool?'Silver':'Gold';
+    var bridgeRest = (spacing==='Slightly wide-set')?'at the bridge':(spacing==='Close-set'?', clear bridge':'accents');
+    var noseNote = nose==='High'?' (raised)':(nose==='Low'?' (low-set)':'');
+    var set=function(id,b,r){var e=document.getElementById(id); if(e) e.innerHTML='<b>'+b+'</b> '+r;};
+    set('f1',frameWord,hairLean); set('f2',lift,'lift'); set('f3','Medium',', '+sizeText+browText);
+    set('f4',lensWord,'lens tint'+eyeNuance); set('f5',metal,bridgeRest+noseNote);
+  }
+  formulaUpdate();
+  function updateNote(){
+    var n=document.querySelectorAll('.prow.is-edited').length;
+    var note=document.getElementById('note');
+    if(n===0){ note.textContent='Confirmed. Tap any value to change it.'; }
+    else{ note.textContent=n+' change'+(n>1?'s':'')+' made. The picks will re-score.'; }
+  }
+</script>
+</body>
+</html>

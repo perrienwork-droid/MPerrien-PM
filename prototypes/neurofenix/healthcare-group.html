@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stroke Recovery program, Neurofenix Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hub-sidebar.css">
+<style>
+  :root {
+    /* Brand, navy and teal */
+    --hub-navy-deep: #00016C;
+    --hub-navy-900: #0A1B4D;
+    --hub-navy-800: #10257A;
+    --hub-navy-700: #1B3AA6;
+    --hub-navy-600: #2A4EC7;
+    --hub-navy-500: #4169E1;
+    --hub-teal-700: #0A7A83;
+    --hub-teal-700: #007A7A;
+    --hub-teal-600: #00A8A8;
+    --hub-teal-500: #00C4C4;
+    --hub-teal-400: #3ED6D6;
+    --hub-teal-300: #7FE3E3;
+    --hub-teal-200: #B5EFEF;
+    --hub-teal-100: #D6F6F6;
+    --hub-teal-50:  #E6FBFB;
+    /* Supporting */
+    --hub-pink-600: #D6487A;
+    --hub-pink-500: #E85E8A;
+    --hub-pink-400: #F279A3;
+    --hub-pink-50:  #FDECF2;
+    --hub-amber-500: #F0A83C;
+    --hub-amber-400: #F5BC65;
+    --hub-amber-50:  #FFF4DF;
+    /* Neutrals */
+    --hub-grey-900: #0F1430;
+    --hub-grey-800: #1F2647;
+    --hub-grey-700: #3A4168;
+    --hub-grey-500: #6B7293;
+    --hub-grey-400: #9098B5;
+    --hub-grey-300: #CBD0E3;
+    --hub-grey-200: #DFE3EF;
+    --hub-grey-100: #EEF0F8;
+    --hub-grey-50:  #F6F8FC;
+    --hub-white: #FFFFFF;
+    /* Status */
+    --hub-exc-600: #0E8A8A;
+    --hub-exc-50:  #D6F3F3;
+    --hub-ok-600: #17926A;
+    --hub-ok-50:  #E1F3E7;
+    --hub-warn-600: #B67F12;
+    --hub-warn-50:  #FBEFCF;
+    --hub-risk-600: #C83A4A;
+    --hub-risk-50:  #FCDDE1;
+    /* Fonts */
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-pill: 999px;
+    /* Shadows */
+    --shadow-card: 0 1px 3px rgba(10,27,77,0.06), 0 6px 16px rgba(10,27,77,0.05);
+    --shadow-pop:  0 12px 28px rgba(10,27,77,0.12);
+    /* Sidebar tokens + rules live in hub-sidebar.css, shared with healthcare-hub.html */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-body);
+    background: var(--hub-grey-50);
+    color: var(--hub-grey-900);
+    -webkit-font-smoothing: antialiased;
+    width: 1280px;
+    height: 800px;
+    overflow: hidden;
+  }
+  :focus-visible { outline: 2px solid var(--hub-teal-500); outline-offset: 2px; border-radius: var(--radius-sm); }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  /* SHELL */
+  .hub-shell { display: flex; width: 1280px; height: 800px; }
+
+  /* Sidebar styles (tokens, nav, brand, back-link, side-card) live in hub-sidebar.css */
+
+  /* MAIN */
+  .hub-main {
+    flex: 1;
+    min-width: 0;
+    height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--hub-grey-50);
+  }
+
+  /* PROGRAM BANNER */
+  .hub-banner {
+    background: var(--hub-teal-400);
+    color: var(--hub-grey-900);
+    padding: 22px 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .banner-head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .banner-title {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--hub-grey-900);
+  }
+  .banner-tag {
+    background: var(--hub-navy-900);
+    color: var(--hub-white);
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+  }
+  .banner-sub {
+    font-size: 13px;
+    color: var(--hub-grey-800);
+    margin-top: 4px;
+    max-width: 560px;
+    line-height: 1.45;
+  }
+  /* CONTENT AREA */
+  .group-content {
+    padding: 32px 44px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* KPI STRIP */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .kpi-card {
+    background: var(--hub-white);
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hub-grey-500);
+  }
+  .kpi-value {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    font-weight: 700; /* matches heaviest loaded JetBrains Mono weight */
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--hub-grey-900);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+  .kpi-value small {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--hub-grey-500);
+    margin-left: 1px;
+  }
+  .kpi-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    width: fit-content;
+  }
+  .kpi-delta.up { background: var(--hub-ok-50); color: var(--hub-ok-600); }
+  .kpi-delta.down { background: var(--hub-risk-50); color: var(--hub-risk-600); }
+  .kpi-delta.flat { background: var(--hub-grey-100); color: var(--hub-grey-700); }
+
+  /* PANEL, shared card */
+  .panel {
+    background: var(--hub-white);
+    border-radius: var(--radius-md);
+    padding: 24px 26px;
+    box-shadow: var(--shadow-card);
+  }
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .panel-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--hub-grey-900);
+    letter-spacing: -0.005em;
+  }
+  .panel-sub {
+    font-size: 12px;
+    color: var(--hub-grey-500);
+    margin-top: 2px;
+  }
+  .panel-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--hub-grey-700);
+    background: var(--hub-grey-100);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+  }
+  .panel-filter svg { width: 12px; height: 12px; }
+
+  /* TWO COLUMN BLOCK */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* PIPELINE FUNNEL */
+  .funnel { display: flex; flex-direction: column; gap: 10px; }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 64px;
+    align-items: center;
+    gap: 14px;
+  }
+  .funnel-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--hub-grey-800);
+  }
+  .funnel-bar-wrap {
+    height: 28px;
+    background: var(--hub-grey-100);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+  }
+  .funnel-bar {
+    height: 100%;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    color: var(--hub-white);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    letter-spacing: -0.01em;
+  }
+  .funnel-bar.b1 { background: var(--hub-navy-700); }
+  .funnel-bar.b2 { background: var(--hub-navy-600); }
+  .funnel-bar.b3 { background: var(--hub-teal-500); }
+  .funnel-bar.b4 { background: var(--hub-teal-400); color: var(--hub-grey-900); }
+  .funnel-count {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--hub-grey-900);
+    text-align: right;
+  }
+  .funnel-drop {
+    font-size: 11px;
+    color: var(--hub-grey-500);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--hub-grey-200);
+    display: flex;
+    justify-content: space-between;
+  }
+  .funnel-drop strong { color: var(--hub-grey-800); font-weight: 700; }
+
+  /* ADHERENCE STACK CHART */
+  .stack-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .stack-legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--hub-grey-700);
+  }
+  .stack-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+  .stack-legend i {
+    width: 10px; height: 10px; border-radius: 2px;
+    display: inline-block;
+  }
+  .stack-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 180px;
+    padding: 0 2px;
+  }
+  .stack-bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--hub-grey-100);
+    min-width: 0;
+  }
+  .stack-seg { width: 100%; }
+  .stack-seg.exc { background: var(--hub-teal-500); }
+  .stack-seg.ok  { background: var(--hub-teal-300); }
+  .stack-seg.slight { background: var(--hub-amber-400); }
+  .stack-seg.low { background: var(--hub-pink-400); }
+  .stack-axis {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2px;
+    font-size: 10px;
+    color: var(--hub-grey-500);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+  }
+  .stack-axis span { flex: 1; text-align: center; }
+
+  /* CLINICIAN ROSTER */
+  .roster {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .roster-card {
+    border: 1px solid var(--hub-grey-200);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--hub-white);
+    position: relative;
+  }
+  .roster-card.full {
+    /* At-capacity is communicated by the "Capacity full" status pill only,
+       no background tint or strong border so the card does not look selected. */
+    border: 1px solid var(--hub-grey-200);
+    background: var(--hub-white);
+  }
+  .roster-head { display: flex; align-items: center; gap: 10px; }
+  .roster-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--hub-teal-500);
+    color: var(--hub-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+  .roster-card:nth-child(2) .roster-avatar { background: var(--hub-navy-700); }
+  .roster-card:nth-child(3) .roster-avatar { background: var(--hub-pink-500); }
+  .roster-card:nth-child(4) .roster-avatar { background: var(--hub-amber-500); }
+  .roster-card:nth-child(5) .roster-avatar { background: var(--hub-teal-600); }
+  .roster-card:nth-child(6) .roster-avatar { background: var(--hub-navy-600); }
+  .roster-name { font-size: 13px; font-weight: 700; color: var(--hub-grey-900); }
+  .roster-role { font-size: 11px; color: var(--hub-grey-500); }
+  .roster-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding-top: 10px;
+    border-top: 1px solid var(--hub-grey-100);
+  }
+  .roster-stat-label { font-size: 10px; color: var(--hub-grey-500); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+  .roster-stat-value { font-size: 14px; font-weight: 700; color: var(--hub-grey-900); font-family: var(--font-mono); }
+  .roster-status {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    background: var(--hub-ok-50);
+    color: var(--hub-ok-600);
+  }
+  .roster-status.full-s { background: var(--hub-warn-50); color: var(--hub-warn-600); }
+  .roster-status.away { background: var(--hub-grey-100); color: var(--hub-grey-700); }
+
+  /* ACTIVITY LOG */
+  .activity {
+    display: flex;
+    flex-direction: column;
+  }
+  .activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hub-grey-100);
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .activity-dot.referral { background: var(--hub-navy-700); color: var(--hub-white); }
+  .activity-dot.session  { background: var(--hub-teal-500); color: var(--hub-white); }
+  .activity-dot.milestone { background: var(--hub-ok-50); color: var(--hub-ok-600); }
+  .activity-dot.alert { background: var(--hub-pink-50); color: var(--hub-pink-600); }
+  .activity-dot svg { width: 14px; height: 14px; }
+  .activity-body { flex: 1; min-width: 0; }
+  .activity-title { font-size: 13px; font-weight: 600; color: var(--hub-grey-900); line-height: 1.4; }
+  .activity-title strong { font-weight: 700; }
+  .activity-meta { font-size: 11px; color: var(--hub-grey-500); margin-top: 3px; }
+
+  /* FOOTER DISCLAIMER */
+  .hub-disclaimer {
+    padding: 18px 44px 28px;
+    font-size: 11px;
+    color: var(--hub-grey-500);
+    text-align: center;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="hub-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="hub-sidebar" role="complementary">
+    <div class="hub-brand">
+      <div class="hub-brand-mark" aria-hidden="true">N</div>
+      <div class="hub-brand-text">
+        <div class="hub-brand-name">Neurofenix Hub</div>
+        <div class="hub-brand-sub">Partner</div>
+      </div>
+    </div>
+
+    <nav class="hub-nav" aria-label="Main navigation">
+      <a class="hub-nav-item" href="healthcare-hub.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+          <path d="M5 18l0.5 1.5L7 20l-1.5 0.5L5 22l-0.5-1.5L3 20l1.5-0.5L5 18z"/>
+          <path d="M19 15l0.5 1.5L21 17l-1.5 0.5L19 19l-0.5-1.5L17 17l1.5-0.5L19 15z"/>
+        </svg>
+        <span>Bifurcator&trade;</span>
+        <span class="hub-nav-badge plus">Plus</span>
+      </a>
+      <a class="hub-nav-item" href="healthcare-hub.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span>Updates &amp; Insights</span>
+      </a>
+      <a class="hub-nav-item" href="healthcare-hub.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Patient list</span>
+        <span class="hub-nav-badge">20</span>
+      </a>
+      <button class="hub-nav-item is-active" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="4" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="13" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="13" width="7" height="7" rx="1.5"/>
+        </svg>
+        <span>Care groups</span>
+        <span class="hub-nav-badge">4</span>
+      </button>
+    </nav>
+
+    <div class="hub-side-card">
+      <span class="hub-side-card-title">Baptist Health, Florida</span>
+      <span class="hub-side-card-meta">Partner since 2024, 3 programs active</span>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="hub-main" role="main">
+
+    <!-- TEAL BANNER, Stroke Recovery -->
+    <section class="hub-banner" aria-label="Program banner">
+      <div>
+        <div class="banner-head">
+          <h1 class="banner-title">Stroke Recovery program</h1>
+          <span class="banner-tag">Active</span>
+        </div>
+        <p class="banner-sub">60 patients enrolled across 6 clinicians. Intervention targets upper limb mobility and balance in the first 16 weeks post discharge.</p>
+      </div>
+    </section>
+
+    <div class="group-content">
+
+      <!-- KPI STRIP -->
+      <section class="kpi-strip" aria-label="Program KPIs">
+
+        <article class="kpi-card">
+          <span class="kpi-label">Active patients</span>
+          <span class="kpi-value">60</span>
+          <span class="kpi-delta up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px"><path d="M6 15l6-6 6 6"/></svg>
+            +8 this month
+          </span>
+        </article>
+
+        <article class="kpi-card">
+          <span class="kpi-label">Intervention rate</span>
+          <span class="kpi-value">74<small>%</small></span>
+          <span class="kpi-delta up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px"><path d="M6 15l6-6 6 6"/></svg>
+            +3.2 pts vs. Q1
+          </span>
+        </article>
+
+        <article class="kpi-card">
+          <span class="kpi-label">RTM units billed</span>
+          <span class="kpi-value">412</span>
+          <span class="kpi-delta up">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px"><path d="M6 15l6-6 6 6"/></svg>
+            +22% MoM
+          </span>
+        </article>
+
+        <article class="kpi-card">
+          <span class="kpi-label">Discharge rate</span>
+          <span class="kpi-value">18<small>%</small></span>
+          <span class="kpi-delta flat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px"><path d="M5 12h14"/></svg>
+            on target
+          </span>
+        </article>
+
+      </section>
+
+      <!-- PIPELINE + ADHERENCE -->
+      <section class="two-col">
+
+        <!-- PIPELINE FUNNEL -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Patient pipeline</h2>
+              <p class="panel-sub">Last 90 days</p>
+            </div>
+            <span class="panel-filter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+              90 days
+            </span>
+          </div>
+
+          <div class="funnel" role="list">
+            <div class="funnel-row" role="listitem">
+              <span class="funnel-label">Referral</span>
+              <div class="funnel-bar-wrap"><div class="funnel-bar b1" style="width:100%">100%</div></div>
+              <span class="funnel-count">84</span>
+            </div>
+            <div class="funnel-row" role="listitem">
+              <span class="funnel-label">Onboarded</span>
+              <div class="funnel-bar-wrap"><div class="funnel-bar b2" style="width:86%">86%</div></div>
+              <span class="funnel-count">72</span>
+            </div>
+            <div class="funnel-row" role="listitem">
+              <span class="funnel-label">Active</span>
+              <div class="funnel-bar-wrap"><div class="funnel-bar b3" style="width:71%">71%</div></div>
+              <span class="funnel-count">60</span>
+            </div>
+            <div class="funnel-row" role="listitem">
+              <span class="funnel-label">Discharged</span>
+              <div class="funnel-bar-wrap"><div class="funnel-bar b4" style="width:13%">13%</div></div>
+              <span class="funnel-count">11</span>
+            </div>
+          </div>
+
+          <div class="funnel-drop">
+            <span>Onboarding drop off <strong>14%</strong></span>
+            <span>Time to first session <strong>3.2 days</strong></span>
+          </div>
+        </div>
+
+        <!-- ADHERENCE 16 WEEK STACK CHART -->
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2 class="panel-title">Adherence, 16 week cohort</h2>
+              <p class="panel-sub">Weekly engagement distribution</p>
+            </div>
+            <span class="panel-filter">Week 1 to 16</span>
+          </div>
+
+          <div class="stack-chart">
+            <div class="stack-legend">
+              <span><i style="background:var(--hub-teal-500)"></i>Exceeded</span>
+              <span><i style="background:var(--hub-teal-300)"></i>Good</span>
+              <span><i style="background:var(--hub-amber-400)"></i>Slightly below</span>
+              <span><i style="background:var(--hub-pink-400)"></i>Low</span>
+            </div>
+
+            <div class="stack-bars" aria-label="Weekly adherence stacked chart">
+              <div class="stack-bar" title="Week 1">
+                <div class="stack-seg low" style="height:8%"></div>
+                <div class="stack-seg slight" style="height:14%"></div>
+                <div class="stack-seg ok" style="height:46%"></div>
+                <div class="stack-seg exc" style="height:32%"></div>
+              </div>
+              <div class="stack-bar" title="Week 2">
+                <div class="stack-seg low" style="height:10%"></div>
+                <div class="stack-seg slight" style="height:16%"></div>
+                <div class="stack-seg ok" style="height:44%"></div>
+                <div class="stack-seg exc" style="height:30%"></div>
+              </div>
+              <div class="stack-bar" title="Week 3">
+                <div class="stack-seg low" style="height:12%"></div>
+                <div class="stack-seg slight" style="height:18%"></div>
+                <div class="stack-seg ok" style="height:42%"></div>
+                <div class="stack-seg exc" style="height:28%"></div>
+              </div>
+              <div class="stack-bar" title="Week 4">
+                <div class="stack-seg low" style="height:14%"></div>
+                <div class="stack-seg slight" style="height:20%"></div>
+                <div class="stack-seg ok" style="height:42%"></div>
+                <div class="stack-seg exc" style="height:24%"></div>
+              </div>
+              <div class="stack-bar" title="Week 5">
+                <div class="stack-seg low" style="height:16%"></div>
+                <div class="stack-seg slight" style="height:22%"></div>
+                <div class="stack-seg ok" style="height:40%"></div>
+                <div class="stack-seg exc" style="height:22%"></div>
+              </div>
+              <div class="stack-bar" title="Week 6">
+                <div class="stack-seg low" style="height:15%"></div>
+                <div class="stack-seg slight" style="height:22%"></div>
+                <div class="stack-seg ok" style="height:42%"></div>
+                <div class="stack-seg exc" style="height:21%"></div>
+              </div>
+              <div class="stack-bar" title="Week 7">
+                <div class="stack-seg low" style="height:14%"></div>
+                <div class="stack-seg slight" style="height:20%"></div>
+                <div class="stack-seg ok" style="height:44%"></div>
+                <div class="stack-seg exc" style="height:22%"></div>
+              </div>
+              <div class="stack-bar" title="Week 8">
+                <div class="stack-seg low" style="height:13%"></div>
+                <div class="stack-seg slight" style="height:19%"></div>
+                <div class="stack-seg ok" style="height:45%"></div>
+                <div class="stack-seg exc" style="height:23%"></div>
+              </div>
+              <div class="stack-bar" title="Week 9">
+                <div class="stack-seg low" style="height:12%"></div>
+                <div class="stack-seg slight" style="height:18%"></div>
+                <div class="stack-seg ok" style="height:46%"></div>
+                <div class="stack-seg exc" style="height:24%"></div>
+              </div>
+              <div class="stack-bar" title="Week 10">
+                <div class="stack-seg low" style="height:11%"></div>
+                <div class="stack-seg slight" style="height:17%"></div>
+                <div class="stack-seg ok" style="height:47%"></div>
+                <div class="stack-seg exc" style="height:25%"></div>
+              </div>
+              <div class="stack-bar" title="Week 11">
+                <div class="stack-seg low" style="height:10%"></div>
+                <div class="stack-seg slight" style="height:16%"></div>
+                <div class="stack-seg ok" style="height:48%"></div>
+                <div class="stack-seg exc" style="height:26%"></div>
+              </div>
+              <div class="stack-bar" title="Week 12">
+                <div class="stack-seg low" style="height:9%"></div>
+                <div class="stack-seg slight" style="height:15%"></div>
+                <div class="stack-seg ok" style="height:49%"></div>
+                <div class="stack-seg exc" style="height:27%"></div>
+              </div>
+              <div class="stack-bar" title="Week 13">
+                <div class="stack-seg low" style="height:8%"></div>
+                <div class="stack-seg slight" style="height:14%"></div>
+                <div class="stack-seg ok" style="height:50%"></div>
+                <div class="stack-seg exc" style="height:28%"></div>
+              </div>
+              <div class="stack-bar" title="Week 14">
+                <div class="stack-seg low" style="height:7%"></div>
+                <div class="stack-seg slight" style="height:14%"></div>
+                <div class="stack-seg ok" style="height:49%"></div>
+                <div class="stack-seg exc" style="height:30%"></div>
+              </div>
+              <div class="stack-bar" title="Week 15">
+                <div class="stack-seg low" style="height:6%"></div>
+                <div class="stack-seg slight" style="height:13%"></div>
+                <div class="stack-seg ok" style="height:49%"></div>
+                <div class="stack-seg exc" style="height:32%"></div>
+              </div>
+              <div class="stack-bar" title="Week 16">
+                <div class="stack-seg low" style="height:6%"></div>
+                <div class="stack-seg slight" style="height:12%"></div>
+                <div class="stack-seg ok" style="height:48%"></div>
+                <div class="stack-seg exc" style="height:34%"></div>
+              </div>
+            </div>
+            <div class="stack-axis" aria-hidden="true">
+              <span>W1</span><span>W2</span><span>W3</span><span>W4</span>
+              <span>W5</span><span>W6</span><span>W7</span><span>W8</span>
+              <span>W9</span><span>W10</span><span>W11</span><span>W12</span>
+              <span>W13</span><span>W14</span><span>W15</span><span>W16</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLINICIAN ROSTER -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Clinician roster</h2>
+            <p class="panel-sub">6 clinicians on the program</p>
+          </div>
+          <span class="panel-filter">Sort by load</span>
+        </div>
+
+        <div class="roster">
+
+          <article class="roster-card">
+            <span class="roster-status">Available</span>
+            <div class="roster-head">
+              <div class="roster-avatar">DK</div>
+              <div>
+                <div class="roster-name">Dr. Daniel Kim</div>
+                <div class="roster-role">Lead neurologist</div>
+              </div>
+            </div>
+            <div class="roster-stats">
+              <div>
+                <div class="roster-stat-label">Caseload</div>
+                <div class="roster-stat-value">11 / 15</div>
+              </div>
+              <div>
+                <div class="roster-stat-label">Avg. adherence</div>
+                <div class="roster-stat-value">78%</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="roster-card">
+            <span class="roster-status">Available</span>
+            <div class="roster-head">
+              <div class="roster-avatar">SR</div>
+              <div>
+                <div class="roster-name">Sarah Reyes, PT</div>
+                <div class="roster-role">Physical therapist</div>
+              </div>
+            </div>
+            <div class="roster-stats">
+              <div>
+                <div class="roster-stat-label">Caseload</div>
+                <div class="roster-stat-value">9 / 15</div>
+              </div>
+              <div>
+                <div class="roster-stat-label">Avg. adherence</div>
+                <div class="roster-stat-value">81%</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="roster-card full">
+            <span class="roster-status full-s">Capacity full</span>
+            <div class="roster-head">
+              <div class="roster-avatar">AO</div>
+              <div>
+                <div class="roster-name">Aisha Obi, OT</div>
+                <div class="roster-role">Occupational therapist</div>
+              </div>
+            </div>
+            <div class="roster-stats">
+              <div>
+                <div class="roster-stat-label">Caseload</div>
+                <div class="roster-stat-value">15 / 15</div>
+              </div>
+              <div>
+                <div class="roster-stat-label">Avg. adherence</div>
+                <div class="roster-stat-value">84%</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="roster-card">
+            <span class="roster-status">Available</span>
+            <div class="roster-head">
+              <div class="roster-avatar">MT</div>
+              <div>
+                <div class="roster-name">Marcus Tan, PT</div>
+                <div class="roster-role">Physical therapist</div>
+              </div>
+            </div>
+            <div class="roster-stats">
+              <div>
+                <div class="roster-stat-label">Caseload</div>
+                <div class="roster-stat-value">8 / 15</div>
+              </div>
+              <div>
+                <div class="roster-stat-label">Avg. adherence</div>
+                <div class="roster-stat-value">72%</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="roster-card">
+            <span class="roster-status">Available</span>
+            <div class="roster-head">
+              <div class="roster-avatar">EL</div>
+              <div>
+                <div class="roster-name">Elena Lawson, PT</div>
+                <div class="roster-role">Senior physical therapist</div>
+              </div>
+            </div>
+            <div class="roster-stats">
+              <div>
+                <div class="roster-stat-label">Caseload</div>
+                <div class="roster-stat-value">10 / 15</div>
+              </div>
+              <div>
+                <div class="roster-stat-label">Avg. adherence</div>
+                <div class="roster-stat-value">79%</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="roster-card">
+            <span class="roster-status away">On leave</span>
+            <div class="roster-head">
+              <div class="roster-avatar">JB</div>
+              <div>
+                <div class="roster-name">Jordan Becker, OT</div>
+                <div class="roster-role">Occupational therapist</div>
+              </div>
+            </div>
+            <div class="roster-stats">
+              <div>
+                <div class="roster-stat-label">Caseload</div>
+                <div class="roster-stat-value">7 / 15</div>
+              </div>
+              <div>
+                <div class="roster-stat-label">Avg. adherence</div>
+                <div class="roster-stat-value">75%</div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ACTIVITY LOG -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Recent activity</h2>
+            <p class="panel-sub">Last 7 days</p>
+          </div>
+          <span class="panel-filter">All events</span>
+        </div>
+
+        <div class="activity">
+
+          <div class="activity-item">
+            <div class="activity-dot referral" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+            <div class="activity-body">
+              <div class="activity-title">3 new referrals added, assigned to <strong>Sarah Reyes</strong></div>
+              <div class="activity-meta">Today, 9:42 AM, via St. Thomas Hospital</div>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot milestone" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <div class="activity-body">
+              <div class="activity-title"><strong>Madison Thompson</strong> reached Week 12 milestone, Berg Balance improved to 48</div>
+              <div class="activity-meta">Today, 8:15 AM</div>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot session" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            </div>
+            <div class="activity-body">
+              <div class="activity-title">84 sessions completed across the cohort</div>
+              <div class="activity-meta">Yesterday, average duration 24 min</div>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot alert" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+            </div>
+            <div class="activity-body">
+              <div class="activity-title"><strong>Logan Fisher</strong> flagged as low adherence, 2 sessions this week</div>
+              <div class="activity-meta">2 days ago, review suggested</div>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-dot milestone" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <div class="activity-body">
+              <div class="activity-title">2 patients discharged with pain levels under 4/10</div>
+              <div class="activity-meta">3 days ago</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <p class="hub-disclaimer">This data is fictional for demonstration purposes of the Neurofenix Hub.</p>
+
+  </main>
+</div>
+
+</body>
+</html>

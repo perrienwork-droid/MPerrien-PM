@@ -1,0 +1,251 @@
+/* =========================================================
+   Neurofenix Hub, shared sidebar stylesheet
+   Used by healthcare-hub.html and healthcare-group.html.
+   Single source of truth for sidebar tokens and rules,
+   so both pages cannot drift.
+
+   This file expects the host page to provide these base
+   tokens in its :root (colors, radius, fonts):
+     --hub-navy-deep, --hub-white, --hub-teal-50,
+     --hub-teal-500, --hub-teal-700
+   ========================================================= */
+
+:root {
+  /* ─── Sidebar nav tokens, the ONE place to edit ─── */
+  --nav-font-family: 'DM Sans', sans-serif;
+  --nav-item-font-size: 13px;
+  --nav-item-font-weight: 500;
+  --nav-item-font-weight-active: 600;
+  --nav-item-line-height: 1.2;
+  --nav-item-letter-spacing: -0.005em;
+  --nav-item-padding: 10px 12px;
+  --nav-item-radius: 10px;
+  --nav-item-gap: 12px;
+  --nav-icon-size: 18px;
+
+  --nav-item-color: rgba(255,255,255,0.72);
+  --nav-item-color-hover: #FFFFFF;
+  --nav-item-color-active: var(--hub-navy-deep);
+  --nav-item-bg: transparent;
+  --nav-item-bg-hover: rgba(255,255,255,0.05);
+  --nav-item-bg-active: var(--hub-white);
+
+  --nav-badge-font-size: 10px;
+  --nav-badge-font-weight: 700;
+  --nav-badge-letter-spacing: 0.02em;
+  --nav-badge-padding: 2px 8px;
+  --nav-badge-radius: 999px;
+  --nav-badge-bg: rgba(255,255,255,0.08);
+  --nav-badge-color: rgba(255,255,255,0.7);
+  --nav-badge-bg-active: var(--hub-teal-50);
+  --nav-badge-color-active: var(--hub-teal-700);
+
+  --nav-section-font-size: 10px;
+  --nav-section-font-weight: 700;
+  --nav-section-letter-spacing: 0.14em;
+  --nav-section-color: rgba(255,255,255,0.4);
+  --nav-section-padding: 10px 12px 4px;
+
+  /* Brand + side card tokens (kept here for the same reason) */
+  --nav-sidebar-width: 248px;
+  --nav-sidebar-padding: 22px 18px 18px;
+  --nav-sidebar-gap: 14px;
+  --nav-sidebar-bg: var(--hub-navy-deep);
+  --nav-sidebar-text: rgba(255,255,255,0.85);
+
+  --nav-brand-gap: 10px;
+  --nav-brand-mark-size: 32px;
+  --nav-brand-name-size: 15px;
+  --nav-brand-sub-size: 10px;
+
+  --nav-side-card-radius: 12px;
+  --nav-side-card-padding: 14px;
+  --nav-side-card-bg: rgba(255,255,255,0.04);
+  --nav-side-card-border: rgba(255,255,255,0.08);
+  --nav-side-card-text: rgba(255,255,255,0.7);
+  --nav-side-card-meta: rgba(255,255,255,0.6);
+}
+
+/* ─── Sidebar shell ─── */
+.hub-sidebar {
+  width: var(--nav-sidebar-width);
+  flex-shrink: 0;
+  background: var(--nav-sidebar-bg);
+  color: var(--nav-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  padding: var(--nav-sidebar-padding);
+  gap: var(--nav-sidebar-gap);
+}
+
+/* ─── Brand block ─── */
+.hub-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--nav-brand-gap);
+  padding: 4px 6px;
+}
+.hub-brand-mark {
+  width: var(--nav-brand-mark-size);
+  height: var(--nav-brand-mark-size);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--hub-teal-500) 0%, #9FE7EC 100%);
+  display: grid;
+  place-items: center;
+  color: var(--hub-navy-deep);
+  font-family: var(--nav-font-family);
+  font-weight: 800;
+  font-size: 17px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+  letter-spacing: -0.02em;
+}
+.hub-brand-text { line-height: 1.15; }
+.hub-brand-name {
+  font-family: var(--nav-font-family);
+  font-size: var(--nav-brand-name-size);
+  font-weight: 700;
+  color: var(--hub-white);
+  letter-spacing: -0.01em;
+}
+.hub-brand-sub {
+  font-family: var(--nav-font-family);
+  font-size: var(--nav-brand-sub-size);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+/* ─── Back link (used on group page) ─── */
+.hub-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-family: var(--nav-font-family);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  transition: color 0.15s, background 0.15s;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.hub-back-link:hover {
+  color: var(--hub-white);
+  background: rgba(255,255,255,0.05);
+}
+.hub-back-link svg { width: 14px; height: 14px; }
+
+/* ─── Nav list ─── */
+.hub-nav { display: flex; flex-direction: column; gap: 2px; }
+
+.hub-nav-section {
+  font-family: var(--nav-font-family);
+  font-size: var(--nav-section-font-size);
+  font-weight: var(--nav-section-font-weight);
+  letter-spacing: var(--nav-section-letter-spacing);
+  color: var(--nav-section-color);
+  padding: var(--nav-section-padding);
+  text-transform: uppercase;
+}
+
+/* Applies to both <a> and <button>.
+   Defensive resets below kill any UA difference. */
+.hub-nav-item {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  text-decoration: none;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  font-optical-sizing: auto;
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: var(--nav-item-gap);
+  width: 100%;
+  padding: var(--nav-item-padding);
+  border-radius: var(--nav-item-radius);
+  text-align: left;
+  cursor: pointer;
+  /* Typography, fully tokenised */
+  font-family: var(--nav-font-family);
+  font-size: var(--nav-item-font-size);
+  font-weight: var(--nav-item-font-weight);
+  line-height: var(--nav-item-line-height);
+  letter-spacing: var(--nav-item-letter-spacing);
+  /* Color */
+  background: var(--nav-item-bg);
+  color: var(--nav-item-color);
+  transition: background 0.12s, color 0.12s;
+}
+.hub-nav-item:hover {
+  background: var(--nav-item-bg-hover);
+  color: var(--nav-item-color-hover);
+}
+.hub-nav-item.is-active {
+  background: var(--nav-item-bg-active);
+  color: var(--nav-item-color-active);
+  font-weight: var(--nav-item-font-weight-active);
+}
+.hub-nav-item > svg {
+  width: var(--nav-icon-size);
+  height: var(--nav-icon-size);
+  flex: none;
+}
+
+/* Badge: tabular numerals so 20 and 4 have identical digit widths
+   across default and active states. */
+.hub-nav-badge {
+  margin-left: auto;
+  font-family: var(--nav-font-family);
+  font-size: var(--nav-badge-font-size);
+  font-weight: var(--nav-badge-font-weight);
+  letter-spacing: var(--nav-badge-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  padding: var(--nav-badge-padding);
+  border-radius: var(--nav-badge-radius);
+  background: var(--nav-badge-bg);
+  color: var(--nav-badge-color);
+  line-height: 1.2;
+}
+.hub-nav-item.is-active .hub-nav-badge {
+  background: var(--nav-badge-bg-active);
+  color: var(--nav-badge-color-active);
+}
+.hub-nav-badge.plus {
+  /* Gradient variant, not tokenised on purpose */
+  background: linear-gradient(135deg, var(--hub-teal-500) 0%, #9FE7EC 100%);
+  color: var(--hub-navy-deep);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ─── Partner side card ─── */
+.hub-side-card {
+  margin-top: auto;
+  background: var(--nav-side-card-bg);
+  border: 1px solid var(--nav-side-card-border);
+  border-radius: var(--nav-side-card-radius);
+  padding: var(--nav-side-card-padding);
+  font-family: var(--nav-font-family);
+  font-size: 12px;
+  color: var(--nav-side-card-text);
+  line-height: 1.5;
+}
+.hub-side-card-title {
+  color: var(--hub-white);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.005em;
+}
+.hub-side-card-meta {
+  font-size: 11px;
+  color: var(--nav-side-card-meta);
+}

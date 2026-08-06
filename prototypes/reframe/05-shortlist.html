@@ -1,0 +1,2612 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reframe · A Personalised Audit</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* ---- Colour: base palette, editorial raspberry ---- */
+  --bg: #FBF3EE;
+  --bg-card: #FFFFFF;
+  --bg-soft: #F4E4E0;
+  --ink: #2E1820;
+  --ink-soft: #6F4855;
+  --ink-mute: #A07887;
+  --amber: #B8546B;       /* raspberry, primary accent */
+  --amber-deep: #8B3A4D;  /* garnet, deep accent */
+  --tortoise: #B8546B;    /* raspberry, used for italic emphasis */
+  --line: #ECDAD8;
+  --green: #5A7A4F;
+  --green-soft: #E4ECD9;
+  --amber-soft: #F4DCDE;
+  --neutral-soft: #EDE3E2;
+  --muted-soft: #E8DEDD;
+  --cool: #5A6E7F;
+  --cool-soft: #E5EBF2;
+
+  /* ---- Semantic surfaces (theme-aware) ---- */
+  --footer-bg: #2E1820;
+  --footer-text-base: #FBF3EE;
+  --image-bg: transparent;
+  --divider: #ECDAD8;
+
+  /* ---- Colour: alpha variants (semantic) ---- */
+  --shadow-med: rgba(46, 24, 32, 0.20);
+  --shadow-soft: rgba(46, 24, 32, 0.15);
+  --grain-tortoise: rgba(110, 50, 70, 0.04);
+  --grain-amber: rgba(184, 84, 107, 0.06);
+  --footer-text: rgba(251, 243, 238, 0.6);
+  --footer-text-mute: rgba(251, 243, 238, 0.4);
+
+  /* ---- Typography: families ---- */
+  --font-serif: 'Fraunces', serif;
+  --font-sans: 'DM Sans', sans-serif;
+
+  /* ---- Typography: weights ---- */
+  --fw-light: 300;
+  --fw-regular: 400;
+
+  /* ---- Typography: scale (+3px global bump, scores held flat) ---- */
+  --text-xs: 14px;
+  --text-sm: 15px;
+  --text-base: 16px;
+  --text-md: 17px;
+  --text-body: 19px;
+  --text-lg: 21px;
+  --text-xl: 22px;
+  --text-2xl: 23px;
+  --text-3xl: 25px;
+  --text-4xl: 35px;
+  --text-h1-mobile: 47px;
+  --text-display: clamp(47px, 6vw, 75px);
+  --text-section: clamp(35px, 4vw, 55px);
+  /* Card score badge is held flat so the number doesn't dominate the type bump */
+  --text-score: 18px;
+}
+
+/* ============ DARK THEME ============ */
+[data-theme="dark"] {
+  /* Surfaces, deep aubergine warm dark */
+  --bg: #1A1014;
+  --bg-card: #251820;
+  --bg-soft: #3A2330;
+  --line: #3A222B;
+  --divider: #3A222B;
+
+  /* Text, lifted warm cream */
+  --ink: #F5E8E2;
+  --ink-soft: #C9A8B0;
+  --ink-mute: #8C6A77;
+
+  /* Accents, brighter raspberry for dark contrast */
+  --amber: #D87893;
+  --amber-deep: #E8859D;
+  --tortoise: #E8859D;
+
+  /* Tier backgrounds, dark-tinted */
+  --green: #8FB07F;
+  --green-soft: #2A3825;
+  --amber-soft: #3D1F2A;
+  --neutral-soft: #2D1F26;
+  --muted-soft: #251A20;
+  --cool: #9AAEC0;
+  --cool-soft: #1F2A35;
+
+  /* Semantic surfaces */
+  --footer-bg: #0D070A;
+  --footer-text-base: #F5E8E2;
+  --image-bg: #251820;
+
+  /* Alpha variants */
+  --shadow-med: rgba(0, 0, 0, 0.55);
+  --shadow-soft: rgba(0, 0, 0, 0.4);
+  --grain-tortoise: rgba(232, 133, 157, 0.05);
+  --grain-amber: rgba(216, 120, 147, 0.06);
+  --footer-text: rgba(245, 232, 226, 0.6);
+  --footer-text-mute: rgba(245, 232, 226, 0.4);
+}
+
+/* Formula numerals, dark-mode inversion (pastel text on dark warm chip) */
+[data-theme="dark"] .formula-num--1 { background: #4A2E22; color: #F4D8C5; }
+[data-theme="dark"] .formula-num--2 { background: #2E4226; color: #DDE6D0; }
+[data-theme="dark"] .formula-num--3 { background: #3D262B; color: #EBD9D8; }
+[data-theme="dark"] .formula-num--4 { background: #4A2F1C; color: #F5E6C8; }
+[data-theme="dark"] .formula-num--5 { background: #4A3D1E; color: #EFE0B8; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: var(--text-body);
+  overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+body, .frame-card, .formula-diagram, footer, .view-toggle, .frame-image, .frame-score, .formula-num, .tag {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ============ HERO ============ */
+.hero {
+  padding: 80px 0 80px;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 30%, var(--grain-amber) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, var(--grain-tortoise) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-intro {
+  max-width: 760px;
+  margin-bottom: 56px;
+  position: relative;
+}
+
+.eyebrow {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--fw-regular);
+  font-size: var(--text-md);
+  letter-spacing: 0.08em;
+  color: var(--amber-deep);
+  text-transform: lowercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--amber-deep);
+}
+
+h1 {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-light);
+  font-size: var(--text-display);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 20px;
+  font-variation-settings: "SOFT" 50;
+}
+
+h1 em {
+  font-style: normal;
+  font-weight: inherit;
+  color: inherit;
+  font-variation-settings: inherit;
+}
+
+/* ============ SECTION ============ */
+section {
+  padding: 100px 0;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+
+.section-head {
+  margin-bottom: 60px;
+  max-width: 760px;
+}
+
+h2 {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-light);
+  font-size: var(--text-section);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+
+h2 em {
+  font-style: normal;
+  color: inherit;
+}
+
+/* ============ FORMULA ============ */
+.formula-diagram {
+  background: transparent;
+  border: none;
+  padding: 0;
+  position: relative;
+}
+
+.formula-callouts {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  justify-content: center;
+}
+
+.formula-callout {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px 28px;
+  grid-column: span 2;
+}
+
+.formula-callout:nth-child(4) { grid-column: 2 / span 2; }
+.formula-callout:nth-child(5) { grid-column: 4 / span 2; }
+
+.formula-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+  font-weight: var(--fw-regular);
+  margin-bottom: 16px;
+}
+
+/* Pastel palette per criterion, stacked over a fully opaque white base */
+.formula-num--1 { background: linear-gradient(#F4D8C5, #F4D8C5), #FFFFFF; color: #6E4220; }  /* warm frame, peach */
+.formula-num--2 { background: linear-gradient(#DDE6D0, #DDE6D0), #FFFFFF; color: #5A7A4F; }  /* soft cat-eye, sage */
+.formula-num--3 { background: linear-gradient(#EBD9D8, #EBD9D8), #FFFFFF; color: #7A4F58; }  /* medium-large, mauve */
+.formula-num--4 { background: linear-gradient(#F5E6C8, #F5E6C8), #FFFFFF; color: #8B5A2B; }  /* warm lens tint, honey */
+.formula-num--5 { background: linear-gradient(#EFE0B8, #EFE0B8), #FFFFFF; color: #8B6F3E; }  /* gold accents, gold */
+
+.formula-label {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-xl);
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.formula-desc {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* ============ GRID ============ */
+.frames-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 28px;
+  align-items: start;
+}
+
+.frame-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.frame-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px var(--shadow-med);
+}
+
+.frame-image {
+  aspect-ratio: 4/3;
+  background: var(--image-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.frame-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Square-ish and moderately-wide source photos, contain with white letterbox so the frame isn't over-cropped */
+.frame-image.is-contained {
+  background: #FFFFFF;
+}
+
+.frame-image.is-contained img {
+  object-fit: contain;
+}
+
+.frame-score {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #FFFFFF;
+  font-family: var(--font-serif);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-score);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: #2E1820;
+  letter-spacing: -0.02em;
+}
+
+/* Tier chips, hard-coded opaque pastels so they stay stable in both themes */
+.frame-score.tier-0 { background: #EFE0B8; color: #6B4F1F; }
+.frame-score.tier-1 { background: #E4ECD9; color: #5A7A4F; }
+.frame-score.tier-2 { background: #F4DCDE; color: #8B3A4D; }
+.frame-score.tier-3 { background: #EDE3E2; color: #6F4855; }
+.frame-score.tier-4 { background: #E8DEDD; color: #A07887; }
+
+.frame-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.frame-name {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-regular);
+  font-size: var(--text-3xl);
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.frame-name em { font-style: normal; color: inherit; }
+
+.frame-tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-base);
+  color: var(--amber-deep);
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+}
+
+.frame-pros-cons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.frame-pros-cons .proscons-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-base);
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  text-transform: lowercase;
+}
+
+.frame-pros-cons .pros .proscons-label { color: var(--green); }
+.frame-pros-cons .cons .proscons-label { color: var(--amber-deep); }
+
+.frame-pros-cons ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.frame-pros-cons li {
+  font-size: var(--text-base);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  padding-left: 28px;
+  position: relative;
+  margin-bottom: 10px;
+  min-height: 20px;
+}
+
+.frame-pros-cons li::before {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #FFFFFF;
+}
+
+.frame-pros-cons .pros li::before {
+  content: '✓';
+  background: var(--green);
+}
+
+.frame-pros-cons .cons li::before {
+  content: '−';
+  background: var(--amber);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.frame-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.tag {
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+  border-radius: 100px;
+  text-transform: lowercase;
+}
+
+.tag.warm { background: var(--amber-soft); color: var(--amber-deep); }
+.tag.cool { background: var(--cool-soft); color: var(--cool); }
+.tag.shape { background: var(--green-soft); color: var(--green); }
+
+/* ============ VIEW TOGGLE ============ */
+.view-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 4px;
+  box-shadow: 0 4px 16px var(--shadow-soft);
+}
+
+.view-toggle button {
+  background: transparent;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 100px;
+  cursor: pointer;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+  padding: 0;
+}
+
+.view-toggle button:hover {
+  color: var(--tortoise);
+}
+
+.view-toggle button.active {
+  background: var(--tortoise);
+  color: var(--bg);
+}
+
+.view-toggle button.active:hover {
+  color: var(--bg);
+}
+
+.view-toggle svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.toggle-divider {
+  width: 1px;
+  background: var(--divider);
+  margin: 4px 2px;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+/* Theme toggle icon visibility */
+.view-toggle .icon-sun { display: none; }
+.view-toggle .icon-moon { display: block; }
+[data-theme="dark"] .view-toggle .icon-sun { display: block; }
+[data-theme="dark"] .view-toggle .icon-moon { display: none; }
+
+/* Compact mode, hide pros/cons and tags */
+body.descriptions-hidden .frame-pros-cons,
+body.descriptions-hidden .frame-tags {
+  display: none;
+}
+
+body.descriptions-hidden .frame-body {
+  padding-bottom: 18px;
+}
+
+/* ============ GRID MODE, denser 4-column layout ============ */
+body.grid-mode .frames-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 20px;
+}
+
+/* Grid mode hides the tagline too, only photo + score + heart + name remain */
+body.grid-mode .frame-tagline { display: none; }
+
+body.grid-mode .frame-body {
+  padding: 16px 18px 18px;
+}
+
+body.grid-mode .frame-name {
+  font-size: 18px;
+  margin-bottom: 0;
+}
+
+/* Scale score chip down so it doesn't dominate the smaller image */
+body.grid-mode .frame-score {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  top: 12px;
+  right: 12px;
+}
+
+/* Heart shrinks and re-anchors next to the smaller score chip */
+body.grid-mode .fav-btn {
+  width: 32px;
+  height: 32px;
+  top: 18px;
+  right: 62px;
+}
+
+body.grid-mode .fav-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 1200px) {
+  body.grid-mode .frames-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  body.grid-mode .frames-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 14px; }
+  body.grid-mode .frame-body { padding: 12px 14px 14px; }
+  body.grid-mode .frame-name { font-size: 16px; }
+  body.grid-mode .frame-score { width: 38px; height: 38px; font-size: 16px; top: 10px; right: 10px; }
+  body.grid-mode .fav-btn { width: 28px; height: 28px; top: 15px; right: 54px; }
+  body.grid-mode .fav-btn svg { width: 14px; height: 14px; }
+}
+@media (max-width: 420px) {
+  body.grid-mode .frames-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* ============ FAVOURITES ============ */
+.fav-btn {
+  position: absolute;
+  top: 24px;
+  right: 80px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6F4855;
+  padding: 0;
+  z-index: 2;
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.fav-btn:hover {
+  transform: scale(1.08);
+  color: #C8455A;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.fav-btn:active { transform: scale(0.95); }
+
+.fav-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.2s ease;
+}
+
+.fav-btn.is-fav {
+  color: #C8455A;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.fav-btn.is-fav svg { fill: #C8455A; }
+
+[data-theme="dark"] .fav-btn {
+  background: rgba(40, 28, 32, 0.7);
+  color: #E8C9CF;
+}
+
+[data-theme="dark"] .fav-btn:hover,
+[data-theme="dark"] .fav-btn.is-fav {
+  background: rgba(40, 28, 32, 0.9);
+  color: #E26B7E;
+}
+
+[data-theme="dark"] .fav-btn.is-fav svg { fill: #E26B7E; }
+
+@keyframes fav-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.28); }
+  100% { transform: scale(1); }
+}
+.fav-btn.is-popping { animation: fav-pop 0.35s ease; }
+
+/* Favourites filter button + count badge */
+#fav-filter { position: relative; }
+#fav-filter svg { fill: none; }
+#fav-filter.has-favs:not(.active) { color: #C8455A; }
+#fav-filter.has-favs:not(.active) svg { fill: #C8455A; }
+#fav-filter.active { color: var(--bg); }
+#fav-filter.active svg { fill: var(--bg); stroke: var(--bg); }
+[data-theme="dark"] #fav-filter.has-favs:not(.active) { color: #E26B7E; }
+[data-theme="dark"] #fav-filter.has-favs:not(.active) svg { fill: #E26B7E; }
+
+.fav-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #C8455A;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  padding: 0 4px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#fav-filter.has-favs .fav-count { display: flex; }
+
+/* Favourites-only mode hides non-favourite cards */
+body.favourites-only .frame-card:not(.is-fav) { display: none; }
+
+/* Empty state when favourites filter is on but no favourites yet */
+.favs-empty {
+  display: none;
+  text-align: center;
+  padding: 80px 20px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+.favs-empty .favs-empty-heart {
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: #C8455A;
+}
+body.favourites-only.no-favs .favs-empty { display: block; }
+body.favourites-only.no-favs .frames-grid { display: none; }
+
+@media (max-width: 560px) {
+  .view-toggle { top: 16px; right: 16px; padding: 3px; }
+  .view-toggle button { width: 34px; height: 34px; }
+}
+
+/* ============ FOOTER ============ */
+footer {
+  padding: 80px 0 60px;
+  text-align: center;
+  background: var(--footer-bg);
+  color: var(--footer-text-base);
+}
+
+footer h3 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--fw-light);
+  font-size: var(--text-4xl);
+  margin-bottom: 16px;
+}
+
+footer p {
+  font-size: var(--text-md);
+  color: var(--footer-text);
+  max-width: 480px;
+  margin: 0 auto 24px;
+}
+
+footer .meta {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-sm);
+  color: var(--footer-text-mute);
+  letter-spacing: 0.1em;
+  margin-top: 32px;
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-intro > * {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero-intro > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-intro > *:nth-child(2) { animation-delay: 0.2s; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1024px) {
+  .frames-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .formula-callouts { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .formula-callout,
+  .formula-callout:nth-child(4),
+  .formula-callout:nth-child(5) { grid-column: auto; }
+  .formula-diagram { padding: 0; }
+  section { padding: 60px 0; }
+  .container { padding: 0 20px; }
+}
+
+@media (max-width: 560px) {
+  .formula-callouts { grid-template-columns: 1fr; gap: 16px; }
+  .formula-callout { padding: 24px 22px; }
+  .formula-diagram { padding: 0; }
+  .frames-grid { grid-template-columns: 1fr; gap: 24px; }
+  .frame-pros-cons { gap: 14px; }
+  .hero { padding: 60px 0 60px; }
+  h1 { font-size: var(--text-h1-mobile); }
+}
+</style>
+<script>
+/* Pre-render theme init, prevents flash of wrong theme */
+(function() {
+  try {
+    var saved = localStorage.getItem('eyewear-theme');
+    var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = saved || (prefers ? 'dark' : 'light');
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+<style>
+  .studio-appbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px;background:rgba(251,243,238,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  [data-theme="dark"] .studio-appbar{background:rgba(26,16,20,.9)}
+  .studio-appbar .wm{font-family:'Fraunces',serif;font-size:18px;color:var(--ink);text-decoration:none}
+  .studio-appbar .wm b{font-weight:600}.studio-appbar .wm em{font-style:normal;color:inherit}.studio-appbar .wm .d{color:#A06A42}
+  .studio-appbar .r{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--ink-mute)}
+  .studio-sess{background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink-soft);white-space:nowrap}
+  .studio-tpo{font-family:'Fraunces',serif;font-style:italic;color:var(--ink-mute);white-space:nowrap}.studio-tpo .d{color:#A06A42;font-style:normal}
+  .studio-steps{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:9px 22px;background:rgba(255,255,255,.35);border-bottom:1px solid var(--line);font-size:12px;color:var(--ink-mute)}
+  [data-theme="dark"] .studio-steps{background:rgba(255,255,255,.04)}
+  .studio-steps .s{display:flex;align-items:center;gap:7px;padding:3px 5px}
+  .studio-steps .s .n{font-size:11px;font-weight:600;color:var(--ink-mute)}
+  .studio-steps .s.done .n{color:var(--green)}
+  .studio-steps .s.active{color:var(--ink)}.studio-steps .s.active .n{color:var(--amber)}
+  .studio-steps .sep{opacity:.4}
+  .hero-sub{font-size:17px;color:var(--ink-soft);max-width:60ch;margin-top:14px}
+  .studio-override-hint{font-size:13.5px;color:var(--ink-mute);max-width:70ch;margin:-6px 0 22px}
+  /* stock badge on card image */
+  .stock-badge{position:absolute;left:14px;bottom:14px;z-index:3;display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:500;color:var(--ink);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+  [data-theme="dark"] .stock-badge{background:rgba(37,24,32,.92);color:var(--ink)}
+  .stock-badge .d{width:7px;height:7px;border-radius:999px;background:var(--green)}
+  .stock-badge.low .d{background:#C9992E}
+  .stock-badge.out .d{background:var(--ink-mute)}
+  /* optician override control, icon buttons */
+  .ovr-ctl{margin-top:14px}
+  .ovr-ctl .lab{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute);margin-bottom:8px}
+  .ovr-ctl .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .ovr-ctl button{font-family:inherit;width:38px;height:38px;padding:0;display:grid;place-items:center;font-size:16px;line-height:1;cursor:pointer;border-radius:999px;border:1px solid var(--line);background:var(--bg-card);color:var(--ink-mute);transition:.15s}
+  .ovr-ctl button:hover{border-color:var(--amber);color:var(--amber)}
+  .ovr-ctl button.on-loved{background:var(--green);border-color:transparent;color:#fff}
+  .ovr-ctl button.on-refused{background:#8B3A4D;border-color:transparent;color:#fff}
+  .ovr-ctl button.on-onface{background:#B08A4F;border-color:transparent;color:#fff}
+  /* card reacts to the client's verdict */
+  .frame-card{transition:opacity .2s ease, box-shadow .2s ease}
+  .frame-card.is-loved{box-shadow:0 0 0 2px var(--green),0 12px 28px var(--shadow-soft)}
+  .frame-card.is-out{opacity:.48}
+  .frame-card.is-out:hover{opacity:1}
+  .frame-card.is-loved .frame-image::after{content:'\2665';position:absolute;top:12px;left:12px;z-index:4;width:30px;height:30px;border-radius:999px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:14px;box-shadow:0 4px 12px rgba(90,122,79,.45)}
+  /* CTA guardrail state */
+  .studio-actionbar .go.is-off{opacity:.5}
+  .studio-actionbar{position:sticky;bottom:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 22px;background:rgba(251,243,238,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+  [data-theme="dark"] .studio-actionbar{background:rgba(26,16,20,.92)}
+  .studio-actionbar .back{font-size:14px;color:var(--ink-mute);text-decoration:none}
+  .studio-actionbar .note{font-size:12.5px;color:var(--ink-mute);margin-right:auto;margin-left:16px}
+  @keyframes meterpulse{0%{transform:scale(1)}30%{transform:scale(1.08)}100%{transform:scale(1)}}
+  .sl-filter.pulse{animation:meterpulse .4s ease}
+  .studio-actionbar .go{font-size:15px;font-weight:500;text-decoration:none;color:#fff;background:var(--amber);padding:11px 22px;border-radius:999px;box-shadow:0 8px 20px rgba(184,84,107,.28);transition:background .2s ease,box-shadow .2s ease}
+  .studio-actionbar .go.full{background:var(--green);box-shadow:0 8px 20px rgba(90,122,79,.32)}
+  /* keep the floating display toggle clear of the new sticky header */
+  /* display toggle docked inside the Fitting sidebar */
+  .sl-side .view-toggle{position:static;width:fit-content;display:inline-flex;justify-content:flex-start;align-items:center;gap:2px;background:var(--bg-card);border:1px solid var(--line);border-radius:999px;padding:5px;margin-bottom:18px;box-shadow:0 4px 12px var(--shadow-soft);top:auto;right:auto}
+  .sl-side .view-toggle button{width:38px;height:38px}
+  .sl-side-label{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute);margin:0 0 8px 2px}
+  /* full-description cards in two columns inside the main column */
+  .sl-main .frames-grid{grid-template-columns:repeat(2,1fr) !important;gap:30px 24px}
+  body.descriptions-hidden .sl-main .frames-grid{grid-template-columns:repeat(3,1fr) !important;gap:24px 18px}
+  @media(max-width:700px){.sl-main .frames-grid{grid-template-columns:1fr !important}}
+  @media(max-width:640px){.studio-steps .lbl{display:none}.studio-sess{display:none}}
+  /* remove favourites entirely */
+  .fav-btn{display:none !important}
+  #fav-filter{display:none !important}
+  .favs-empty{display:none !important}
+  /* shortlist layout with side filter menu */
+  .sl-layout{display:grid;grid-template-columns:232px 1fr;gap:34px;align-items:start}
+  .sl-side{position:sticky;top:150px;margin-top:64px;display:flex;flex-direction:column;gap:6px}
+  .sl-side .sh{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute);margin-bottom:6px;padding-left:6px}
+  .sl-filter{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;font-family:inherit;font-size:14.5px;cursor:pointer;padding:11px 14px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--ink-soft);transition:.15s}
+  .sl-filter:hover{background:var(--bg-soft)}
+  .sl-filter.on{background:var(--bg-card);border-color:var(--line);color:var(--ink);box-shadow:0 4px 12px var(--shadow-soft)}
+  .sl-filter .lft{display:flex;align-items:center;gap:10px}
+  .sl-filter .ico{width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font-size:12px;background:var(--bg-soft);color:var(--ink-mute)}
+  .sl-filter[data-f="loved"] .ico{background:var(--green-soft);color:var(--green)}
+  .sl-filter[data-f="refused"] .ico{background:#F4DCDE;color:#8B3A4D}
+  .sl-filter[data-f="onface"] .ico{background:#F3E7CE;color:#8a6a2f}
+  .sl-filter .cnt{font-size:12.5px;color:var(--ink-mute);background:var(--bg-soft);border-radius:999px;padding:2px 9px;min-width:26px;text-align:center}
+  .sl-filter.on .cnt{background:var(--amber);color:#fff}
+  /* Loved cap reached: whole row goes full green */
+  .sl-filter.maxed{background:var(--green-soft);border-color:var(--green);color:#40573A;font-weight:500;box-shadow:none}
+  .sl-filter.maxed .ico{background:var(--green);color:#fff}
+  .sl-filter.maxed .cnt{background:var(--green);color:#fff}
+  .frame-card[data-hide="1"]{display:none !important}
+  .sl-empty{padding:30px;text-align:center;color:var(--ink-mute);font-size:14px;display:none}
+  /* compact the formula strip in the hero, and pull the rankings up */
+  .hero{padding:26px 0 24px}
+  .hero-intro{margin-bottom:16px}
+  .hero .formula-diagram{margin-top:10px}
+  .hero .formula-callouts{display:flex;flex-wrap:wrap;gap:8px}
+  .hero .formula-callout{display:flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--bg-card)}
+  .hero .formula-num{width:18px;height:18px;min-width:18px;font-size:10.5px;display:grid;place-items:center;border-radius:999px;margin:0}
+  .hero .formula-label{font-size:13px;white-space:nowrap;margin:0}
+  .hero .formula-desc{display:none}
+  /* rankings section sits high, less air around the heading */
+  section{padding:30px 0 60px}
+  .section-head{margin-bottom:22px}
+  /* disabled filters when nothing is tagged */
+  .sl-filter:disabled{opacity:.42;cursor:default}
+  .sl-filter:disabled:hover{background:transparent}
+  @media(max-width:820px){.sl-layout{grid-template-columns:1fr}.sl-side{position:static;flex-direction:row;flex-wrap:wrap;top:auto;margin-bottom:8px}.sl-side .sh{flex-basis:100%}.sl-filter{width:auto}}
+</style>
+<div class="studio-appbar">
+  <a class="wm" href="index.html">Re<em>frame</em><span class="d">.</span></a>
+  <div class="r"><span class="studio-sess">Session #SR-2048 · Camille R.</span><span class="studio-tpo">A Product Office study<span class="d">.</span></span></div>
+</div>
+<div class="studio-steps">
+  <span class="s done"><span class="n">✓</span><span class="lbl">Consent</span></span><span class="sep">›</span>
+  <span class="s done"><span class="n">✓</span><span class="lbl">Capture</span></span><span class="sep">›</span>
+  <span class="s done"><span class="n">✓</span><span class="lbl">Criteria</span></span><span class="sep">›</span>
+  <span class="s done"><span class="n">✓</span><span class="lbl">Profile</span></span><span class="sep">›</span>
+  <span class="s active"><span class="n">5</span><span class="lbl">Shortlist</span></span><span class="sep">›</span>
+  <span class="s"><span class="n">6</span><span class="lbl">Report</span></span>
+</div>
+<!-- DISPLAY CONTROLS -->
+<div class="view-toggle" role="group" aria-label="Display controls">
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+<svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+</svg>
+<svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="12" cy="12" r="4"/>
+<line x1="12" y1="2" x2="12" y2="4"/>
+<line x1="12" y1="20" x2="12" y2="22"/>
+<line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/>
+<line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+<line x1="2" y1="12" x2="4" y2="12"/>
+<line x1="20" y1="12" x2="22" y2="12"/>
+<line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/>
+<line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+</svg>
+</button>
+<span class="toggle-divider" aria-hidden="true"></span>
+<button id="view-compact" class="active" type="button" aria-label="Photos only" title="Photos only">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="3" y="3" width="18" height="18" rx="2.5"/>
+</svg>
+</button>
+<button id="view-full" type="button" aria-label="Show descriptions" title="Show descriptions">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="3" y="3" width="18" height="18" rx="2.5"/>
+<line x1="7" y1="10" x2="17" y2="10"/>
+<line x1="7" y1="14" x2="17" y2="14"/>
+<line x1="7" y1="18" x2="13" y2="18"/>
+</svg>
+</button>
+<button id="view-grid" type="button" aria-label="Compact grid" title="Compact grid">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<rect x="3" y="3" width="8" height="8" rx="1.5"/>
+<rect x="13" y="3" width="8" height="8" rx="1.5"/>
+<rect x="3" y="13" width="8" height="8" rx="1.5"/>
+<rect x="13" y="13" width="8" height="8" rx="1.5"/>
+</svg>
+</button>
+<span class="toggle-divider" aria-hidden="true"></span>
+<button id="fav-filter" type="button" aria-label="Show favourites only" title="Show favourites only" aria-pressed="false">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+</svg>
+<span class="fav-count" aria-hidden="true">0</span>
+</button>
+</div>
+
+<!-- HERO + FORMULA -->
+<header class="hero">
+<div class="hero-grain"></div>
+<div class="container">
+<div class="hero-intro">
+<h1 style="font-size:30px;margin:0">Scored for <em>Camille</em></h1>
+</div>
+<div class="formula-diagram">
+<div class="formula-callouts">
+
+<div class="formula-callout">
+<div class="formula-num formula-num--1">1</div>
+<div class="formula-label">Warm frame</div>
+<p class="formula-desc">Tortoise, champagne, milky pink, cream. Cool whites and greys clash with warm undertones.</p>
+</div>
+
+<div class="formula-callout">
+<div class="formula-num formula-num--2">2</div>
+<div class="formula-label">Soft cat-eye lift</div>
+<p class="formula-desc">Or squared cat-eye with subtle upsweep. Lifts the face. Pure rounds and sharp angles don't.</p>
+</div>
+
+<div class="formula-callout">
+<div class="formula-num formula-num--3">3</div>
+<div class="formula-label">Medium, wider than tall</div>
+<p class="formula-desc">Medium to medium-large, with horizontal extension to balance the face's slight length. Small narrow frames double the length problem.</p>
+</div>
+
+<div class="formula-callout">
+<div class="formula-num formula-num--4">4</div>
+<div class="formula-label">Warm lens tint</div>
+<p class="formula-desc">Brown, amber, honey gradient make brown eyes glow. Cool blue/pink clashes.</p>
+</div>
+
+<div class="formula-callout">
+<div class="formula-num formula-num--5">5</div>
+<div class="formula-label">Gold at the bridge</div>
+<p class="formula-desc">Matches existing jewellery and warm palette. Silver on warm frames reads mismatched.</p>
+</div>
+
+</div>
+</div>
+</div>
+</header>
+<!-- RANKINGS -->
+<section>
+<div class="container">
+<div class="section-head">
+<h2>Every frame, <em>scored</em></h2>
+</div>
+<div class="studio-override-hint">Tag each frame as you try it on. Up to 6 loved frames go on the report. Filter by these on the left.</div>
+<div class="favs-empty" role="status">
+<div class="favs-empty-heart" aria-hidden="true">♡</div>
+No frames tagged yet.
+</div>
+<div class="frames-grid">
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-0">10</div>
+<img alt="Opaque milky pink soft cat-eye" src="images/signal-2026-05-25-105724.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Petal <em>Pink</em></h3>
+<div class="frame-tagline">Opaque milky pink soft cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>On-face: confirmed one of the best of the whole try-on</li>
+<li>Warm opaque milky pink, a clean solid colour that reads soft rather than busy</li>
+<li>Soft cat-eye genuinely lifts the face</li>
+<li>Brown gradient lens makes brown eyes glow without darkening the whole face</li>
+<li>Medium-large but light in visual weight, sits proportionate instead of overwhelming</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">milky pink</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">brown gradient</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-0">10</div>
+<img alt="Translucent pink cat-eye" src="images/1000098319.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Soft <em>Romantic</em></h3>
+<div class="frame-tagline">Translucent pink cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>On-face: confirmed great, reads soft and flattering</li>
+<li>Warm translucent pink, light and clean on the face</li>
+<li>Cat-eye lift</li>
+<li>Dark brown lenses, the right warm tint, without the heavy read a dark lens gives on a bolder frame</li>
+<li>Pairs naturally with a tortoise everyday pair</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">translucent pink</span>
+<span class="tag shape">cat-eye</span>
+<span class="tag">brown gradient</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-0">10</div>
+<img alt="Dark tortoise cat-eye" src="images/1000098317.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">The <em>Classicist</em></h3>
+<div class="frame-tagline">Dark tortoise cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>On-face: confirmed great, the restraint is exactly right</li>
+<li>Dark warm tortoise, the safest palette match</li>
+<li>Soft cat-eye lifts the face</li>
+<li>Brown gradient lens, exactly the recommended tint</li>
+<li>Restrained proportions, sits on the face not on top of it, this is what separates it from the oversized frames that overwhelmed</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">dark tortoise</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">brown gradient</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-1">9.5</div>
+<img alt="Translucent cognac soft cat-eye with gold brow bar" src="images/signal-2026-05-25-001535.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Cognac <em>Bar</em></h3>
+<div class="frame-tagline">Translucent cognac soft cat-eye, gold brow bar</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>On-face: confirmed good, bigger but thin enough that it doesn't overwhelm</li>
+<li>Translucent cognac, deep warm palette match</li>
+<li>Soft cat-eye lifts the face</li>
+<li>Brown gradient lens, exactly the recommended tint</li>
+<li>Gold brow bar, warm-metal anchor and bridge contrast for slightly wide-set eyes</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>A touch larger than the confirmed top three, the only thing holding it a half-point back</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">cognac</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">gold brow bar</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-1">9.5</div>
+<img alt="Honey tortoise soft cat-eye with gold brow bar" src="images/signal-2026-05-25-001019_002.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Tortoise <em>Bar</em></h3>
+<div class="frame-tagline">Honey tortoise soft cat-eye, gold brow bar</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>On-face: confirmed good, bigger but not thick, the shape carries it</li>
+<li>Honey tortoise, the safest warm-palette match</li>
+<li>Soft cat-eye lifts the face</li>
+<li>Brown gradient lens makes brown eyes glow</li>
+<li>Gold brow bar, warm-metal anchor and bridge contrast for slightly wide-set eyes</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Slightly larger than the top three, half a point back on size alone</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">honey tortoise</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">gold brow bar</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-2">9</div>
+<img alt="Milky pink squared cat-eye" src="images/1000098517.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Powder <em>Pink</em></h3>
+<div class="frame-tagline">Milky pink soft squared frame</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm opaque milky pink</li>
+<li>Brown lenses</li>
+<li>Soft squared shape adds horizontal width that balances the face's slight length</li>
+<li>Gold hinge accent does double duty, warm anchor and bridge contrast for slightly wide-set eyes</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>No proper cat-eye upsweep, so it balances the face without actively lifting it</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">milky pink</span>
+<span class="tag shape">soft squared</span>
+<span class="tag">gold accent</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-2">8.5</div>
+<img alt="Cream tortoise soft squared frame" src="images/1000098313.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">The Modern <em>Heirloom</em></h3>
+<div class="frame-tagline">Cream tortoise soft squared frame</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Milky cream tortoise, warm palette match</li>
+<li>Brown gradient lens, makes brown eyes glow</li>
+<li>Soft squared shape adds horizontal width that balances the face's slight length</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>No proper cat-eye upsweep, so it balances the face without actively lifting it</li>
+<li>No metal hardware, nothing to anchor the warmth or give bridge contrast for slightly wide-set eyes</li>
+<li>Large soft-squared frame, not yet worn, watch that the size doesn't overwhelm soft features the way the bolder frames did on-face</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">cream tortoise</span>
+<span class="tag shape">soft squared</span>
+<span class="tag">brown gradient</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-2">8.5</div>
+<img alt="Milky pink with grey lens" src="images/1000098529.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Powder Pink, <em>Grey</em></h3>
+<div class="frame-tagline">Milky pink soft squared, grey lens variant</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm milky pink frame</li>
+<li>Soft squared shape adds horizontal balance for the face's slight length</li>
+<li>Gold hinge accent does double duty, warm anchor and bridge contrast for slightly wide-set eyes</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Grey lenses sit flat against brown eyes, warm tints make them glow</li>
+<li>No proper cat-eye upsweep, balances the face without actively lifting it</li>
+<li>The same frame in brown lenses would land higher</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">milky pink</span>
+<span class="tag shape">soft squared</span>
+<span class="tag">grey lens</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-2">8</div>
+<img alt="Dark tortoise rounded panto with gold temple bar and pale amber lens" src="images/signal-2026-05-25-224117_003.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Honey <em>Aviator</em></h3>
+<div class="frame-tagline">Dark tortoise rounded panto, gold temple bar</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Dark warm tortoise, the safest palette match</li>
+<li>Gold temple bar, exactly the recommended warm-metal anchor</li>
+<li>Rivet detail and darker tortoise through the bridge give natural contrast for slightly wide-set eyes</li>
+<li>Amber lens, warm tint family</li>
+<li>Medium size, sits proportionate on the face</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: interesting, but not as good as The Modern Heirloom, sits a step below it</li>
+<li>Rounded panto shape doesn't lift like a cat-eye, it sits flat across the face instead of opening it up</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">dark tortoise</span>
+<span class="tag shape">rounded panto</span>
+<span class="tag">gold temple</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-3">7.5</div>
+<img alt="Translucent grey rounded square" src="images/1000098304.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Cool <em>Grey</em></h3>
+<div class="frame-tagline">Translucent grey rounded square</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>On-face: liked more than expected, the translucency and colour blend with the face rather than sitting on top of it</li>
+<li>Translucent, not too opaque, which softens the cool tone</li>
+<li>Size sits well on the face</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Cool grey vs warm skin is still a mild palette mismatch, it just isn't the problem it looks like on paper</li>
+<li>Amber lenses run slightly warm against the cool grey frame</li>
+<li>Rounded-square shape doesn't actively lift the face</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag cool">grey</span>
+<span class="tag shape">rounded square</span>
+<span class="tag">translucent</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-3">7.5</div>
+<img alt="Tortoise oval deep honey" src="images/1000098289.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Honey <em>Oval</em></h3>
+<div class="frame-tagline">Deep honey tortoise oval</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Deep honey tortoise palette</li>
+<li>Brown lenses</li>
+<li>Wider than tall, helps balance the face's slight length</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Chunky acetate top rail on a wide oval is exactly the heavy, no-lift profile that disappointed on-face (Vintage Lift, Amber Oval), not yet worn but high risk</li>
+<li>Oval shape doesn't lift like a cat-eye</li>
+<li>Solid lens adds to the visual weight</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">honey tortoise</span>
+<span class="tag shape">rounded oval</span>
+<span class="tag">heavy build risk</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-3">7</div>
+<img alt="Translucent champagne cat-eye frame" src="images/champagne-frame-product.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Riviera <em>Glamour</em></h3>
+<div class="frame-tagline">Translucent champagne soft cat-eye, gold temple</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm translucent champagne, lovely colour</li>
+<li>Soft squared cat-eye with visible upsweep at the outer corners</li>
+<li>Gold temple detail</li>
+<li>Lighter in weight than the other oversized frames, which is why it reads better than they do</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: a bit too big</li>
+<li>Even with the lighter weight it lands below Cool Grey</li>
+<li>Lens is a dusky purple to champagne gradient, the mauve zone sits over the eye and dulls brown eyes rather than warming them</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">champagne</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">purple/champagne lens</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-3">7</div>
+<img alt="Dusty pink soft cat-eye with pink-cream tortoise temples and solid brown lens" src="images/signal-2026-05-26-000219.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Dusty <em>Rose</em></h3>
+<div class="frame-tagline">Dusty pink soft cat-eye, tortoise temples</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm dusty pink, in the confirmed-flattering colour family</li>
+<li>Soft cat-eye shape</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Same bulk and tortoise-temple build as Rose Marble and Toffee Glass, could overwhelm the same way on-face</li>
+<li>Held at 7 for now, undecided, not yet worn so kept above the confirmed-bad pair pending a real try-on</li>
+<li>The lighter, cleaner Petal Pink is the safer version of this idea</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">dusty pink</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">lookalike risk</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-3">7</div>
+<img alt="Cream rounded oval" src="images/1000098511.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Cream <em>Bubble</em></h3>
+<div class="frame-tagline">Cream rounded oval</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm cream palette</li>
+<li>Generous size, avoids the small-frame trap</li>
+<li>Dark grey lens provides bridge contrast despite the pale frame</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Round shape doesn't lift the face and adds roundness without addressing face length</li>
+<li>Chunky acetate top rail competes with soft fair brows</li>
+<li>Grey lenses are flat for brown eyes</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">cream</span>
+<span class="tag shape">round oval</span>
+<span class="tag">grey lens</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-3">7</div>
+<img alt="Honey tortoise rounded square" src="images/1000098307.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Acetate <em>Indie</em></h3>
+<div class="frame-tagline">Honey tortoise rounded square</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Honey tortoise palette, flatters warm skin</li>
+<li>Brown lenses, the recommended tint</li>
+<li>Best lens choice within this frame model</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Same frame model as Heritage Tort, on-face reads small and narrow, sits inside the temples (small-frame trap, amplified by face length)</li>
+<li>Rounded square shape doesn't lift the face like a cat-eye</li>
+<li>Chunky acetate top rail competes with soft fair brows</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">honey tortoise</span>
+<span class="tag shape">rounded square</span>
+<span class="tag">small-frame trap</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6.5</div>
+<img alt="Rose tortoise marbled soft cat-eye with brown gradient lens" src="images/signal-2026-05-25-224117.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Rose <em>Marble</em></h3>
+<div class="frame-tagline">Rose tortoise marbled soft cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm rose tortoise is in the right colour family</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: looks bad. The frame is too big and too strong, and the dark lens dominates the face</li>
+<li>Busy marbled pattern, with cool grey-mauve running through it, reads heavy rather than soft</li>
+<li>The bold medium-large cat-eye that scored well on paper is exactly what overwhelms in reality</li>
+<li>The colour is worth chasing, the fix is the same idea in a lighter, cleaner pink with a less dark lens (see Petal Pink, Soft Romantic)</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">rose tortoise</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">too strong on-face</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6.5</div>
+<img alt="Translucent caramel soft cat-eye with pink-tortoise temples and solid brown lens" src="images/signal-2026-05-25-224117_002.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Toffee <em>Glass</em></h3>
+<div class="frame-tagline">Translucent caramel soft cat-eye, pink-tortoise temple</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Translucent caramel front, deep warm palette match</li>
+<li>Soft cat-eye shape</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Same medium-large bold-acetate and solid-brown-lens build as Rose Marble, expect the same too-strong, overwhelming read on-face</li>
+<li>Not yet worn, demoted on the lookalike risk rather than a confirmed failure</li>
+<li>Try it directly against Petal Pink before committing</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">translucent caramel</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">lookalike risk</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6.5</div>
+<img alt="Nude sharp cat-eye" src="images/1000098283.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Nude <em>Wedge</em></h3>
+<div class="frame-tagline">Nude sharp narrow cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm nude colour</li>
+<li>Brown gradient lenses</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Thin, narrow shape, demoted on a bad feeling about how it would sit on the face</li>
+<li>Too narrow and pointy, small-frame trap</li>
+<li>Sharp angles read hard rather than flattering</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">nude</span>
+<span class="tag shape">sharp cat-eye</span>
+<span class="tag">narrow</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6.5</div>
+<img alt="Translucent champagne sharp cat-eye" src="images/1000098534.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Sharp <em>Champagne</em></h3>
+<div class="frame-tagline">Translucent champagne angular cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm champagne palette</li>
+<li>Warm amber lenses</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: too pale and washed out, no contrast and no personality, frame and lens are both so light that nothing anchors the face</li>
+<li>Sharp angles lift less than a soft cat-eye</li>
+<li>Possibly rescued with stronger makeup (lip and brow), needs verifying before the verdict is final</li>
+<li>Pale frame plus pale lens means no bridge contrast for slightly wide-set eyes</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">champagne</span>
+<span class="tag shape">angular cat-eye</span>
+<span class="tag">needs verifying</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6.5</div>
+<img alt="Tortoise cat-eye with rivets" src="images/1000098292.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Vintage <em>Lift</em></h3>
+<div class="frame-tagline">Tortoise cat-eye with rivets</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Dark warm tortoise palette</li>
+<li>Brown lenses</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: disappointing. Not enough lift, too wide with no real upsweep, so it elongates the face horizontally across the cheekbones instead of opening it up</li>
+<li>Reads too dark and heavy on the face</li>
+<li>Silver rivets are a small temperature mismatch on a warm tortoise frame</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">dark tortoise</span>
+<span class="tag shape">flat cat-eye</span>
+<span class="tag">no lift on-face</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6.5</div>
+<img alt="Tortoise oval orange" src="images/1000098298.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Amber <em>Oval</em></h3>
+<div class="frame-tagline">Orange-toned tortoise oval</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Bright orange-amber tortoise, real colour character</li>
+<li>Brown lenses</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: same disappointment as Vintage Lift, wide with no lift, elongates the face horizontally and reads too dark</li>
+<li>Oval shape doesn't lift like a cat-eye</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">orange tortoise</span>
+<span class="tag shape">oval</span>
+<span class="tag">no lift on-face</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6.5</div>
+<img alt="Burgundy oval" src="images/1000098301.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Wine <em>Oval</em></h3>
+<div class="frame-tagline">Translucent burgundy oval</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm translucent burgundy, in the right colour family</li>
+<li>Confident as a colour-pop pair</li>
+<li>Dark grey lens does at least provide bridge contrast</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Grey lenses sit flat against brown eyes, warm tints make them glow</li>
+<li>Small narrow oval amplifies the face's slight length rather than balancing it</li>
+<li>Pure oval doesn't lift the face</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">burgundy</span>
+<span class="tag shape">oval</span>
+<span class="tag">grey lens</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Translucent tan with green lenses" src="images/1000098310.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Cognac &amp; <em>G15</em></h3>
+<div class="frame-tagline">Translucent tan, green lenses</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm translucent tan, in the right colour family</li>
+<li>Classic G15 olive lenses (quietly-expensive look)</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: looks the same bad as Heritage Tort, the same frame model. Reads small and narrow, sits inside the temples</li>
+<li>Rounded square shape doesn't lift the face like a cat-eye</li>
+<li>G15 is olive-green, not the warm brown that makes brown eyes glow</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">translucent tan</span>
+<span class="tag shape">rounded square</span>
+<span class="tag">small-frame trap</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Chunky tortoise panto with G15 lenses" src="images/signal-2026-05-24-211839.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Heritage <em>Tort</em></h3>
+<div class="frame-tagline">Chunky tortoise panto, G15 lens</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Deep warm tortoise, saturated and rich palette match</li>
+<li>G15 olive lens has a quietly-expensive Oliver Peoples / Garrett Leight register</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: confirmed unflattering, and it looks equally bad next to Cognac & G15 (the same frame model)</li>
+<li>Reads small and narrow, sits inside the temples (small-frame trap, amplified by face length)</li>
+<li>Panto shape doesn't lift the way a cat-eye does</li>
+<li>Chunky acetate top rail competes with soft fair brows</li>
+<li>G15 is olive-green, not the warm brown that makes brown eyes glow</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">deep tortoise</span>
+<span class="tag shape">panto</span>
+<span class="tag">small-frame trap</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Black cat-eye with gold temple detail" src="images/classic-black-product.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Classic <em>Black</em></h3>
+<div class="frame-tagline">Black cat-eye with gold temple</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Generous cat-eye shape (the lifting silhouette)</li>
+<li>Gold temple accent warms the black slightly, the only thing keeping it in play</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>On-face: a bit too big as well</li>
+<li>Black fights warm skin, reads harsh against a warm complexion</li>
+<li>Grey gradient lenses are neutral, not flattering for brown eyes</li>
+<li>Capped at 6 under the colour rule, no warm lens to complete the rescue</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag cool">black</span>
+<span class="tag shape">cat-eye</span>
+<span class="tag">gold accent</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Black soft cat-eye" src="images/1000098286.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Black <em>Cat-Eye</em></h3>
+<div class="frame-tagline">Black soft cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Soft cat-eye is a flattering shape</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Black fights warm skin</li>
+<li>Grey gradient lenses, no warm-tint lift</li>
+<li>No metal accent to pull warmth back, fails the warm-rescue test entirely</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag cool">black</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">grey gradient</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Pale yellow squared" src="images/1000098505.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Lemon <em>Cream</em></h3>
+<div class="frame-tagline">Pale yellow squared cat-eye</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm gold accents</li>
+<li>Brown lenses</li>
+<li>Decent squared cat-eye shape</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Pale lemon is a cool/acid yellow, not the warm mustard or honey that would flatter</li>
+<li>Blends into blonde hair instead of contrasting</li>
+<li>Capped at 6 under the saturated-colour rule for cool/pale yellow</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag cool">pale yellow</span>
+<span class="tag shape">squared</span>
+<span class="tag">gold</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Cream geometric oval" src="images/1000098508.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Geo <em>Beige</em></h3>
+<div class="frame-tagline">Cream geometric oval, silver accent</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm cream tone</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Small narrow shape, small-frame trap</li>
+<li>Silver accent clashes with warm palette</li>
+<li>Grey lens</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">cream</span>
+<span class="tag shape">small geometric</span>
+<span class="tag cool">silver</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Translucent grey cat-eye with blue and pink gradient lens" src="images/cool-pastel-product.jpeg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Cool <em>Pastel</em></h3>
+<div class="frame-tagline">Translucent grey cat-eye, blue-pink gradient lens</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Soft cat-eye shape genuinely lifts the face</li>
+<li>Generous proportions, sits well, no small-frame trap</li>
+<li>Translucent grey is softer than solid black or white</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Cool grey frame doesn't bring warmth to a warm complexion</li>
+<li>Blue and cool-pink lens gradient is the opposite direction of the warm honey or amber that flatters brown eyes</li>
+<li>No metal hardware, nothing to pull warmth back</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag cool">translucent grey</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">blue/pink gradient</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">6</div>
+<img alt="Peach round" src="images/1000098514.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Bubblegum <em>Round</em></h3>
+<div class="frame-tagline">Peach round frame</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Warm peach palette</li>
+<li>Brown lenses</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Pure round shape doesn't lift the face and adds roundness without addressing face length</li>
+<li>Small narrow proportions, small-frame trap that amplifies face length</li>
+<li>No metal hardware to anchor the warmth or give bridge contrast for slightly wide-set eyes</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag warm">peach</span>
+<span class="tag shape">round</span>
+<span class="tag">matte</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">4</div>
+<img alt="White soft cat-eye" src="images/1000098286.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">White <em>Cat-Eye</em></h3>
+<div class="frame-tagline">Same shape, wrong colour</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>Soft cat-eye silhouette would work in another colour</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Stark white fights warm skin</li>
+<li>The same shape in warm tortoise would work beautifully</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag cool">white</span>
+<span class="tag shape">soft cat-eye</span>
+<span class="tag">harsh</span>
+</div>
+</div>
+</article>
+
+
+<article class="frame-card">
+<div class="frame-image">
+<div class="frame-score tier-4">3</div>
+<img alt="White clout goggles" src="images/1000098280.jpg"/>
+</div>
+<div class="frame-body">
+<h3 class="frame-name">Clout <em>Goggles</em></h3>
+<div class="frame-tagline">Chunky white oval</div>
+<div class="frame-pros-cons">
+<div class="pros">
+<div class="proscons-label">Works</div>
+<ul>
+<li>The rounded oval shape itself isn't the problem</li>
+</ul>
+</div>
+<div class="cons">
+<div class="proscons-label">Compromises</div>
+<ul>
+<li>Stark white fights warm skin</li>
+<li>Chunky masculine silhouette doesn't suit a refined oval face</li>
+<li>No warm metal to pull anything back</li>
+</ul>
+</div>
+</div>
+<div class="frame-tags">
+<span class="tag cool">white</span>
+<span class="tag shape">chunky oval</span>
+<span class="tag">no warm rescue</span>
+</div>
+</div>
+</article>
+
+</div></div>
+</section>
+<div class="studio-actionbar">
+  <a class="back" href="04-profile.html">← Profile</a>
+  <span class="note" id="studio-note">Tag frames as you fit them. The report uses the ones the client loved.</span>
+  <a class="go" href="06-report.html">Build client report →</a>
+</div>
+<!-- FOOTER -->
+<footer>
+<div class="container">
+<p class="meta">Reframe · a self-initiated Product Office study</p>
+</div>
+</footer>
+
+<script>
+(function() {
+  var body = document.body;
+  var STORAGE_KEY = 'eyewear-view-2';
+  var DEFAULT_MODE = 'compact';
+  var MODES = {
+    full:    { btn: 'view-full',    classes: [] },
+    compact: { btn: 'view-compact', classes: ['descriptions-hidden'] },
+    grid:    { btn: 'view-grid',    classes: ['descriptions-hidden', 'grid-mode'] }
+  };
+  var MODE_NAMES = Object.keys(MODES);
+
+  // Find a card to anchor the scroll against, the first one visible in the viewport
+  function findAnchor() {
+    var cards = document.querySelectorAll('.frame-card');
+    for (var i = 0; i < cards.length; i++) {
+      var rect = cards[i].getBoundingClientRect();
+      if (rect.bottom > 80) return cards[i];
+    }
+    return null;
+  }
+
+  function applyMode(mode) {
+    if (!MODES[mode]) mode = 'full';
+    // Reset all mode classes, then apply the active set
+    body.classList.remove('descriptions-hidden', 'grid-mode');
+    MODES[mode].classes.forEach(function(cls) { body.classList.add(cls); });
+    // Sync the .active state on the three buttons
+    MODE_NAMES.forEach(function(name) {
+      var btn = document.getElementById(MODES[name].btn);
+      if (btn) btn.classList.toggle('active', name === mode);
+    });
+  }
+
+  function setMode(mode, opts) {
+    opts = opts || {};
+    var anchor = opts.preserveScroll ? findAnchor() : null;
+    var beforeTop = anchor ? anchor.getBoundingClientRect().top : 0;
+
+    applyMode(mode);
+
+    if (anchor) {
+      // Force layout, then offset scroll by the delta so the anchor stays put
+      var afterTop = anchor.getBoundingClientRect().top;
+      var delta = afterTop - beforeTop;
+      if (delta !== 0) {
+        window.scrollBy({ top: delta, left: 0, behavior: 'instant' });
+      }
+    }
+
+    try { localStorage.setItem(STORAGE_KEY, mode); } catch (e) {}
+  }
+
+  MODE_NAMES.forEach(function(name) {
+    var btn = document.getElementById(MODES[name].btn);
+    if (btn) {
+      btn.addEventListener('click', function() {
+        setMode(name, { preserveScroll: true });
+      });
+    }
+  });
+
+  // Restore preference on load, defaulting to the photos-only 3-col view
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    applyMode(saved && MODES[saved] ? saved : DEFAULT_MODE);
+  } catch (e) { applyMode(DEFAULT_MODE); }
+})();
+
+/* Image layout, content-aware. Sample each photo's pixels to find the subject's
+   bounding box, then contain when the subject occupies most of the source (tight
+   crop, would look massive at bleed) or bleed when it's surrounded by whitespace. */
+(function() {
+  var FILL_THRESHOLD = 0.68;    // subject bbox > 68% of source area → contain
+  var BG_TOLERANCE = 40;        // colour distance from background, higher ignores soft shadows
+  var SAMPLE_MAX = 200;         // downsample to this max dim for speed
+
+  function detectFillRatio(img) {
+    try {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      var scale = Math.min(SAMPLE_MAX / img.naturalWidth, SAMPLE_MAX / img.naturalHeight, 1);
+      canvas.width = Math.max(1, Math.floor(img.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.floor(img.naturalHeight * scale));
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+      // Estimate background colour from a small inset of the four corners
+      var inset = Math.max(1, Math.floor(Math.min(canvas.width, canvas.height) * 0.02));
+      var corners = [
+        [inset, inset],
+        [canvas.width - 1 - inset, inset],
+        [inset, canvas.height - 1 - inset],
+        [canvas.width - 1 - inset, canvas.height - 1 - inset]
+      ];
+      var bgR = 0, bgG = 0, bgB = 0;
+      for (var c = 0; c < corners.length; c++) {
+        var ci = (corners[c][1] * canvas.width + corners[c][0]) * 4;
+        bgR += data[ci]; bgG += data[ci + 1]; bgB += data[ci + 2];
+      }
+      bgR /= 4; bgG /= 4; bgB /= 4;
+
+      var minX = canvas.width, maxX = 0, minY = canvas.height, maxY = 0;
+      var subjectCount = 0;
+      for (var y = 0; y < canvas.height; y++) {
+        for (var x = 0; x < canvas.width; x++) {
+          var i = (y * canvas.width + x) * 4;
+          var dr = Math.abs(data[i] - bgR);
+          var dg = Math.abs(data[i + 1] - bgG);
+          var db = Math.abs(data[i + 2] - bgB);
+          if (dr > BG_TOLERANCE || dg > BG_TOLERANCE || db > BG_TOLERANCE) {
+            subjectCount++;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+
+      if (subjectCount < 20) return null;
+      var bboxArea = (maxX - minX + 1) * (maxY - minY + 1);
+      var imageArea = canvas.width * canvas.height;
+      return bboxArea / imageArea;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function applyLayout(img) {
+    if (!img.naturalWidth || !img.naturalHeight) return;
+    var fill = detectFillRatio(img);
+    var shouldContain;
+    if (fill !== null) {
+      shouldContain = fill > FILL_THRESHOLD;
+    } else {
+      // Fallback if canvas access is blocked, only contain very wide tight-crops
+      var ratio = img.naturalWidth / img.naturalHeight;
+      shouldContain = ratio > 1.60;
+    }
+    if (shouldContain) {
+      img.parentElement.classList.add('is-contained');
+    }
+  }
+
+  document.querySelectorAll('.frame-image img').forEach(function(img) {
+    if (img.complete && img.naturalWidth) {
+      applyLayout(img);
+    } else {
+      img.addEventListener('load', function() { applyLayout(img); });
+    }
+  });
+})();
+
+/* Favourites, persisted to localStorage. Works offline. If the site is later
+   hosted, the same data layer can be swapped for a sync backend without
+   changing the UI surface. */
+(function() {
+  var STORAGE_KEY = 'eyewear-favourites';
+  var body = document.body;
+  var filterBtn = document.getElementById('fav-filter');
+  var countEl = filterBtn ? filterBtn.querySelector('.fav-count') : null;
+
+  function slugify(text) {
+    return (text || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function loadFavs() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      var parsed = JSON.parse(raw);
+      return (parsed && typeof parsed === 'object') ? parsed : {};
+    } catch (e) { return {}; }
+  }
+
+  function saveFavs(favs) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(favs)); } catch (e) {}
+  }
+
+  var favs = loadFavs();
+
+  // Assign a stable data-frame-id from the frame name on each card
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.frame-card'));
+  cards.forEach(function(card, idx) {
+    var nameEl = card.querySelector('.frame-name');
+    var label = nameEl ? nameEl.textContent.trim() : ('frame-' + idx);
+    var id = slugify(label) || ('frame-' + idx);
+    // Disambiguate if two cards slug to the same id
+    if (card.parentNode.querySelector('[data-frame-id="' + id + '"]')) {
+      id = id + '-' + idx;
+    }
+    card.setAttribute('data-frame-id', id);
+  });
+
+  function buildHeartButton(isFav) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fav-btn' + (isFav ? ' is-fav' : '');
+    btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+    btn.setAttribute('aria-label', isFav ? 'Remove from favourites' : 'Add to favourites');
+    btn.setAttribute('title', isFav ? 'Remove from favourites' : 'Add to favourites');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+      '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>' +
+      '</svg>';
+    return btn;
+  }
+
+  function updateCount() {
+    var count = Object.keys(favs).length;
+    if (!filterBtn || !countEl) return;
+    countEl.textContent = String(count);
+    filterBtn.classList.toggle('has-favs', count > 0);
+    if (body.classList.contains('favourites-only')) {
+      body.classList.toggle('no-favs', count === 0);
+    } else {
+      body.classList.remove('no-favs');
+    }
+  }
+
+  // Inject heart on each card, sync visual state with stored favs
+  cards.forEach(function(card) {
+    var id = card.getAttribute('data-frame-id');
+    var image = card.querySelector('.frame-image');
+    if (!image) return;
+    var isFav = !!favs[id];
+    if (isFav) card.classList.add('is-fav');
+    var btn = buildHeartButton(isFav);
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var nowFav = !card.classList.contains('is-fav');
+      card.classList.toggle('is-fav', nowFav);
+      btn.classList.toggle('is-fav', nowFav);
+      btn.setAttribute('aria-pressed', nowFav ? 'true' : 'false');
+      btn.setAttribute('aria-label', nowFav ? 'Remove from favourites' : 'Add to favourites');
+      btn.setAttribute('title', nowFav ? 'Remove from favourites' : 'Add to favourites');
+      // Pop animation, restart by toggling the class
+      btn.classList.remove('is-popping');
+      void btn.offsetWidth;
+      btn.classList.add('is-popping');
+      if (nowFav) {
+        favs[id] = Date.now();
+      } else {
+        delete favs[id];
+      }
+      saveFavs(favs);
+      updateCount();
+    });
+    image.appendChild(btn);
+  });
+
+  // Favourites-only filter toggle
+  if (filterBtn) {
+    filterBtn.addEventListener('click', function() {
+      var on = !body.classList.contains('favourites-only');
+      body.classList.toggle('favourites-only', on);
+      filterBtn.classList.toggle('active', on);
+      filterBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      filterBtn.setAttribute('aria-label', on ? 'Show all frames' : 'Show favourites only');
+      filterBtn.setAttribute('title', on ? 'Show all frames' : 'Show favourites only');
+      updateCount();
+    });
+  }
+
+  // Sync favourites across tabs (and across reloads in the same browser)
+  window.addEventListener('storage', function(e) {
+    if (e.key !== STORAGE_KEY) return;
+    favs = loadFavs();
+    cards.forEach(function(card) {
+      var id = card.getAttribute('data-frame-id');
+      var isFav = !!favs[id];
+      card.classList.toggle('is-fav', isFav);
+      var btn = card.querySelector('.fav-btn');
+      if (btn) {
+        btn.classList.toggle('is-fav', isFav);
+        btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+      }
+    });
+    updateCount();
+  });
+
+  updateCount();
+})();
+
+/* Theme toggle, light <-> dark */
+(function() {
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var THEME_KEY = 'eyewear-theme';
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    btn.setAttribute('title', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  // Initial label sync (pre-render script set the attribute, button label needs to catch up)
+  applyTheme(currentTheme());
+
+  btn.addEventListener('click', function() {
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  });
+
+  // Follow system theme changes if user hasn't explicitly chosen
+  if (window.matchMedia) {
+    var mql = window.matchMedia('(prefers-color-scheme: dark)');
+    var listener = function(e) {
+      try {
+        if (localStorage.getItem(THEME_KEY)) return;
+      } catch (err) {}
+      applyTheme(e.matches ? 'dark' : 'light');
+    };
+    if (mql.addEventListener) mql.addEventListener('change', listener);
+    else if (mql.addListener) mql.addListener(listener);
+  }
+})();
+</script>
+
+<script>
+/* ---- Studio B2B layer: stock signals + fitting tags + side filter ---- */
+(function(){
+  var stock=[
+    {c:'',t:'In stock · 3 colours'},{c:'',t:'In stock · 2 colours'},
+    {c:'low',t:'Low stock · 1 left'},{c:'',t:'In stock'},
+    {c:'out',t:'Order in · 2 days'},{c:'',t:'In stock · 4 colours'}
+  ];
+  var cards=[].slice.call(document.querySelectorAll('.frame-card'));
+  var side, emptyEl, activeFilter='all';
+  var MAX_LOVED=6;
+  function flashLimit(){
+    var n=document.getElementById('studio-note');
+    if(n) n.textContent='6 loved is the max for the report. Remove one to add another.';
+    var lb=document.querySelector('.sl-filter[data-f="loved"]');
+    if(lb){ lb.classList.remove('pulse'); void lb.offsetWidth; lb.classList.add('pulse'); }
+  }
+
+  cards.forEach(function(card,i){
+    var img=card.querySelector('.frame-image');
+    if(img){var s=stock[i%stock.length];var b=document.createElement('div');b.className='stock-badge '+s.c;b.innerHTML='<span class="d"></span>'+s.t;img.appendChild(b);}
+    var body=card.querySelector('.frame-body');
+    if(body){
+      var wrap=document.createElement('div');wrap.className='ovr-ctl';
+      wrap.innerHTML='<div class="lab">Log the fitting</div><div class="opts">'+
+        '<button data-k="loved" title="Client loved" aria-label="Client loved">\u2665</button>'+
+        '<button data-k="refused" title="Client refused" aria-label="Client refused">\u2715</button>'+
+        '<button data-k="onface" title="Didn\u2019t survive on-face" aria-label="Didn\u2019t survive on-face">\u26a0</button></div>';
+      body.appendChild(wrap);
+      wrap.querySelectorAll('button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          var k=btn.getAttribute('data-k');
+          var was=btn.classList.contains('on-'+k);
+          // enforce the report cap: at most 6 loved
+          if(k==='loved' && !was){
+            var lovedNow=cards.filter(function(c){return c.dataset.tag==='loved';}).length;
+            if(lovedNow>=MAX_LOVED){ flashLimit(); return; }
+          }
+          wrap.querySelectorAll('button').forEach(function(b){b.className='';});
+          card.dataset.tag = was ? '' : k;
+          if(!was){btn.className='on-'+k;}
+          var tag=card.dataset.tag;
+          card.classList.remove('is-loved','is-out');
+          if(tag==='loved') card.classList.add('is-loved');
+          else if(tag==='refused'||tag==='onface') card.classList.add('is-out');
+          refresh();
+        });
+      });
+    }
+  });
+
+  // build the side filter menu around the grid
+  var grid=document.querySelector('.frames-grid');
+  var cont=grid.closest('.container');
+  var head=cont.querySelector('.section-head');
+  var hint=cont.querySelector('.studio-override-hint');
+  var fe=cont.querySelector('.favs-empty'); if(fe) fe.remove();
+  var main=document.createElement('div'); main.className='sl-main';
+  if(head) main.appendChild(head);
+  if(hint) main.appendChild(hint);
+  main.appendChild(grid);
+  emptyEl=document.createElement('div'); emptyEl.className='sl-empty'; emptyEl.textContent='No frames tagged here yet.';
+  main.appendChild(emptyEl);
+  side=document.createElement('aside'); side.className='sl-side';
+  side.innerHTML='<div class="sh">Fitting</div>'+
+    fbtn('all','\u25CD','All frames',cards.length)+
+    fbtn('loved','\u2665','Loved',0)+
+    fbtn('refused','\u2715','Refused',0)+
+    fbtn('onface','\u26A0','Didn\u2019t survive',0);
+  // dock the display toggle at the top of the sidebar; drop the dense grid + favourites buttons
+  var vt=document.querySelector('.view-toggle');
+  if(vt){
+    var g=document.getElementById('view-grid'); if(g) g.remove();
+    var ff=document.getElementById('fav-filter'); if(ff) ff.remove();
+    var divs=vt.querySelectorAll('.toggle-divider'); if(divs.length>1) divs[divs.length-1].remove();
+    var dl=document.createElement('div'); dl.className='sl-side-label'; dl.textContent='Display';
+    side.insertBefore(vt, side.firstChild);
+    side.insertBefore(dl, vt);
+  }
+  cont.classList.add('sl-layout');
+  cont.appendChild(side); cont.appendChild(main);
+  side.querySelectorAll('.sl-filter').forEach(function(b){b.addEventListener('click',function(){setFilter(b.getAttribute('data-f'));});});
+  setFilter('all');
+  refresh();
+
+  function fbtn(f,ico,label,c){return '<button class="sl-filter" data-f="'+f+'"><span class="lft"><span class="ico">'+ico+'</span>'+label+'</span><span class="cnt" data-cnt="'+f+'">'+c+'</span></button>';}
+  function setFilter(f){
+    activeFilter=f;
+    side.querySelectorAll('.sl-filter').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-f')===f);});
+    var shown=0;
+    cards.forEach(function(c){var tag=c.dataset.tag||'';var show=(f==='all')||(tag===f);c.dataset.hide=show?'0':'1';if(show)shown++;});
+    if(emptyEl) emptyEl.style.display = shown===0 ? 'block':'none';
+  }
+  function refresh(){
+    var counts={loved:0,refused:0,onface:0};
+    cards.forEach(function(c){var t=c.dataset.tag;if(t&&counts[t]!==undefined)counts[t]++;});
+    ['loved','refused','onface'].forEach(function(k){
+      var el=side.querySelector('[data-cnt="'+k+'"]'); if(el) el.textContent = (k==='loved') ? (counts.loved+' / '+MAX_LOVED) : counts[k];
+      var btn=side.querySelector('.sl-filter[data-f="'+k+'"]'); if(btn) btn.disabled=(counts[k]===0);
+    });
+    var lovedBtn=side.querySelector('.sl-filter[data-f="loved"]'); if(lovedBtn) lovedBtn.classList.toggle('maxed', counts.loved>=MAX_LOVED);
+    if(activeFilter!=='all'){var ab=side.querySelector('.sl-filter[data-f="'+activeFilter+'"]'); if(ab && ab.disabled) activeFilter='all';}
+    // CTA count + guardrail, and a helpful note
+    var go=document.querySelector('.studio-actionbar .go');
+    if(go){ go.textContent = counts.loved ? ('Build report · '+counts.loved+' loved →') : 'Build report →'; go.classList.toggle('is-off', counts.loved===0); go.classList.toggle('full', counts.loved>=MAX_LOVED); }
+    var note=document.getElementById('studio-note');
+    if(note){ note.textContent = counts.loved ? (counts.loved+(counts.loved>1?' frames':' frame')+' loved. Build the report when you are ready.') : 'Tag frames as you fit them. The report uses the ones the client loved.'; }
+    persistSession();
+    setFilter(activeFilter);
+  }
+
+  // Persist the whole ranked set (with a loved flag) so the report can show the
+  // loved frames plus top-scored fillers up to 6.
+  function persistSession(){
+    var all=cards.map(function(c){
+      var nm=c.querySelector('.frame-name'), tl=c.querySelector('.frame-tagline'),
+          im=c.querySelector('.frame-image img'), sc=c.querySelector('.frame-score'),
+          rs=c.querySelector('.pros li');
+      return {
+        name: nm?nm.textContent.trim():'',
+        tagline: tl?tl.textContent.trim():'',
+        img: im?im.getAttribute('src'):'',
+        score: sc?sc.textContent.trim():'',
+        reason: rs?(function(t){t=t.replace(/^On-face:\s*/i,'');return t?t.charAt(0).toUpperCase()+t.slice(1):'';})(rs.textContent.trim()):'',
+        loved: c.dataset.tag==='loved'
+      };
+    });
+    all.sort(function(a,b){return (parseFloat(b.score)||0)-(parseFloat(a.score)||0);});
+    try{ localStorage.setItem('reframe-session', JSON.stringify(all)); }catch(e){}
+  }
+
+  var goBtn=document.querySelector('.studio-actionbar .go');
+  if(goBtn){ goBtn.addEventListener('click',function(e){
+    var loved=cards.filter(function(c){return c.dataset.tag==='loved';}).length;
+    if(loved===0){ e.preventDefault(); var n=document.getElementById('studio-note'); if(n) n.textContent='Mark at least one frame as loved to build the report.'; }
+  }); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurofenix Clinical Analytics, Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple-900: #2E1450; --purple-800: #3D1A6E; --purple-700: #5B2D8E;
+    --purple-600: #7040A8; --purple-500: #8B5FBF; --purple-400: #A67ED4;
+    --purple-300: #C5A3E6; --purple-200: #DCC5F0; --purple-100: #EDE0F7; --purple-50: #F6F0FB;
+    --bg-page: #F4F1F8; --bg-white: #FFFFFF; --bg-card: #FFFFFF;
+    --bg-sidebar: var(--purple-900); --bg-sidebar-hover: rgba(255,255,255,0.08);
+    --bg-sidebar-active: rgba(255,255,255,0.15); --bg-input-sidebar: rgba(255,255,255,0.10);
+    --border-sidebar: rgba(255,255,255,0.08);
+    --text-primary: #0F0A18; --text-strong: #000000; --text-secondary: #4A3D5E; --text-muted: #6E6280;
+    --text-sidebar: rgba(255,255,255,0.95); --text-sidebar-muted: rgba(255,255,255,0.75);
+    --status-exceeded: #0E8A74; --status-exceeded-bg: #E6FAF6; --status-exceeded-card: #E0F7F3;
+    --status-good: #198A63; --status-good-bg: #E8F8F0; --status-good-card: #E2F5EC;
+    --status-slight: #9A6D0F; --status-slight-bg: #FFF6E0; --status-slight-card: #FFF3D6;
+    --status-low: #C53D4A; --status-low-bg: #FDE8EA; --status-low-card: #FCE0E3;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --space-xs: 4px; --space-sm: 8px; --space-md: 16px; --space-lg: 24px; --space-xl: 32px;
+    --radius-sm: 6px; --radius-base: 10px; --radius-lg: 12px;
+    --shadow-card: 0 1px 4px rgba(46,20,80,0.05), 0 2px 8px rgba(46,20,80,0.03);
+    --shadow-elevated: 0 4px 16px rgba(46,20,80,0.08);
+    --shadow-topbar: 0 1px 3px rgba(46,20,80,0.04);
+    --border-light: #E8E0F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--bg-page); color: var(--text-primary); min-height: 100vh; display: flex; -webkit-font-smoothing: antialiased; }
+  :focus-visible { outline: 2px solid var(--purple-500); outline-offset: 2px; border-radius: var(--radius-sm); }
+
+  /* ═══════════ SIDEBAR (250px) ═══════════ */
+  .sidebar { width: 250px; min-height: 100vh; background: var(--bg-sidebar); display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-brand { padding: var(--space-lg) var(--space-md); border-bottom: 1px solid var(--border-sidebar); display: flex; align-items: center; gap: 11px; }
+  .sidebar-brand a { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .sidebar-logo { width: 34px; height: 34px; border-radius: var(--radius-sm); }
+  .sidebar-brand-name { font-size: 14px; font-weight: 700; color: var(--text-sidebar); }
+  .sidebar-brand-sub { font-size: 10px; color: var(--text-sidebar-muted); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+  .sidebar-user { padding: 14px var(--space-md); border-bottom: 1px solid var(--border-sidebar); display: flex; align-items: center; gap: var(--space-sm); }
+  .sidebar-user-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--purple-700); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: white; }
+  .sidebar-user-name { font-size: 12px; font-weight: 500; color: var(--text-sidebar); }
+  .sidebar-user-role { font-size: 10px; color: var(--text-sidebar-muted); }
+  .sidebar-nav { padding: var(--space-sm); }
+  .sidebar-nav-item { display: flex; align-items: center; gap: 10px; padding: var(--space-sm) 10px; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.15s; font-size: 13px; color: var(--text-sidebar-muted); text-decoration: none; border: none; background: none; width: 100%; font-family: var(--font-body); }
+  .sidebar-nav-item:hover { background: var(--bg-sidebar-hover); color: var(--text-sidebar); }
+  .sidebar-nav-item.active { background: var(--bg-sidebar-active); color: white; font-weight: 600; }
+  .sidebar-nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* ═══════════ MAIN ═══════════ */
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .topbar { padding: 14px var(--space-lg); display: flex; align-items: center; justify-content: space-between; background: var(--bg-white); box-shadow: var(--shadow-topbar); }
+  .topbar-left { display: flex; align-items: center; gap: var(--space-lg); }
+  h1.topbar-title { font-size: 20px; font-weight: 800; color: var(--text-strong); letter-spacing: -0.02em; margin: 0; }
+  .topbar-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: 1px; }
+  .topbar-controls { display: flex; align-items: center; gap: var(--space-sm); }
+
+  .global-search { position: relative; }
+  .global-search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--text-muted); }
+  .global-search input { width: 220px; padding: 7px 10px 7px 32px; background: var(--bg-page); border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--text-primary); font-size: 12px; font-family: var(--font-body); outline: none; transition: border-color 0.15s, width 0.2s; }
+  .global-search input::placeholder { color: var(--text-muted); }
+  .global-search input:focus { border-color: var(--purple-300); width: 280px; }
+
+  .search-results {
+    display: none; position: absolute; top: 100%; left: 0; margin-top: 4px;
+    width: 280px; max-height: 240px; overflow-y: auto;
+    background: var(--bg-white); border-radius: var(--radius-base);
+    box-shadow: var(--shadow-elevated); z-index: 200;
+  }
+  .search-results.open { display: block; }
+  .search-results-empty { padding: 12px 14px; font-size: 12px; color: var(--text-muted); text-align: center; }
+  .search-result-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px; font-size: 12px; color: var(--text-primary);
+    cursor: pointer; border: none; background: none; width: 100%;
+    font-family: var(--font-body); text-align: left;
+  }
+  .search-result-item:hover { background: var(--purple-50); }
+  .search-result-item .sr-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .search-result-item .sr-name { font-weight: 500; }
+  .search-result-item .sr-tier { font-size: 10px; color: var(--text-muted); margin-left: auto; }
+
+  .control-btn { display: flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--bg-white); border: none; border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer; font-family: var(--font-body); font-weight: 500; box-shadow: var(--shadow-card); transition: all 0.15s; }
+  .control-btn:hover { color: var(--purple-600); box-shadow: var(--shadow-elevated); }
+  .control-btn.toggled { background: var(--purple-50); color: var(--purple-600); }
+  .control-btn svg { width: 14px; height: 14px; }
+
+  .control-dropdown-wrap { position: relative; }
+  .control-dropdown { display: flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--purple-50); border: none; border-radius: var(--radius-sm); font-size: 12px; color: var(--text-primary); cursor: pointer; font-family: var(--font-body); font-weight: 600; }
+  .control-dropdown svg { width: 12px; height: 12px; color: var(--text-muted); }
+
+  .dropdown-menu {
+    display: none; position: absolute; top: 100%; right: 0; margin-top: 4px;
+    background: var(--bg-white); border-radius: var(--radius-base);
+    box-shadow: var(--shadow-elevated); min-width: 180px; z-index: 100; overflow: hidden;
+  }
+  .dropdown-menu.open { display: block; }
+  .dropdown-option {
+    display: block; width: 100%; padding: 10px 14px;
+    font-size: 12px; font-family: var(--font-body); color: var(--text-primary);
+    background: none; border: none; cursor: pointer; text-align: left;
+  }
+  .dropdown-option:hover { background: var(--purple-50); }
+  .dropdown-option.active { color: var(--purple-600); font-weight: 600; background: var(--purple-50); }
+
+  /* ═══════════ DASHBOARD ═══════════ */
+  .dashboard { flex: 1; padding: var(--space-lg); overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-md); }
+
+  h2.section-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 0; }
+  h2.section-title span { color: var(--text-muted); font-weight: 400; margin-left: 4px; font-size: 13px; }
+
+  /* Tier cards */
+  .tier-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .tier-card { border-radius: var(--radius-base); padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 6px; transition: box-shadow 0.2s; }
+  .tier-card:hover { box-shadow: var(--shadow-elevated); }
+  .tier-card.exceeded { background: var(--status-exceeded-card); }
+  .tier-card.good { background: var(--status-good-card); }
+  .tier-card.slight { background: var(--status-slight-card); }
+  .tier-card.low { background: var(--status-low-card); }
+  .tier-card-label { font-size: 14px; font-weight: 700; color: var(--text-strong); }
+  .tier-card-main { display: flex; align-items: baseline; justify-content: space-between; margin-top: var(--space-xs); }
+  .tier-card-count { font-size: 36px; font-weight: 800; color: var(--text-strong); letter-spacing: -0.03em; line-height: 1; }
+  .tier-card-right { display: flex; align-items: center; gap: 6px; }
+  .tier-sparkline { display: flex; align-items: flex-end; gap: 1px; height: 20px; }
+  .tier-sparkline-bar { width: 3px; border-radius: 1.5px; }
+  .tier-pct { font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: var(--text-primary); }
+  .tier-trending { font-size: 11px; font-weight: 700; color: var(--status-low); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+  .tier-trending svg { width: 12px; height: 12px; }
+
+  /* Patient columns */
+  .patient-columns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; overflow: hidden; max-height: 600px; transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.4s ease; opacity: 1; }
+  .patient-columns.hidden { max-height: 0; opacity: 0; margin-top: -12px; margin-bottom: -12px; }
+  .patient-col-header { display: flex; align-items: center; gap: 6px; padding: var(--space-sm) 0 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-primary); border-bottom: 2px solid var(--border-light); margin-bottom: var(--space-xs); }
+  .patient-col-header .col-dot { width: 8px; height: 3px; border-radius: 1.5px; }
+  .patient-col-item { display: flex; align-items: center; gap: 7px; padding: 5px 6px; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.15s; font-size: 12px; color: var(--text-primary); text-decoration: none; position: relative; }
+  .patient-col-item:hover { background: var(--purple-50); color: var(--purple-700); }
+  .patient-col-item.selected { background: var(--status-low-bg); color: var(--status-low); font-weight: 600; }
+  .patient-col-item .pdot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .patient-col-item .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .patient-alert-badge { width: 14px; height: 14px; border-radius: 50%; background: var(--status-low); color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-left: auto; flex-shrink: 0; }
+  .patient-reviewed { font-size: 9px; color: var(--text-muted); font-family: var(--font-mono); margin-left: auto; white-space: nowrap; flex-shrink: 0; }
+  .patient-reviewed.recent { color: var(--status-good); }
+
+  /* Chart section */
+  .chart-section { background: var(--bg-card); border: none; border-radius: var(--radius-base); padding: 18px 20px; box-shadow: var(--shadow-card); }
+  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); }
+  .chart-legend { display: flex; gap: var(--space-md); }
+  .chart-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+  .chart-legend-item .cldot { width: 10px; height: 3px; border-radius: 2px; }
+  .chart-area { width: 100%; height: 220px; position: relative; }
+  .chart-canvas { width: 100%; height: 100%; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--purple-200); border-radius: 2px; }
+
+  @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .tier-card { animation: fadeSlideIn 0.35s ease both; }
+  .tier-card:nth-child(1) { animation-delay: 0.03s; }
+  .tier-card:nth-child(2) { animation-delay: 0.08s; }
+  .tier-card:nth-child(3) { animation-delay: 0.13s; }
+  .tier-card:nth-child(4) { animation-delay: 0.18s; }
+  .patient-columns { animation: fadeSlideIn 0.35s ease 0.15s both; }
+  .chart-section { animation: fadeSlideIn 0.35s ease 0.22s both; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar" role="complementary">
+  <div class="sidebar-brand">
+    <a href="overview.html" aria-label="Go to Overview">
+      <svg class="sidebar-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <defs><linearGradient id="pg" x1="8" y1="8" x2="40" y2="40"><stop offset="0%" stop-color="#A67ED4"/><stop offset="100%" stop-color="#5B2D8E"/></linearGradient></defs>
+        <rect width="48" height="48" rx="8" fill="#2E1450"/>
+        <path d="M24 12c-4 0-7.5 2.5-9 6 1.5-1.5 3.5-2.5 6-2.5-3 3-5 7-5 11.5 0 5 3 9 8 9s8-4 8-9c0-2-.5-3.5-1.5-5 .5 2 .5 4-.5 6-1.5-3-4-5-6-5 3-2 6-1 8 1 0-4-3-7-6-7 2 0 4 1 5.5 2.5C30 14 27.5 12 24 12z" fill="url(#pg)"/>
+      </svg>
+      <div>
+        <div class="sidebar-brand-name">Neurofenix</div>
+        <div class="sidebar-brand-sub">Clinical Analytics</div>
+      </div>
+    </a>
+  </div>
+  <div class="sidebar-user">
+    <div class="sidebar-user-avatar" aria-hidden="true">KR</div>
+    <div><div class="sidebar-user-name">Katie Riccio</div><div class="sidebar-user-role">Manager of Clinical Services</div></div>
+  </div>
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <a class="sidebar-nav-item active" href="overview.html" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Overview
+    </a>
+    <a class="sidebar-nav-item" href="patient-monitoring.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Patient Monitoring
+    </a>
+  </nav>
+</aside>
+
+<main class="main" role="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div>
+        <h1 class="topbar-title">Adherence Overview</h1>
+        <div class="topbar-subtitle">Caseload triage · All patients</div>
+      </div>
+    </div>
+    <div class="topbar-controls">
+      <div class="global-search" id="globalSearchWrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Search all patients…" aria-label="Search all patients" id="globalSearchInput" oninput="globalSearch(this.value)" autocomplete="off">
+        <div class="search-results" id="globalSearchResults" role="listbox"></div>
+      </div>
+      <button class="control-btn" id="togglePatientsBtn" onclick="togglePatients()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+        <span id="togglePatientsLabel">Hide Patients</span>
+      </button>
+      <div class="control-dropdown-wrap">
+        <button class="control-dropdown" onclick="toggleDropdown('metricMenu')" aria-haspopup="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4v16"/><path d="M18 4v16"/><path d="M6 12h12"/><path d="M3 8h3"/><path d="M3 16h3"/><path d="M18 8h3"/><path d="M18 16h3"/></svg>
+          <span id="metricLabel">Sort by: Reps</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="dropdown-menu" id="metricMenu" role="menu">
+          <button class="dropdown-option active" role="menuitem" onclick="setMetric('Reps',event)">Reps</button>
+          <button class="dropdown-option" role="menuitem" onclick="setMetric('Hours',event)">Hours</button>
+          <button class="dropdown-option" role="menuitem" onclick="setMetric('Active Days',event)">Active Days</button>
+          <button class="dropdown-option" role="menuitem" onclick="setMetric('Step Count',event)">Step Count</button>
+        </div>
+      </div>
+      <div class="control-dropdown-wrap">
+        <button class="control-dropdown" onclick="toggleDropdown('periodMenu')" aria-haspopup="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span id="periodLabel">Last 7 Days</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="dropdown-menu" id="periodMenu" role="menu">
+          <button class="dropdown-option active" role="menuitem" onclick="setOvPeriod('Last 7 Days',event)">Last 7 Days</button>
+          <button class="dropdown-option" role="menuitem" onclick="setOvPeriod('Last 4 Weeks',event)">Last 4 Weeks</button>
+          <button class="dropdown-option" role="menuitem" onclick="setOvPeriod('Program Overview',event)">Program Overview</button>
+          <button class="dropdown-option" role="menuitem" onclick="setOvPeriod('Billing Month',event)">Billing Month</button>
+          <button class="dropdown-option" role="menuitem" onclick="setOvPeriod('Custom Range',event)">Custom Range</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <!-- Tier cards -->
+    <div class="tier-row">
+      <div class="tier-card exceeded">
+        <div class="tier-card-label">Exceeded</div>
+        <div class="tier-card-main">
+          <span class="tier-card-count">12</span>
+          <div class="tier-card-right"><div class="tier-sparkline" id="sparkExceeded"></div><span class="tier-pct">10%</span></div>
+        </div>
+      </div>
+      <div class="tier-card good">
+        <div class="tier-card-label">Good</div>
+        <div class="tier-card-main">
+          <span class="tier-card-count">44</span>
+          <div class="tier-card-right"><div class="tier-sparkline" id="sparkGood"></div><span class="tier-pct">36%</span></div>
+        </div>
+      </div>
+      <div class="tier-card slight">
+        <div class="tier-card-label">Slightly Below</div>
+        <div class="tier-card-main">
+          <span class="tier-card-count">65</span>
+          <div class="tier-card-right"><div class="tier-sparkline" id="sparkSlight"></div><span class="tier-pct">53%</span></div>
+        </div>
+        <div class="tier-trending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="7 7 17 17"/><polyline points="17 7 17 17 7 17"/></svg>3 trending down this week</div>
+      </div>
+      <div class="tier-card low">
+        <div class="tier-card-label">Low</div>
+        <div class="tier-card-main">
+          <span class="tier-card-count">23</span>
+          <div class="tier-card-right"><div class="tier-sparkline" id="sparkLow"></div><span class="tier-pct">19%</span></div>
+        </div>
+        <div class="tier-trending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="7 7 17 17"/><polyline points="17 7 17 17 7 17"/></svg>2 newly inactive</div>
+      </div>
+    </div>
+
+    <!-- Patient lists -->
+    <div class="patient-columns" id="patientColumns">
+      <div>
+        <div class="patient-col-header"><span class="col-dot" style="background:var(--status-exceeded)"></span>Exceeded</div>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-exceeded)" aria-hidden="true"></span><span class="truncate">Fisher, Logan</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-exceeded)" aria-hidden="true"></span><span class="truncate">Patterson, Owen</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-exceeded)" aria-hidden="true"></span><span class="truncate">Nelson, Sophia</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-exceeded)" aria-hidden="true"></span><span class="truncate">Brown, Benjamin</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-exceeded)" aria-hidden="true"></span><span class="truncate">Collins, Grace</span></a>
+      </div>
+      <div>
+        <div class="patient-col-header"><span class="col-dot" style="background:var(--status-good)"></span>Good</div>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Davis, Daniel</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Thompson, Madison</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Gray, Ryan</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Scott, Ava</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Adams, Zoe</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Perez, Abigail</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Wilson, Jackson</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Hernandez, Harper</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">King, Ella</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Johnson, Isaac</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">White, Elizabeth</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Kelly, David</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-good)" aria-hidden="true"></span><span class="truncate">Morris, Oliver</span></a>
+      </div>
+      <div>
+        <div class="patient-col-header"><span class="col-dot" style="background:var(--status-slight)"></span>Slightly Below</div>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Garcia, Olivia</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Mitchell, Noah</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Turner, Bella</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Clark, Aiden</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Campbell, Charlotte</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Martinez, Jacob</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Hill, Sebastian</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Jones, Leah</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Barnes, Chloe</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Parker, Penelope</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Anderson, Ava</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Roberts, Lucas</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Thomas, Alexander</span></a>
+      </div>
+      <div>
+        <div class="patient-col-header"><span class="col-dot" style="background:var(--status-low)"></span>Low</div>
+        <a class="patient-col-item selected" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Millerstein, Mia</span><span class="patient-reviewed recent">today</span><span class="patient-alert-badge" title="Inactivity alert">!</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Diaz, Natalie</span><span class="patient-reviewed">3d ago</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Smith, James</span><span class="patient-reviewed">5d ago</span><span class="patient-alert-badge" title="Declining trend alert">!</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Evans, Emma</span><span class="patient-reviewed">1d ago</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Young, Zoey</span><span class="patient-reviewed">6d ago</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Baker, Lucas</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Powell, Riley</span><span class="patient-reviewed">2d ago</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Lewis, Carter</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Gonzalez, Gabriel</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-low)" aria-hidden="true"></span><span class="truncate">Cooper, Michael</span><span class="patient-reviewed">4d ago</span></a>
+      </div>
+    </div>
+
+    <!-- Adherence trend chart -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <h2 class="section-title">Patients by Adherence <span>· Week by Week</span></h2>
+        <div class="chart-legend">
+          <div class="chart-legend-item"><span class="cldot" style="background:var(--status-exceeded)"></span>Exceeded</div>
+          <div class="chart-legend-item"><span class="cldot" style="background:var(--status-good)"></span>Good</div>
+          <div class="chart-legend-item"><span class="cldot" style="background:var(--status-slight)"></span>Slightly Below</div>
+          <div class="chart-legend-item"><span class="cldot" style="background:var(--status-low)"></span>Low</div>
+        </div>
+      </div>
+      <div class="chart-area">
+        <canvas id="adherenceChart" class="chart-canvas" aria-label="Stacked bar chart showing patient distribution across adherence tiers over 16 weeks. Good and Slightly Below tiers grow over time while Low tier decreases."></canvas>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+function togglePatients() {
+  const cols = document.getElementById('patientColumns');
+  const label = document.getElementById('togglePatientsLabel');
+  const btn = document.getElementById('togglePatientsBtn');
+  cols.classList.toggle('hidden');
+  const isHidden = cols.classList.contains('hidden');
+  label.textContent = isHidden ? 'Show Patients' : 'Hide Patients';
+  btn.classList.toggle('toggled', isHidden);
+}
+
+// Dropdown toggle
+function toggleDropdown(id) {
+  const menu = document.getElementById(id);
+  document.querySelectorAll('.dropdown-menu').forEach(m => { if (m.id !== id) m.classList.remove('open'); });
+  menu.classList.toggle('open');
+}
+function setMetric(val, e) {
+  e.stopPropagation();
+  document.getElementById('metricLabel').textContent = 'Sort by: ' + val;
+  document.querySelectorAll('#metricMenu .dropdown-option').forEach(o => o.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('metricMenu').classList.remove('open');
+}
+function setOvPeriod(val, e) {
+  e.stopPropagation();
+  document.getElementById('periodLabel').textContent = val;
+  document.querySelectorAll('#periodMenu .dropdown-option').forEach(o => o.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('periodMenu').classList.remove('open');
+}
+
+// Global search
+const allPatients = [
+  {first:'Logan',last:'Fisher',tier:'exceeded'},{first:'Owen',last:'Patterson',tier:'exceeded'},
+  {first:'Sophia',last:'Nelson',tier:'exceeded'},{first:'Benjamin',last:'Brown',tier:'exceeded'},
+  {first:'Grace',last:'Collins',tier:'exceeded'},
+  {first:'Daniel',last:'Davis',tier:'good'},{first:'Madison',last:'Thompson',tier:'good'},
+  {first:'Ryan',last:'Gray',tier:'good'},{first:'Ava',last:'Scott',tier:'good'},
+  {first:'Zoe',last:'Adams',tier:'good'},{first:'Abigail',last:'Perez',tier:'good'},
+  {first:'Jackson',last:'Wilson',tier:'good'},{first:'Harper',last:'Hernandez',tier:'good'},
+  {first:'Ella',last:'King',tier:'good'},{first:'Isaac',last:'Johnson',tier:'good'},
+  {first:'Elizabeth',last:'White',tier:'good'},{first:'David',last:'Kelly',tier:'good'},
+  {first:'Oliver',last:'Morris',tier:'good'},
+  {first:'Olivia',last:'Garcia',tier:'slight'},{first:'Noah',last:'Mitchell',tier:'slight'},
+  {first:'Bella',last:'Turner',tier:'slight'},{first:'Aiden',last:'Clark',tier:'slight'},
+  {first:'Charlotte',last:'Campbell',tier:'slight'},{first:'Jacob',last:'Martinez',tier:'slight'},
+  {first:'Sebastian',last:'Hill',tier:'slight'},{first:'Leah',last:'Jones',tier:'slight'},
+  {first:'Chloe',last:'Barnes',tier:'slight'},{first:'Penelope',last:'Parker',tier:'slight'},
+  {first:'Ava',last:'Anderson',tier:'slight'},{first:'Lucas',last:'Roberts',tier:'slight'},
+  {first:'Alexander',last:'Thomas',tier:'slight'},
+  {first:'Mia',last:'Millerstein',tier:'low'},{first:'Natalie',last:'Diaz',tier:'low'},
+  {first:'James',last:'Smith',tier:'low'},{first:'Emma',last:'Evans',tier:'low'},
+  {first:'Zoey',last:'Young',tier:'low'},{first:'Lucas',last:'Baker',tier:'low'},
+  {first:'Riley',last:'Powell',tier:'low'},{first:'Carter',last:'Lewis',tier:'low'},
+  {first:'Gabriel',last:'Gonzalez',tier:'low'},{first:'Michael',last:'Cooper',tier:'low'},
+];
+const tierLabels = {exceeded:'Exceeded',good:'Good',slight:'Slightly Below',low:'Low'};
+const tierClr = {exceeded:'var(--status-exceeded)',good:'var(--status-good)',slight:'var(--status-slight)',low:'var(--status-low)'};
+
+function globalSearch(val) {
+  const results = document.getElementById('globalSearchResults');
+  if (val.length < 2) { results.classList.remove('open'); return; }
+  const matches = allPatients.filter(p => (p.last+', '+p.first).toLowerCase().includes(val.toLowerCase()));
+  results.innerHTML = '';
+  if (matches.length === 0) {
+    results.innerHTML = '<div class="search-results-empty">No patients found</div>';
+  } else {
+    matches.slice(0, 8).forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'search-result-item';
+      btn.setAttribute('role','option');
+      btn.innerHTML = '<span class="sr-dot" style="background:'+tierClr[p.tier]+'" aria-hidden="true"></span><span class="sr-name">'+p.last+', '+p.first+'</span><span class="sr-tier">'+tierLabels[p.tier]+'</span>';
+      btn.onclick = () => { results.classList.remove('open'); document.getElementById('globalSearchInput').value=''; window.location.href='patient-monitoring.html'; };
+      results.appendChild(btn);
+    });
+  }
+  results.classList.add('open');
+}
+
+// Click outside + escape
+document.addEventListener('click', e => {
+  if (!e.target.closest('.control-dropdown-wrap')) document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('open'));
+  if (!e.target.closest('#globalSearchWrap')) document.getElementById('globalSearchResults').classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('open'));
+    document.getElementById('globalSearchResults').classList.remove('open');
+    document.getElementById('globalSearchInput').blur();
+  }
+});
+
+function makeSparkline(id, color, values) {
+  const el = document.getElementById(id); const max = Math.max(...values);
+  values.forEach(v => { const bar = document.createElement('div'); bar.className='tier-sparkline-bar'; bar.style.height=Math.max(3,(v/max)*20)+'px'; bar.style.background=color; el.appendChild(bar); });
+}
+makeSparkline('sparkExceeded','var(--status-exceeded)',[8,10,9,12,11,10,12]);
+makeSparkline('sparkGood','var(--status-good)',[35,38,40,42,44,43,44]);
+makeSparkline('sparkSlight','var(--status-slight)',[50,55,58,62,60,64,65]);
+makeSparkline('sparkLow','var(--status-low)',[30,28,25,24,23,24,23]);
+
+// Adherence chart
+const canvas = document.getElementById('adherenceChart');
+const ctx = canvas.getContext('2d');
+const weekData = [
+  {date:'12 Apr',exceeded:5,good:20,slight:35,low:40},{date:'19 Apr',exceeded:6,good:22,slight:38,low:34},
+  {date:'26 Apr',exceeded:7,good:28,slight:42,low:23},{date:'3 May',exceeded:8,good:32,slight:48,low:12},
+  {date:'10 May',exceeded:9,good:35,slight:52,low:4},{date:'17 May',exceeded:10,good:38,slight:55,low:2},
+  {date:'24 May',exceeded:8,good:35,slight:50,low:7},{date:'31 May',exceeded:7,good:30,slight:45,low:18},
+  {date:'7 Jun',exceeded:9,good:36,slight:55,low:5},{date:'14 Jun',exceeded:10,good:40,slight:58,low:2},
+  {date:'21 Jun',exceeded:11,good:42,slight:60,low:2},{date:'28 Jun',exceeded:12,good:44,slight:62,low:2},
+  {date:'5 Jul',exceeded:12,good:44,slight:63,low:1},{date:'12 Jul',exceeded:12,good:44,slight:65,low:1},
+  {date:'19 Jul',exceeded:12,good:44,slight:65,low:1},{date:'26 Jul',exceeded:12,good:44,slight:65,low:1},
+];
+const colors = {exceeded:'#0E8A74',good:'#198A63',slight:'#9A6D0F',low:'#C53D4A'};
+
+function drawChart() {
+  const rect=canvas.parentElement.getBoundingClientRect();const dpr=window.devicePixelRatio||1;
+  canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;canvas.style.width=rect.width+'px';canvas.style.height=rect.height+'px';
+  ctx.setTransform(1,0,0,1,0,0);ctx.scale(dpr,dpr);
+  const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);
+  const padL=36,padR=12,padT=8,padB=32,chartW=w-padL-padR,chartH=h-padT-padB,maxVal=90,groupW=chartW/weekData.length,barW=3;
+
+  ctx.strokeStyle='#EDE5F5';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=padT+(chartH/4)*i;ctx.beginPath();ctx.moveTo(padL,Math.round(y)+0.5);ctx.lineTo(w-padR,Math.round(y)+0.5);ctx.stroke();}
+  ctx.font='500 11px "JetBrains Mono", monospace';ctx.fillStyle='#1A0E2E';ctx.textAlign='right';
+  for(let i=0;i<=4;i++){ctx.fillText(Math.round(maxVal-(maxVal/4)*i),padL-8,padT+(chartH/4)*i+4);}
+
+  const tiers=['low','slight','good','exceeded'];const gap=3;
+  weekData.forEach((d,i)=>{
+    const cx=padL+groupW*i+groupW/2;
+    tiers.forEach((tier,ti)=>{
+      const val=d[tier];if(val<=0)return;
+      const bH=(val/maxVal)*chartH;const xOff=(ti-1.5)*(barW+gap);
+      ctx.fillStyle=colors[tier];ctx.beginPath();roundRect(ctx,cx+xOff,padT+chartH-bH,barW,bH,1.5);ctx.fill();
+    });
+    ctx.fillStyle='#1A0E2E';ctx.font='500 9px "JetBrains Mono", monospace';ctx.textAlign='center';ctx.fillText(d.date,cx,h-10);
+  });
+}
+
+function roundRect(ctx,x,y,w,h,r){if(h<=0)return;r=Math.min(r,w/2,h/2);ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h);ctx.lineTo(x,y+h);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);}
+
+drawChart();
+document.fonts.ready.then(()=>{drawChart();});
+window.addEventListener('resize',drawChart);
+</script>
+</body>
+</html>

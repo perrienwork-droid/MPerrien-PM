@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /request-access.html
+Disallow: /reframe.html
+Disallow: /screeners.html
+Disallow: /prototypes/
+Disallow: /screenshots/
+
+Sitemap: https://mperrien.com/sitemap.xml

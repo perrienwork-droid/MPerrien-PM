@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurofenix Clinical Analytics, Patient Monitoring</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ═══════════ DESIGN TOKENS ═══════════ */
+  :root {
+    /* Brand purple */
+    --purple-900: #2E1450;
+    --purple-800: #3D1A6E;
+    --purple-700: #5B2D8E;
+    --purple-600: #7040A8;
+    --purple-500: #8B5FBF;
+    --purple-400: #A67ED4;
+    --purple-300: #C5A3E6;
+    --purple-200: #DCC5F0;
+    --purple-100: #EDE0F7;
+    --purple-50:  #F6F0FB;
+
+    /* Surfaces */
+    --bg-page: #F4F1F8;
+    --bg-white: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: var(--purple-900);
+    --bg-sidebar-hover: rgba(255,255,255,0.08);
+    --bg-sidebar-active: rgba(255,255,255,0.15);
+    --bg-input-sidebar: rgba(255,255,255,0.10);
+
+    /* Borders */
+    --border-sidebar: rgba(255,255,255,0.08);
+
+    /* Text, all pass WCAG AA at intended sizes */
+    --text-primary: #0F0A18;
+    --text-strong: #000000;
+    --text-secondary: #4A3D5E;
+    --text-muted: #6E6280;
+    --text-sidebar: rgba(255,255,255,0.95);
+    --text-sidebar-muted: rgba(255,255,255,0.75);
+
+    /* Status, WCAG AA compliant on white (all ≥4.5:1) */
+    --status-exceeded: #0E8A74;
+    --status-exceeded-bg: #E6FAF6;
+    --status-good: #198A63;
+    --status-good-bg: #E8F8F0;
+    --status-slight: #9A6D0F;
+    --status-slight-bg: #FFF6E0;
+    --status-low: #C53D4A;
+    --status-low-bg: #FDE8EA;
+
+    /* Metrics, AA compliant at 16px bold */
+    --metric-up: #198A63;
+    --metric-down: #C53D4A;
+    --metric-neutral: #8A6310;
+
+    /* Chart */
+    --chart-reps: var(--purple-600);
+    --chart-mins: #198A63;
+    --chart-pronation: var(--purple-600);
+    --chart-flexion: #3A7BC0;
+    --chart-grasp: #198A63;
+    --chart-arm: #C06020;
+
+    /* KPI icon accents */
+    --kpi-reps-bg: #FFF0E6;
+    --kpi-reps-fg: #C06020;
+    --kpi-hours-bg: #E6F0FA;
+    --kpi-hours-fg: #3A7BC0;
+
+    /* Typography */
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Spacing scale */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-base: 10px;
+    --radius-lg: 12px;
+
+    /* Shadows */
+    --shadow-card: 0 1px 4px rgba(46,20,80,0.05), 0 2px 8px rgba(46,20,80,0.03);
+    --shadow-elevated: 0 4px 16px rgba(46,20,80,0.08);
+    --shadow-topbar: 0 1px 3px rgba(46,20,80,0.04);
+
+    /* Borders */
+    --border-light: #E8E0F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus styles, WCAG 2.4.7 */
+  :focus-visible {
+    outline: 2px solid var(--purple-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ═══════════ SIDEBAR (250px both pages) ═══════════ */
+  .sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .sidebar-brand {
+    padding: var(--space-lg) var(--space-md);
+    border-bottom: 1px solid var(--border-sidebar);
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .sidebar-brand a { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .sidebar-logo { width: 34px; height: 34px; border-radius: var(--radius-sm); }
+  .sidebar-brand-name { font-size: 14px; font-weight: 700; color: var(--text-sidebar); }
+  .sidebar-brand-sub { font-size: 10px; color: var(--text-sidebar-muted); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .sidebar-user {
+    padding: 14px var(--space-md);
+    border-bottom: 1px solid var(--border-sidebar);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .sidebar-user-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--purple-700);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: white;
+  }
+
+  .sidebar-user-name { font-size: 12px; font-weight: 500; color: var(--text-sidebar); }
+  .sidebar-user-role { font-size: 10px; color: var(--text-sidebar-muted); }
+
+  .sidebar-nav { padding: var(--space-sm); }
+
+  .sidebar-nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: var(--space-sm) 10px; border-radius: var(--radius-sm);
+    cursor: pointer; transition: background 0.15s;
+    font-size: 13px; color: var(--text-sidebar-muted);
+    text-decoration: none; border: none; background: none; width: 100%;
+    font-family: var(--font-body);
+  }
+
+  .sidebar-nav-item:hover { background: var(--bg-sidebar-hover); color: var(--text-sidebar); }
+  .sidebar-nav-item.active { background: var(--bg-sidebar-active); color: white; font-weight: 600; }
+  .sidebar-nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* Sort toggle */
+  .sidebar-sort {
+    display: flex; gap: var(--space-xs); padding: var(--space-sm);
+    border-bottom: 1px solid var(--border-sidebar);
+  }
+
+  .sort-btn {
+    flex: 1; padding: 5px var(--space-sm);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-sm);
+    background: transparent; color: rgba(255,255,255,0.60);
+    font-size: 11px; font-family: var(--font-body); font-weight: 500;
+    cursor: pointer; transition: all 0.15s;
+  }
+
+  .sort-btn:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+  .sort-btn.active { background: rgba(255,255,255,0.25); color: white; font-weight: 600; border-color: rgba(255,255,255,0.30); }
+
+  /* Sidebar search */
+  .sidebar-search { padding: var(--space-sm); }
+  .sidebar-search-wrap { position: relative; }
+  .sidebar-search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--text-sidebar-muted); }
+
+  .sidebar-search input {
+    width: 100%; padding: 7px 10px 7px 32px;
+    background: var(--bg-input-sidebar); border: 1px solid var(--border-sidebar);
+    border-radius: var(--radius-sm); color: var(--text-sidebar);
+    font-size: 12px; font-family: var(--font-body); outline: none;
+  }
+
+  .sidebar-search input::placeholder { color: var(--text-sidebar-muted); }
+  .sidebar-search input:focus { border-color: var(--purple-500); }
+
+  /* Patient list */
+  .patient-list { flex: 1; overflow-y: auto; padding: 0 var(--space-sm) var(--space-sm); }
+
+  .patient-group-label {
+    display: flex; align-items: center; gap: 7px;
+    padding: var(--space-sm) 10px 5px; margin-top: 10px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.95); border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .patient-group-label:first-child { border-top: none; margin-top: 0; }
+  .patient-group-label .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  .patient-item {
+    display: flex; align-items: center; gap: var(--space-sm);
+    padding: 5px 10px; border-radius: var(--radius-sm);
+    cursor: pointer; transition: background 0.15s;
+    font-size: 12px; color: rgba(255,255,255,0.85);
+    border: none; background: none; width: 100%; text-align: left;
+    font-family: var(--font-body); position: relative;
+  }
+
+  .patient-item:hover { background: var(--bg-sidebar-hover); color: var(--text-sidebar); }
+  .patient-item.active { background: var(--bg-sidebar-active); color: white; font-weight: 600; }
+  .patient-item .indicator { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Alert badge on patient name */
+  .patient-alert-badge {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--status-low); color: white;
+    font-size: 9px; font-weight: 700; display: flex;
+    align-items: center; justify-content: center;
+    margin-left: auto; flex-shrink: 0;
+  }
+
+  /* ═══════════ MAIN ═══════════ */
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+  /* Global search (topbar) */
+  .global-search { position: relative; }
+  .global-search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--text-muted); }
+  .global-search input {
+    width: 220px; padding: 7px 10px 7px 32px;
+    background: var(--bg-page); border: 1px solid transparent;
+    border-radius: var(--radius-sm); color: var(--text-primary);
+    font-size: 12px; font-family: var(--font-body); outline: none;
+    transition: border-color 0.15s, width 0.2s;
+  }
+  .global-search input::placeholder { color: var(--text-muted); }
+  .global-search input:focus { border-color: var(--purple-300); width: 280px; }
+
+  /* Search results dropdown */
+  .search-results {
+    display: none; position: absolute; top: 100%; left: 0; margin-top: 4px;
+    width: 280px; max-height: 240px; overflow-y: auto;
+    background: var(--bg-white); border-radius: var(--radius-base);
+    box-shadow: var(--shadow-elevated); z-index: 200;
+  }
+  .search-results.open { display: block; }
+  .search-results-empty {
+    padding: 12px 14px; font-size: 12px; color: var(--text-muted); text-align: center;
+  }
+  .search-result-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px; font-size: 12px; color: var(--text-primary);
+    cursor: pointer; border: none; background: none; width: 100%;
+    font-family: var(--font-body); text-align: left;
+  }
+  .search-result-item:hover { background: var(--purple-50); }
+  .search-result-item .sr-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .search-result-item .sr-name { font-weight: 500; }
+  .search-result-item .sr-tier { font-size: 10px; color: var(--text-muted); margin-left: auto; }
+
+  /* Topbar */
+  .topbar {
+    padding: 14px var(--space-lg);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg-white); box-shadow: var(--shadow-topbar);
+  }
+
+  .topbar-left { display: flex; align-items: center; gap: var(--space-lg); }
+
+  /* Breadcrumb */
+  .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-bottom: 2px; }
+  .breadcrumb a { color: var(--purple-600); text-decoration: none; font-weight: 500; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { color: var(--text-muted); }
+  .breadcrumb .current { color: var(--text-muted); }
+
+  .patient-header { display: flex; align-items: center; gap: var(--space-md); }
+
+  /* Week ring */
+  .week-ring { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+  .week-ring canvas { width: 120px; height: 120px; }
+  .week-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; }
+  .week-ring-num { font-size: 18px; font-weight: 800; color: var(--purple-700); font-family: var(--font-mono); }
+  .week-ring-sub { font-size: 9px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+
+  h1.patient-name { font-size: 22px; font-weight: 800; color: var(--text-strong); letter-spacing: -0.02em; margin: 0; }
+  .patient-week-label { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+
+  .patient-meta { display: flex; gap: var(--space-lg); }
+  .patient-meta-item { display: flex; flex-direction: column; gap: 1px; }
+  .patient-meta-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); font-weight: 600; }
+  .patient-meta-value { font-size: 11px; color: var(--text-primary); font-weight: 600; font-family: var(--font-mono); }
+
+  .topbar-right { display: flex; align-items: center; gap: var(--space-sm); }
+
+  .period-range { font-size: 11px; color: var(--purple-600); font-weight: 600; font-family: var(--font-mono); }
+
+  /* Period dropdown, functional */
+  .period-dropdown-wrap { position: relative; }
+
+  .period-selector {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px; background: var(--purple-50); border: none;
+    border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary);
+    cursor: pointer; font-family: var(--font-body); font-weight: 500;
+  }
+  .period-selector svg { width: 14px; height: 14px; color: var(--text-muted); }
+
+  .period-menu {
+    display: none; position: absolute; top: 100%; right: 0; margin-top: 4px;
+    background: var(--bg-white); border-radius: var(--radius-base);
+    box-shadow: var(--shadow-elevated); min-width: 200px; z-index: 100;
+    overflow: hidden;
+  }
+  .period-menu.open { display: block; }
+
+  .period-option {
+    display: block; width: 100%; padding: 10px 14px;
+    font-size: 12px; font-family: var(--font-body); color: var(--text-primary);
+    background: none; border: none; cursor: pointer; text-align: left;
+  }
+  .period-option:hover { background: var(--purple-50); }
+  .period-option.active { color: var(--purple-600); font-weight: 600; background: var(--purple-50); }
+
+  .nav-arrows { display: flex; gap: 2px; }
+  .nav-arrow {
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    background: var(--bg-white); border: none; border-radius: var(--radius-sm);
+    cursor: pointer; color: var(--text-muted); transition: all 0.15s; box-shadow: var(--shadow-card);
+  }
+  .nav-arrow:hover { color: var(--purple-600); box-shadow: var(--shadow-elevated); }
+  .nav-arrow svg { width: 14px; height: 14px; }
+
+  .btn-export {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 14px; background: var(--bg-white); border: none;
+    border-radius: var(--radius-sm); color: var(--text-secondary);
+    font-size: 12px; cursor: pointer; font-family: var(--font-body); font-weight: 500;
+    transition: all 0.15s; box-shadow: var(--shadow-card);
+  }
+  .btn-export:hover { color: var(--purple-600); box-shadow: var(--shadow-elevated); }
+  .btn-export svg { width: 14px; height: 14px; }
+
+  /* ═══════════ DASHBOARD ═══════════ */
+  .dashboard {
+    flex: 1; padding: var(--space-lg); overflow-y: auto;
+    display: flex; flex-direction: column; gap: var(--space-md);
+  }
+
+  /* AI Alert Banner */
+  .alert-banner {
+    display: flex; align-items: center; gap: var(--space-sm);
+    padding: 10px var(--space-md); background: var(--status-low-bg);
+    border-radius: var(--radius-base); border-left: 3px solid var(--status-low);
+  }
+  .alert-banner svg { width: 18px; height: 18px; color: var(--status-low); flex-shrink: 0; }
+  .alert-banner-text { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+  .alert-banner-text strong { color: var(--status-low); }
+  .alert-banner-dismiss {
+    margin-left: auto; background: none; border: none; cursor: pointer;
+    color: var(--text-muted); padding: 4px;
+  }
+
+  /* Section titles, proper heading hierarchy */
+  h2.section-title {
+    font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 0;
+  }
+  h2.section-title span { color: var(--text-muted); font-weight: 400; margin-left: 4px; font-size: 13px; }
+
+  /* KPI Cards */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+  .kpi-card {
+    background: var(--bg-card); border: none; border-radius: var(--radius-base);
+    padding: 18px 20px 14px; box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column; gap: var(--space-sm);
+    transition: box-shadow 0.2s;
+  }
+  .kpi-card:hover { box-shadow: var(--shadow-elevated); }
+
+  .kpi-card-header { display: flex; align-items: center; gap: var(--space-sm); }
+  .kpi-icon {
+    width: 30px; height: 30px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .kpi-icon svg { width: 16px; height: 16px; }
+  .kpi-icon.steps { background: var(--purple-100); color: var(--purple-600); }
+  .kpi-icon.reps { background: var(--kpi-reps-bg); color: var(--kpi-reps-fg); }
+  .kpi-icon.hours { background: var(--kpi-hours-bg); color: var(--kpi-hours-fg); }
+  .kpi-icon.active { background: var(--status-good-bg); color: var(--status-good); }
+
+  .kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; flex: 1; }
+
+  .kpi-main { display: flex; align-items: baseline; justify-content: space-between; }
+  .kpi-left { display: flex; align-items: baseline; gap: 4px; }
+  .kpi-value { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--text-strong); }
+  .kpi-target { font-size: 14px; color: var(--text-secondary); font-family: var(--font-mono); font-weight: 500; }
+  .kpi-pct { font-size: 16px; font-weight: 700; font-family: var(--font-mono); display: inline-flex; align-items: center; gap: 2px; }
+  .kpi-pct svg { width: 14px; height: 14px; }
+
+  .kpi-bar { height: 4px; background: var(--bg-page); border-radius: 2px; overflow: hidden; margin-top: var(--space-xs); }
+  .kpi-bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+
+  .kpi-data-freshness { font-size: 9px; color: var(--text-muted); font-style: italic; margin-top: 2px; }
+
+  /* ADL Tasks */
+  .adl-section {
+    background: var(--bg-card); border: none; border-radius: var(--radius-base);
+    padding: 18px 20px; box-shadow: var(--shadow-card);
+  }
+  .adl-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-sm); }
+  .adl-list { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+  .adl-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px; background: var(--purple-50); border-radius: 20px;
+    font-size: 12px; color: var(--text-primary); font-weight: 500;
+  }
+  .adl-chip .adl-count {
+    background: var(--purple-600); color: white; border-radius: 10px;
+    padding: 1px 7px; font-size: 10px; font-weight: 700; font-family: var(--font-mono);
+  }
+  .adl-chip.adl-zero { background: var(--bg-page); color: var(--text-muted); }
+  .adl-chip .adl-count.zero { background: var(--text-muted); color: white; }
+
+  /* Chart sections, standardized padding */
+  .chart-section {
+    background: var(--bg-card); border: none; border-radius: var(--radius-base);
+    padding: 18px 20px; box-shadow: var(--shadow-card); overflow: visible;
+  }
+  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-md); }
+  .chart-legend { display: flex; gap: var(--space-md); }
+  .chart-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+  .chart-legend-item .cldot { width: 10px; height: 3px; border-radius: 2px; }
+  .chart-area { width: 100%; height: 220px; position: relative; }
+  .chart-canvas { width: 100%; height: 100%; }
+
+  /* Adherence tag */
+  .adherence-tag {
+    display: flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: var(--radius-sm);
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .adherence-tag.low { background: var(--status-low-bg); color: var(--status-low); }
+  .adherence-tag .tag-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  /* Weekly Adherence (traffic lights) legend */
+  .wa-legend { display: flex; gap: var(--space-md); }
+  .wa-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+  .wa-legend-item .cldot { width: 10px; height: 3px; border-radius: 2px; }
+
+  .traffic-grid { display: flex; gap: 6px; overflow-x: auto; padding-top: 28px; padding-bottom: var(--space-xs); position: relative; }
+  .traffic-week { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 40px; flex: 1; }
+  .traffic-bar-wrap { height: 56px; display: flex; align-items: flex-end; width: 100%; overflow: visible; }
+  .traffic-bar {
+    width: 100%; border-radius: 3px 3px 0 0; min-height: 2px;
+    transition: opacity 0.15s; position: relative;
+  }
+  .traffic-bar:hover { opacity: 0.75; }
+  .traffic-bar .bar-label {
+    position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+    font-size: 9px; font-family: var(--font-mono); font-weight: 600;
+    color: var(--text-primary); white-space: nowrap; margin-bottom: 2px;
+    pointer-events: none;
+  }
+  .traffic-date { font-size: 9px; color: var(--text-muted); font-family: var(--font-mono); font-weight: 500; white-space: nowrap; }
+  .traffic-week.current .traffic-date { color: var(--purple-600); font-weight: 700; }
+  .traffic-week.future .traffic-bar { background: var(--bg-page) !important; opacity: 0.5; }
+  .traffic-week.future .traffic-date { color: var(--purple-200); }
+
+  /* Movement breakdown legend colors */
+  .mv-pronation { background: var(--chart-pronation); }
+  .mv-flexion { background: var(--chart-flexion); }
+  .mv-grasp { background: var(--chart-grasp); }
+  .mv-arm { background: var(--chart-arm); }
+
+  /* Reps toggle */
+  .reps-toggle { display: flex; gap: 2px; background: var(--bg-page); border-radius: var(--radius-sm); padding: 2px; }
+  .reps-toggle-btn {
+    padding: 4px 10px; border: none; border-radius: var(--radius-sm);
+    background: transparent; font-size: 11px; font-family: var(--font-body);
+    font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .reps-toggle-btn:hover { color: var(--text-primary); }
+  .reps-toggle-btn.active { background: var(--bg-white); color: var(--purple-600); font-weight: 600; box-shadow: var(--shadow-card); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--purple-200); border-radius: 2px; }
+
+  /* Animations */
+  @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .kpi-card { animation: fadeSlideIn 0.35s ease both; }
+  .kpi-card:nth-child(1) { animation-delay: 0.03s; }
+  .kpi-card:nth-child(2) { animation-delay: 0.08s; }
+  .kpi-card:nth-child(3) { animation-delay: 0.13s; }
+  .kpi-card:nth-child(4) { animation-delay: 0.18s; }
+  .adl-section { animation: fadeSlideIn 0.35s ease 0.12s both; }
+  .chart-section { animation: fadeSlideIn 0.35s ease 0.18s both; }
+  .alert-banner { animation: fadeSlideIn 0.35s ease both; }
+
+  /* Monitoring Log */
+  .monitoring-log {
+    background: var(--bg-card); border: none; border-radius: var(--radius-base);
+    padding: 14px 20px; box-shadow: var(--shadow-card);
+    display: flex; align-items: center; gap: var(--space-lg);
+  }
+  .monitoring-log-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-muted); white-space: nowrap;
+  }
+  .monitoring-log-entries { display: flex; gap: var(--space-md); flex-wrap: wrap; flex: 1; }
+  .monitoring-log-entry {
+    display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary);
+  }
+  .monitoring-log-entry .log-icon {
+    width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 10px; font-weight: 600;
+  }
+  .monitoring-log-entry .log-icon.review { background: var(--purple-100); color: var(--purple-600); }
+  .monitoring-log-entry .log-icon.export { background: var(--status-good-bg); color: var(--status-good); }
+  .monitoring-log-entry .log-icon.modify { background: var(--status-slight-bg); color: var(--status-slight); }
+  .monitoring-log-entry .log-time { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+  .monitoring-log-entry .log-action { font-weight: 500; }
+
+  /* Truncation */
+  .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar" role="complementary">
+  <div class="sidebar-brand">
+    <a href="overview.html" aria-label="Go to Overview">
+      <svg class="sidebar-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <defs><linearGradient id="pg" x1="8" y1="8" x2="40" y2="40"><stop offset="0%" stop-color="#A67ED4"/><stop offset="100%" stop-color="#5B2D8E"/></linearGradient></defs>
+        <rect width="48" height="48" rx="8" fill="#2E1450"/>
+        <path d="M24 12c-4 0-7.5 2.5-9 6 1.5-1.5 3.5-2.5 6-2.5-3 3-5 7-5 11.5 0 5 3 9 8 9s8-4 8-9c0-2-.5-3.5-1.5-5 .5 2 .5 4-.5 6-1.5-3-4-5-6-5 3-2 6-1 8 1 0-4-3-7-6-7 2 0 4 1 5.5 2.5C30 14 27.5 12 24 12z" fill="url(#pg)"/>
+      </svg>
+      <div>
+        <div class="sidebar-brand-name">Neurofenix</div>
+        <div class="sidebar-brand-sub">Clinical Analytics</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="sidebar-user">
+    <div class="sidebar-user-avatar" aria-hidden="true">KR</div>
+    <div>
+      <div class="sidebar-user-name">Katie Riccio</div>
+      <div class="sidebar-user-role">Manager of Clinical Services</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <a class="sidebar-nav-item" href="overview.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Overview
+    </a>
+    <a class="sidebar-nav-item active" href="patient-monitoring.html" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Patient Monitoring
+    </a>
+  </nav>
+
+  <div class="sidebar-sort" role="group" aria-label="Sort patients">
+    <button class="sort-btn active" id="sortName" onclick="setSortMode('name')">A–Z</button>
+    <button class="sort-btn" id="sortPerf" onclick="setSortMode('adherence')">By Adherence</button>
+  </div>
+
+  <div class="sidebar-search">
+    <div class="sidebar-search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search patients…" aria-label="Search patients" id="sidebarSearch" oninput="filterPatients(this.value)">
+    </div>
+  </div>
+
+  <div class="patient-list" id="patientList" role="list" aria-label="Patient list"></div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main class="main" role="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div>
+        <div class="breadcrumb">
+          <a href="overview.html">Overview</a>
+          <span class="sep" aria-hidden="true">›</span>
+          <span class="current">Millerstein, Mia</span>
+        </div>
+        <div class="patient-header">
+          <div>
+            <h1 class="patient-name">Millerstein, Mia</h1>
+            <div class="patient-week-label">Week 10 of 16</div>
+          </div>
+          <div class="week-ring" aria-label="Program week 10 of 16">
+            <canvas id="weekRing" width="240" height="240"></canvas>
+            <div class="week-ring-label" aria-hidden="true">
+              <span class="week-ring-num">10</span>
+              <span class="week-ring-sub">of 16</span>
+            </div>
+          </div>
+          <div class="patient-meta">
+            <div class="patient-meta-item">
+              <span class="patient-meta-label">Onboarding</span>
+              <span class="patient-meta-value">12 Apr 2024</span>
+            </div>
+            <div class="patient-meta-item">
+              <span class="patient-meta-label">End Date</span>
+              <span class="patient-meta-value">12 Jul 2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="period-range" id="periodRange">17 Jun – 23 Jun 2024</span>
+      <div class="period-dropdown-wrap">
+        <button class="period-selector" onclick="togglePeriodMenu()" aria-haspopup="true" aria-expanded="false" id="periodBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span id="periodLabel">7 Days</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="period-menu" id="periodMenu" role="menu">
+          <button class="period-option active" role="menuitem" onclick="setPeriod('7d','7 Days','17 Jun – 23 Jun 2024')">7 Days</button>
+          <button class="period-option" role="menuitem" onclick="setPeriod('4w','Last 4 Weeks','26 May – 23 Jun 2024')">Last 4 Weeks</button>
+          <button class="period-option" role="menuitem" onclick="setPeriod('program','Program Overview','12 Apr – 12 Jul 2024')">Program Overview</button>
+          <button class="period-option" role="menuitem" onclick="setPeriod('billing','Billing Month','1 Jun – 30 Jun 2024')">Billing Month</button>
+          <button class="period-option" role="menuitem" onclick="setPeriod('custom','Custom Range','Select dates…')">Custom Range</button>
+        </div>
+      </div>
+      <div class="nav-arrows">
+        <button class="nav-arrow" aria-label="Previous period"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="nav-arrow" aria-label="Next period"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <button class="btn-export" aria-label="Export RTM Report as PDF" title="Export RTM Report for Millerstein, Mia (7 Days)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export PDF
+      </button>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <!-- AI Alert Banner -->
+    <div class="alert-banner" role="alert">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="alert-banner-text"><strong>Inactivity Alert:</strong> 4 consecutive days without a therapy session (last active 19 Jun)</div>
+      <button class="alert-banner-dismiss" aria-label="Dismiss alert" onclick="this.closest('.alert-banner').style.display='none'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <!-- Monitoring Log -->
+    <div class="monitoring-log" aria-label="Clinician monitoring log for this patient">
+      <span class="monitoring-log-title">Monitoring Log</span>
+      <div class="monitoring-log-entries">
+        <div class="monitoring-log-entry">
+          <span class="log-icon review" aria-hidden="true">R</span>
+          <span class="log-action">Reviewed by K. Riccio</span>
+          <span class="log-time">Today, 8:14 AM</span>
+        </div>
+        <div class="monitoring-log-entry">
+          <span class="log-icon export" aria-hidden="true">E</span>
+          <span class="log-action">PDF exported</span>
+          <span class="log-time">18 Jun, 3:22 PM</span>
+        </div>
+        <div class="monitoring-log-entry">
+          <span class="log-icon modify" aria-hidden="true">M</span>
+          <span class="log-action">Program adjusted, reps target +200</span>
+          <span class="log-time">14 Jun, 10:05 AM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-row">
+      <!-- Step Count -->
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <div class="kpi-icon steps" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16.5C4 13 7 10 10.5 10c.5 0 1 .06 1.5.17"/><path d="M13.08 7.2C12.4 4.8 10.4 3 8 3 5.2 3 3 5.5 3 8.5c0 1.3.4 2.4 1 3.3"/><circle cx="17" cy="14" r="4"/><path d="M17 11v3l2 1"/></svg></div>
+          <span class="kpi-label">Step Count</span>
+        </div>
+        <div class="kpi-main">
+          <div class="kpi-left"><span class="kpi-value">4,504</span><span class="kpi-target">/ 6,000</span></div>
+          <span class="kpi-pct" style="color:var(--metric-down)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="7 7 17 17"/><polyline points="17 7 17 17 7 17"/></svg>75%</span>
+        </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:75%;background:var(--purple-400)"></div></div>
+        <div class="kpi-data-freshness">Fitbit data as of 23 Jun, 6:12 AM</div>
+      </div>
+
+      <!-- Reps -->
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <div class="kpi-icon reps" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v16"/><path d="M18 4v16"/><path d="M6 12h12"/><path d="M3 8h3"/><path d="M3 16h3"/><path d="M18 8h3"/><path d="M18 16h3"/></svg></div>
+          <span class="kpi-label">Reps</span>
+        </div>
+        <div class="kpi-main">
+          <div class="kpi-left"><span class="kpi-value">4,504</span><span class="kpi-target">/ 2,000</span></div>
+          <span class="kpi-pct" style="color:var(--metric-up)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="17 17 7 7"/><polyline points="7 17 7 7 17 7"/></svg>225%</span>
+        </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%;background:var(--metric-up)"></div></div>
+      </div>
+
+      <!-- Hours -->
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <div class="kpi-icon hours" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <span class="kpi-label">Hours</span>
+        </div>
+        <div class="kpi-main">
+          <div class="kpi-left"><span class="kpi-value">4.5</span><span class="kpi-target">/ 5</span></div>
+          <span class="kpi-pct" style="color:var(--metric-neutral)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="17 17 7 7"/><polyline points="7 17 7 7 17 7"/></svg>85%</span>
+        </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:85%;background:var(--metric-neutral)"></div></div>
+      </div>
+
+      <!-- Active Days -->
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <div class="kpi-icon active" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><path d="M9 14l2 2 4-4"/></svg></div>
+          <span class="kpi-label">Active Days</span>
+        </div>
+        <div class="kpi-main">
+          <div class="kpi-left"><span class="kpi-value">6</span><span class="kpi-target">/ 5</span></div>
+          <span class="kpi-pct" style="color:var(--metric-up)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="17 17 7 7"/><polyline points="7 17 7 7 17 7"/></svg>120%</span>
+        </div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:100%;background:var(--metric-up)"></div></div>
+      </div>
+    </div>
+
+    <!-- ADL Tasks -->
+    <div class="adl-section">
+      <div class="adl-header">
+        <h2 class="section-title">Active Tasks <span>· Last 7 Days</span></h2>
+      </div>
+      <div class="adl-list">
+        <div class="adl-chip">Brush teeth <span class="adl-count">4x</span></div>
+        <div class="adl-chip">Wash legs <span class="adl-count">2x</span></div>
+        <div class="adl-chip">Button shirt or pants <span class="adl-count">2x</span></div>
+        <div class="adl-chip">Walk around the block <span class="adl-count">1x</span></div>
+        <div class="adl-chip">Water plant <span class="adl-count">3x</span></div>
+        <div class="adl-chip adl-zero">Open jar <span class="adl-count zero">0x</span></div>
+      </div>
+    </div>
+
+    <!-- Adherence · Week by Week -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <h2 class="section-title">Adherence <span>· Week by Week · Week 10 of 16</span></h2>
+        <div style="display:flex;align-items:center;gap:var(--space-md);">
+          <div class="wa-legend">
+            <div class="wa-legend-item"><span class="cldot" style="background:var(--status-exceeded)"></span>Exceeded</div>
+            <div class="wa-legend-item"><span class="cldot" style="background:var(--status-good)"></span>Good</div>
+            <div class="wa-legend-item"><span class="cldot" style="background:var(--status-slight)"></span>Slightly Below</div>
+            <div class="wa-legend-item"><span class="cldot" style="background:var(--status-low)"></span>Low</div>
+          </div>
+          <div class="adherence-tag low"><span class="tag-dot"></span>Low</div>
+        </div>
+      </div>
+      <div class="traffic-grid" id="trafficGrid" role="img" aria-label="Weekly adherence over 16 weeks. Strong start at 92%, peaked at 110% in week 5, dipped to 28% in week 8, partial recovery, then declined to 18% in current week 10. Weeks 11 through 16 are future."></div>
+    </div>
+
+    <!-- Sessions & Movement (combined) -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <h2 class="section-title">Sessions <span>· 7 Day Progress · Day by Day</span></h2>
+        <div style="display:flex;align-items:center;gap:var(--space-md);">
+          <div class="chart-legend" id="sessionsLegend">
+            <div class="chart-legend-item"><span class="cldot" style="background:var(--chart-mins)"></span>Mins</div>
+            <div class="chart-legend-item"><span class="cldot" style="background:var(--chart-reps)"></span>Reps</div>
+          </div>
+          <div class="chart-legend" id="breakdownLegend" style="display:none;">
+            <div class="chart-legend-item"><span class="cldot" style="background:var(--chart-mins)"></span>Mins</div>
+            <div class="chart-legend-item"><span class="cldot mv-pronation"></span>Pronation</div>
+            <div class="chart-legend-item"><span class="cldot mv-flexion"></span>Flexion</div>
+            <div class="chart-legend-item"><span class="cldot mv-grasp"></span>Grasp</div>
+            <div class="chart-legend-item"><span class="cldot mv-arm"></span>Arm</div>
+          </div>
+          <div class="reps-toggle" role="group" aria-label="Reps detail level">
+            <button class="reps-toggle-btn active" id="toggleReps" onclick="setRepsMode('reps')">Reps</button>
+            <button class="reps-toggle-btn" id="toggleBreakdown" onclick="setRepsMode('breakdown')">By Body Part</button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-area">
+        <canvas id="sessionsChart" class="chart-canvas" aria-label="Bar chart showing daily minutes and reps for the week. Toggle between total reps and body-part breakdown."></canvas>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ═══════════ PATIENT DATA ═══════════
+const patients = [
+  { first:'Daniel', last:'Davis', tier:'good', color:'var(--status-good)' },
+  { first:'Madison', last:'Thompson', tier:'good', color:'var(--status-good)' },
+  { first:'Ryan', last:'Gray', tier:'good', color:'var(--status-good)' },
+  { first:'Olivia', last:'Chen', tier:'good', color:'var(--status-good)' },
+  { first:'Ethan', last:'Rodriguez', tier:'good', color:'var(--status-good)' },
+  { first:'Sophia', last:'Williams', tier:'good', color:'var(--status-good)' },
+  { first:'Noah', last:'Martinez', tier:'good', color:'var(--status-good)' },
+  { first:'Ava', last:'Johnson', tier:'good', color:'var(--status-good)' },
+  { first:'Logan', last:'Fisher', tier:'slight', color:'var(--status-slight)' },
+  { first:'Owen', last:'Patterson', tier:'slight', color:'var(--status-slight)' },
+  { first:'Sophia', last:'Nelson', tier:'slight', color:'var(--status-slight)' },
+  { first:'Benjamin', last:'Brown', tier:'slight', color:'var(--status-slight)' },
+  { first:'Grace', last:'Collins', tier:'slight', color:'var(--status-slight)' },
+  { first:'Liam', last:'Parker', tier:'slight', color:'var(--status-slight)' },
+  { first:'Mia', last:'Millerstein', tier:'low', color:'var(--status-low)', active:true, alert:true },
+  { first:'Natalie', last:'Diaz', tier:'low', color:'var(--status-low)' },
+  { first:'James', last:'Smith', tier:'low', color:'var(--status-low)', alert:true },
+  { first:'Carter', last:'Lewis', tier:'low', color:'var(--status-low)' },
+];
+
+const tierOrder = { good:0, slight:1, low:2 };
+const tierLabels = { good:'Good', slight:'Slightly Below', low:'Low' };
+let currentSort = 'name';
+let searchFilter = '';
+
+function renderPatientList() {
+  const el = document.getElementById('patientList');
+  el.innerHTML = '';
+  let sorted = [...patients];
+  if (searchFilter) sorted = sorted.filter(p => (p.last+', '+p.first).toLowerCase().includes(searchFilter.toLowerCase()));
+
+  if (currentSort === 'name') {
+    sorted.sort((a,b) => a.last.localeCompare(b.last));
+    sorted.forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'patient-item' + (p.active ? ' active' : '');
+      btn.setAttribute('role','listitem');
+      btn.innerHTML = '<span class="indicator" style="background:'+p.color+'" aria-hidden="true"></span><span class="truncate">'+p.last+', '+p.first+'</span>'+(p.alert?'<span class="patient-alert-badge" title="Alert">!</span>':'');
+      el.appendChild(btn);
+    });
+  } else {
+    sorted.sort((a,b) => tierOrder[a.tier] - tierOrder[b.tier] || a.last.localeCompare(b.last));
+    let currentTier = null;
+    sorted.forEach(p => {
+      if (p.tier !== currentTier) {
+        currentTier = p.tier;
+        const label = document.createElement('div');
+        label.className = 'patient-group-label';
+        label.innerHTML = '<span class="dot" style="background:'+p.color+'" aria-hidden="true"></span>'+tierLabels[p.tier];
+        el.appendChild(label);
+      }
+      const btn = document.createElement('button');
+      btn.className = 'patient-item' + (p.active ? ' active' : '');
+      btn.setAttribute('role','listitem');
+      btn.innerHTML = '<span class="indicator" style="background:'+p.color+'" aria-hidden="true"></span><span class="truncate">'+p.last+', '+p.first+'</span>'+(p.alert?'<span class="patient-alert-badge" title="Alert">!</span>':'');
+      el.appendChild(btn);
+    });
+  }
+  if (sorted.length === 0) {
+    el.innerHTML = '<div style="padding:20px 10px;color:rgba(255,255,255,0.5);font-size:12px;text-align:center;">No patients match your search</div>';
+  }
+}
+
+function setSortMode(mode) {
+  currentSort = mode;
+  document.getElementById('sortName').classList.toggle('active', mode === 'name');
+  document.getElementById('sortPerf').classList.toggle('active', mode === 'adherence');
+  renderPatientList();
+}
+
+function filterPatients(val) { searchFilter = val; renderPatientList(); }
+
+renderPatientList();
+
+// ═══════════ PERIOD DROPDOWN ═══════════
+function togglePeriodMenu() {
+  const menu = document.getElementById('periodMenu');
+  const btn = document.getElementById('periodBtn');
+  const open = menu.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+}
+
+function setPeriod(id, label, range) {
+  document.getElementById('periodLabel').textContent = label;
+  document.getElementById('periodRange').textContent = range;
+  document.querySelectorAll('.period-option').forEach(o => o.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('periodMenu').classList.remove('open');
+  document.getElementById('periodBtn').setAttribute('aria-expanded','false');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.period-dropdown-wrap')) {
+    document.getElementById('periodMenu').classList.remove('open');
+    document.getElementById('periodBtn').setAttribute('aria-expanded','false');
+  }
+});
+
+// Escape key closes dropdowns
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('periodMenu').classList.remove('open');
+    document.getElementById('periodBtn').setAttribute('aria-expanded','false');
+  }
+});
+
+// ═══════════ WEEK RING ═══════════
+(function() {
+  const c = document.getElementById('weekRing');
+  const ctx = c.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  c.width = 240 * dpr; c.height = 240 * dpr;
+  ctx.scale(dpr, dpr);
+  const cx = 120, cy = 120, r = 48, lw = 8, progress = 10/16;
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.strokeStyle='#EDE0F7'; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.stroke();
+  const start = -Math.PI/2;
+  ctx.beginPath(); ctx.arc(cx,cy,r,start,start+Math.PI*2*progress); ctx.strokeStyle='#7040A8'; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.stroke();
+})();
+
+// ═══════════ WEEKLY ADHERENCE (single bar per week) ═══════════
+// Mia's story: strong start, dip in May (injury scare), recovery, then recent decline matching inactivity alert
+const weeklyData = [
+  { date:'12 Apr',  pct:92 },
+  { date:'19 Apr',  pct:105 },
+  { date:'26 Apr',  pct:88 },
+  { date:'3 May',   pct:95 },
+  { date:'10 May',  pct:110 },
+  { date:'17 May',  pct:72 },
+  { date:'24 May',  pct:35 },
+  { date:'31 May',  pct:28 },
+  { date:'7 Jun',   pct:68 },
+  { date:'14 Jun',  pct:18,  current:true },
+  { date:'21 Jun',  pct:0,   future:true },
+  { date:'28 Jun',  pct:0,   future:true },
+  { date:'5 Jul',   pct:0,   future:true },
+  { date:'12 Jul',  pct:0,   future:true },
+  { date:'19 Jul',  pct:0,   future:true },
+  { date:'26 Jul',  pct:0,   future:true },
+];
+
+function tierForPct(pct) {
+  if (pct >= 120) return 'exceeded';
+  if (pct >= 80) return 'good';
+  if (pct >= 40) return 'slight';
+  return 'low';
+}
+
+const cs = getComputedStyle(document.documentElement);
+const tierColorMap = {
+  exceeded: cs.getPropertyValue('--status-exceeded').trim(),
+  good: cs.getPropertyValue('--status-good').trim(),
+  slight: cs.getPropertyValue('--status-slight').trim(),
+  low: cs.getPropertyValue('--status-low').trim(),
+};
+
+const grid = document.getElementById('trafficGrid');
+const maxBarH = 56;
+
+weeklyData.forEach(week => {
+  const col = document.createElement('div');
+  col.className = 'traffic-week' + (week.current ? ' current' : '') + (week.future ? ' future' : '');
+
+  const wrap = document.createElement('div');
+  wrap.className = 'traffic-bar-wrap';
+
+  const bar = document.createElement('div');
+  bar.className = 'traffic-bar';
+  const cappedPct = Math.min(week.pct, 130);
+  const h = week.future ? maxBarH * 0.15 : Math.max(2, (cappedPct / 130) * maxBarH);
+  bar.style.height = h + 'px';
+
+  if (!week.future) {
+    const tier = tierForPct(week.pct);
+    bar.style.background = tierColorMap[tier];
+    const label = document.createElement('span');
+    label.className = 'bar-label';
+    label.textContent = week.pct + '%';
+    bar.appendChild(label);
+  }
+
+  wrap.appendChild(bar);
+  const dl = document.createElement('div');
+  dl.className = 'traffic-date';
+  dl.textContent = week.date;
+  col.appendChild(wrap);
+  col.appendChild(dl);
+  grid.appendChild(col);
+});
+
+// ═══════════ COMBINED SESSIONS CHART ═══════════
+const sessCanvas = document.getElementById('sessionsChart');
+const ctx2 = sessCanvas.getContext('2d');
+
+// Combined data: mins + total reps + body part breakdown
+const sessData = [
+  {day:'17 Jun', mins:72, reps:520, pron:180, flex:120, grasp:140, arm:80},
+  {day:'18 Jun', mins:38, reps:280, pron:90,  flex:70,  grasp:80,  arm:40},
+  {day:'19 Jun', mins:0,  reps:0,   pron:0,   flex:0,   grasp:0,   arm:0},
+  {day:'20 Jun', mins:56, reps:490, pron:160, flex:110, grasp:130, arm:90},
+  {day:'21 Jun', mins:0,  reps:0,   pron:0,   flex:0,   grasp:0,   arm:0},
+  {day:'22 Jun', mins:68, reps:580, pron:190, flex:130, grasp:150, arm:110},
+  {day:'23 Jun', mins:75, reps:620, pron:210, flex:140, grasp:160, arm:110},
+];
+
+const mvColors = ['#7040A8','#3A7BC0','#198A63','#C06020'];
+let repsMode = 'reps'; // 'reps' or 'breakdown'
+
+function setRepsMode(mode) {
+  repsMode = mode;
+  document.getElementById('toggleReps').classList.toggle('active', mode === 'reps');
+  document.getElementById('toggleBreakdown').classList.toggle('active', mode === 'breakdown');
+  document.getElementById('sessionsLegend').style.display = mode === 'reps' ? 'flex' : 'none';
+  document.getElementById('breakdownLegend').style.display = mode === 'breakdown' ? 'flex' : 'none';
+  drawSessions();
+}
+
+function drawSessions() {
+  const rect = sessCanvas.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  sessCanvas.width = rect.width * dpr;
+  sessCanvas.height = rect.height * dpr;
+  sessCanvas.style.width = rect.width + 'px';
+  sessCanvas.style.height = rect.height + 'px';
+  ctx2.setTransform(1,0,0,1,0,0);
+  ctx2.scale(dpr, dpr);
+  const w = rect.width, h = rect.height;
+  ctx2.clearRect(0, 0, w, h);
+
+  const padL = 48, padR = 20, padT = 20, padB = 32;
+  const chartW = w - padL - padR, chartH = h - padT - padB;
+  const maxReps = 700, maxMins = 90;
+  const groupW = chartW / sessData.length;
+  const barW = 5;
+
+  // Grid lines
+  ctx2.strokeStyle = '#EDE5F5'; ctx2.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (chartH / 4) * i;
+    ctx2.beginPath(); ctx2.moveTo(padL, Math.round(y) + 0.5); ctx2.lineTo(w - padR, Math.round(y) + 0.5); ctx2.stroke();
+  }
+
+  // Y-axis labels (reps scale)
+  ctx2.font = '500 11px "JetBrains Mono", monospace'; ctx2.fillStyle = '#1A0E2E'; ctx2.textAlign = 'right';
+  for (let i = 0; i <= 4; i++) {
+    ctx2.fillText(Math.round(maxReps - (maxReps / 4) * i), padL - 8, padT + (chartH / 4) * i + 4);
+  }
+
+  sessData.forEach((d, i) => {
+    const cx = padL + groupW * i + groupW / 2;
+
+    if (repsMode === 'reps') {
+      // ── REPS MODE: Mins (left) + Reps (right) ──
+      if (d.mins > 0) {
+        const mH = (d.mins / maxMins) * chartH, mY = padT + chartH - mH;
+        ctx2.fillStyle = '#198A63';
+        ctx2.beginPath(); roundRect(ctx2, cx - barW - 6, mY, barW, mH, 2); ctx2.fill();
+        ctx2.fillStyle = '#0F0A18'; ctx2.font = '600 10px "JetBrains Mono", monospace'; ctx2.textAlign = 'center';
+        ctx2.fillText(d.mins, cx - barW / 2 - 6, mY - 5);
+      }
+      if (d.reps > 0) {
+        const rH = (d.reps / maxReps) * chartH, rY = padT + chartH - rH;
+        ctx2.fillStyle = '#7040A8';
+        ctx2.beginPath(); roundRect(ctx2, cx + 6, rY, barW, rH, 2); ctx2.fill();
+        ctx2.fillStyle = '#0F0A18'; ctx2.font = '600 10px "JetBrains Mono", monospace'; ctx2.textAlign = 'center';
+        ctx2.fillText(d.reps, cx + barW / 2 + 6, rY - 5);
+      }
+    } else {
+      // ── BREAKDOWN MODE: Mins (far left) + 4 body-part bars (right group) ──
+      const bpBarW = 4, bpGap = 5;
+      const bpGroupW = 4 * bpBarW + 3 * bpGap; // total width of 4 body-part bars
+      const minsX = cx - bpGroupW / 2 - 10; // mins bar offset left of group
+
+      if (d.mins > 0) {
+        const mH = (d.mins / maxMins) * chartH, mY = padT + chartH - mH;
+        ctx2.fillStyle = '#198A63';
+        ctx2.beginPath(); roundRect(ctx2, minsX, mY, barW, mH, 2); ctx2.fill();
+        ctx2.fillStyle = '#0F0A18'; ctx2.font = '600 9px "JetBrains Mono", monospace'; ctx2.textAlign = 'center';
+        ctx2.fillText(d.mins, minsX + barW / 2, mY - 4);
+      }
+
+      const vals = [d.pron, d.flex, d.grasp, d.arm];
+      const bpStartX = cx - bpGroupW / 2 + 6;
+      vals.forEach((v, j) => {
+        if (v <= 0) return;
+        const bH = (v / maxReps) * chartH;
+        const bX = bpStartX + j * (bpBarW + bpGap);
+        ctx2.fillStyle = mvColors[j];
+        ctx2.beginPath(); roundRect(ctx2, bX, padT + chartH - bH, bpBarW, bH, 1.5); ctx2.fill();
+        ctx2.fillStyle = '#0F0A18'; ctx2.font = '600 8px "JetBrains Mono", monospace'; ctx2.textAlign = 'center';
+        ctx2.fillText(v, bX + bpBarW / 2, padT + chartH - bH - 3);
+      });
+    }
+
+    // X-axis day labels
+    ctx2.fillStyle = '#1A0E2E'; ctx2.font = '500 11px "JetBrains Mono", monospace'; ctx2.textAlign = 'center';
+    ctx2.fillText(d.day, cx, h - 10);
+  });
+
+  // 60 min target line
+  const targetY = padT + chartH - (60 / maxMins) * chartH;
+  ctx2.strokeStyle = 'rgba(25,138,99,0.3)'; ctx2.lineWidth = 1; ctx2.setLineDash([5, 4]);
+  ctx2.beginPath(); ctx2.moveTo(padL, Math.round(targetY) + 0.5); ctx2.lineTo(w - padR, Math.round(targetY) + 0.5); ctx2.stroke(); ctx2.setLineDash([]);
+  ctx2.fillStyle = 'rgba(25,138,99,0.5)'; ctx2.font = '500 9px "DM Sans", sans-serif'; ctx2.textAlign = 'right';
+  ctx2.fillText('60 min target', w - padR - 4, targetY - 4);
+}
+
+function roundRect(ctx,x,y,w,h,r){if(h<=0)return;r=Math.min(r,w/2,h/2);ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h);ctx.lineTo(x,y+h);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);}
+
+drawSessions();
+document.fonts.ready.then(()=>{drawSessions();});
+window.addEventListener('resize',drawSessions);
+</script>
+</body>
+</html>

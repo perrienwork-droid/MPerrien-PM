@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurofenix Hub, practice lead view</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hub-sidebar.css">
+<style>
+  :root {
+    /* Brand, navy and teal */
+    --hub-navy-deep: #00016C;
+    --hub-navy-900: #0A1B4D;
+    --hub-navy-800: #10257A;
+    --hub-navy-700: #1B3AA6;
+    --hub-navy-600: #2A4EC7;
+    --hub-navy-500: #4169E1;
+    --hub-teal-700: #0A7A83;
+    --hub-teal-700: #007A7A;
+    --hub-teal-600: #00A8A8;
+    --hub-teal-500: #00C4C4;
+    --hub-teal-400: #3ED6D6;
+    --hub-teal-300: #7FE3E3;
+    --hub-teal-200: #B5EFEF;
+    --hub-teal-100: #D6F6F6;
+    --hub-teal-50:  #E6FBFB;
+    /* Supporting */
+    --hub-pink-50:  #FDECF2;
+    --hub-amber-500: #F0A83C;
+    --hub-amber-400: #F5BC65;
+    --hub-amber-50:  #FFF4DF;
+    /* Neutrals */
+    --hub-grey-900: #0F1430;
+    --hub-grey-800: #1F2647;
+    --hub-grey-700: #3A4168;
+    --hub-grey-500: #6B7293;
+    --hub-grey-400: #9098B5;
+    --hub-grey-300: #CBD0E3;
+    --hub-grey-200: #DFE3EF;
+    --hub-grey-100: #EEF0F8;
+    --hub-grey-50:  #F6F8FC;
+    --hub-white: #FFFFFF;
+    /* Status */
+    --hub-exc-600: #0E8A8A;
+    --hub-exc-50:  #D6F3F3;
+    --hub-ok-600: #17926A;
+    --hub-ok-50:  #E1F3E7;
+    --hub-warn-600: #B67F12;
+    --hub-warn-50:  #FBEFCF;
+    --hub-risk-600: #C83A4A;
+    --hub-risk-50:  #FCDDE1;
+    /* Row tints for patient table */
+    --hub-row-lilac: #EDE9FD;
+    --hub-row-teal:  #E3F6F6;
+    --hub-row-cream: #FAF3E7;
+    /* Fonts */
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-pill: 999px;
+    /* Shadows */
+    --shadow-card: 0 1px 3px rgba(10,27,77,0.06), 0 6px 16px rgba(10,27,77,0.05);
+    --shadow-pop:  0 12px 28px rgba(10,27,77,0.12);
+    /* Sidebar tokens + rules live in hub-sidebar.css, shared with healthcare-group.html */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-body);
+    background: var(--hub-grey-50);
+    color: var(--hub-grey-900);
+    -webkit-font-smoothing: antialiased;
+    width: 1280px;
+    height: 800px;
+    overflow: hidden;
+  }
+  :focus-visible { outline: 2px solid var(--hub-teal-500); outline-offset: 2px; border-radius: var(--radius-sm); }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  /* ═══════════════ SHELL ═══════════════ */
+  .hub-shell { display: flex; width: 1280px; height: 800px; }
+
+  /* Sidebar styles (tokens, nav, brand, side-card) live in hub-sidebar.css */
+
+  /* ═══════════════ MAIN ═══════════════ */
+  .hub-main {
+    flex: 1;
+    min-width: 0;
+    height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--hub-grey-50);
+    position: relative;
+  }
+
+  .hub-view { display: none; flex-direction: column; min-height: 800px; }
+  .hub-view.is-active { display: flex; }
+
+  /* intro screen moved to healthcare-hub-intro.html */
+
+  /* ═══════════════ BIFURCATOR ═══════════════ */
+  .bif-flow {
+    flex: 1;
+    display: none;
+    padding: 40px 32px 48px;
+    background: var(--hub-white);
+    min-height: 800px;
+  }
+  .bif-flow.is-active { display: block; }
+  .bif-page { max-width: 880px; margin: 0 auto; }
+
+  .bif-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--hub-navy-deep);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .bif-eyebrow::before {
+    content: '';
+    width: 18px; height: 1px;
+    background: currentColor;
+  }
+  .bif-eyebrow svg { width: 12px; height: 12px; }
+  .bif-page-title {
+    font-size: 34px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    color: var(--hub-grey-900);
+    margin: 0 0 8px;
+  }
+  .bif-page-sub {
+    color: var(--hub-grey-700);
+    font-size: 14px;
+    max-width: 58ch;
+    line-height: 1.5;
+    margin: 0 0 24px;
+  }
+
+  .bif-stepper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--hub-grey-500);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .bif-stepper-dots { display: flex; gap: 4px; }
+  .bif-stepper-dot {
+    width: 18px; height: 3px;
+    background: #E8ECF4;
+    border-radius: 2px;
+  }
+  .bif-stepper-dot.done { background: var(--hub-teal-500); }
+  .bif-stepper-dot.cur { background: var(--hub-navy-deep); }
+  .bif-stepper-sep { color: #C4CAD9; }
+
+  .bif-survey {
+    background: var(--hub-white);
+    border: 1px solid #E8ECF4;
+    border-radius: 14px;
+    padding: 28px 30px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .bif-q-num {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--hub-navy-deep);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    flex: none;
+    min-width: 48px;
+  }
+  .bif-q-body { flex: 1; min-width: 0; }
+  .bif-q-title {
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--hub-grey-900);
+    font-weight: 700;
+    margin: 0;
+  }
+  .bif-q-hint {
+    font-size: 12px;
+    color: var(--hub-grey-500);
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .bif-q-hint[hidden] { display: none; }
+
+  .bif-survey-opts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .bif-survey-opt {
+    border: 1.5px solid #D5DBE8;
+    background: var(--hub-white);
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 150ms, background 150ms, box-shadow 150ms;
+    font-family: inherit;
+    cursor: pointer;
+    width: 100%;
+  }
+  .bif-survey-opt:hover {
+    border-color: var(--hub-teal-500);
+    background: var(--hub-teal-50);
+  }
+  .bif-survey-opt.is-selected {
+    border-color: var(--hub-teal-500);
+    background: var(--hub-teal-50);
+    box-shadow: 0 0 0 3px rgba(16,194,206,0.15);
+  }
+  .bif-opt-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .bif-opt-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--hub-grey-900);
+    letter-spacing: -0.005em;
+  }
+  .bif-opt-check {
+    opacity: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--hub-teal-500);
+    color: var(--hub-white);
+    display: grid;
+    place-items: center;
+    transition: opacity 150ms;
+    flex: none;
+  }
+  .bif-opt-check svg { width: 12px; height: 12px; }
+  .bif-survey-opt.is-selected .bif-opt-check { opacity: 1; }
+  .bif-opt-desc {
+    font-size: 13px;
+    color: var(--hub-grey-600);
+    line-height: 1.4;
+  }
+
+  .bif-why {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--hub-grey-800);
+    background: var(--hub-teal-50);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+  .bif-why-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--hub-teal-700);
+    flex: none;
+    padding-top: 2px;
+  }
+
+  .bif-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 22px;
+  }
+  .bif-actions-right { display: flex; gap: 4px; }
+  /* Delicate navigation: both Next and Back are understated so they
+     do not compete with the question content. Back is a plain text
+     link, Next is a subtle outline button. */
+  .bif-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--hub-grey-600);
+    cursor: pointer;
+    transition: color 120ms, background 120ms, border-color 120ms, opacity 120ms;
+  }
+  .bif-btn:hover { color: var(--hub-grey-900); background: rgba(15,20,48,0.035); }
+  .bif-btn.ghost { color: var(--hub-grey-500); }
+  .bif-btn.ghost:hover { color: var(--hub-grey-900); background: rgba(15,20,48,0.035); }
+  .bif-btn.primary {
+    color: var(--hub-navy-deep);
+    border-color: rgba(0,1,108,0.18);
+    font-weight: 600;
+  }
+  .bif-btn.primary:hover {
+    color: var(--hub-navy-deep);
+    background: rgba(0,1,108,0.05);
+    border-color: rgba(0,1,108,0.35);
+  }
+  .bif-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .bif-btn:disabled:hover { background: transparent; color: var(--hub-grey-500); border-color: rgba(0,1,108,0.12); }
+  .bif-btn svg { width: 12px; height: 12px; }
+
+  /* ═══════════════ BIFURCATOR SUCCESS ═══════════════ */
+  .bif-success {
+    flex: 1;
+    display: none;
+    padding: 40px 32px 48px;
+    background: var(--hub-white);
+    min-height: 800px;
+  }
+  .bif-success.is-active { display: block; }
+  .bif-result-banner {
+    padding: 28px 32px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--hub-teal-700) 0%, var(--hub-teal-500) 100%);
+    color: var(--hub-white);
+    display: flex;
+    gap: 22px;
+    align-items: center;
+    margin-top: 14px;
+  }
+  .bif-result-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.18);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  .bif-result-icon svg { width: 28px; height: 28px; }
+  .bif-result-body { flex: 1; min-width: 0; }
+  .bif-result-body h3 {
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    font-weight: 800;
+    margin: 0 0 4px;
+    color: var(--hub-white);
+  }
+  .bif-result-body p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 14px;
+    max-width: 60ch;
+  }
+  .bif-result-cta {
+    background: var(--hub-white);
+    color: var(--hub-navy-deep);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    flex: none;
+  }
+  .bif-result-cta svg { width: 14px; height: 14px; }
+
+  .bif-result-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .bif-result-card {
+    background: var(--hub-white);
+    border: 1px solid #E8ECF4;
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .bif-card-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--hub-grey-500);
+    font-weight: 700;
+    margin: 0 0 14px;
+  }
+  .bif-answer-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 10px 0;
+    border-top: 1px solid #E8ECF4;
+    align-items: baseline;
+  }
+  .bif-answer-row:first-of-type { border-top: 0; padding-top: 0; }
+  .bif-answer-q {
+    font-size: 12px;
+    color: var(--hub-grey-600);
+    line-height: 1.4;
+  }
+  .bif-answer-a {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--hub-grey-900);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .bif-next-steps { display: grid; gap: 12px; }
+  .bif-next-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bif-next-step-num {
+    width: 24px; height: 24px;
+    border-radius: 999px;
+    background: #E7EAFE;
+    color: var(--hub-navy-deep);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex: none;
+  }
+  .bif-next-step-label {
+    font-size: 13px;
+    color: var(--hub-grey-800);
+    flex: 1;
+  }
+  .bif-next-step-time {
+    font-size: 11px;
+    color: var(--hub-grey-500);
+    font-weight: 500;
+  }
+  .bif-result-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #E8ECF4;
+  }
+
+  /* ═══════════════ VIEW 2, UPDATES AND INSIGHTS ═══════════════ */
+  .hub-view-body { padding: 32px 44px 40px; }
+
+  .hub-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--hub-grey-900);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .hub-section-title + .hub-section-title { margin-top: 28px; }
+
+  /* Adherence cards */
+  .adh-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .adh-card {
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    position: relative;
+    min-height: 132px;
+  }
+  .adh-card.exc  { background: var(--hub-teal-100); }
+  .adh-card.good { background: #DDF1E2; }
+  .adh-card.warn { background: #FBEFCF; }
+  .adh-card.risk { background: var(--hub-risk-50); }
+  .adh-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .adh-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--hub-navy-900);
+  }
+  .adh-label svg { width: 20px; height: 20px; }
+  .adh-delta {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hub-navy-900);
+  }
+  .adh-card.warn .adh-delta { color: var(--hub-warn-600); }
+  .adh-card.risk .adh-delta { color: var(--hub-risk-600); }
+  .adh-delta svg { width: 12px; height: 12px; }
+  .adh-figs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .adh-fig-label { font-size: 10px; color: var(--hub-navy-900); font-weight: 500; margin-bottom: 6px; }
+  .adh-fig-val {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--hub-navy-900);
+    letter-spacing: -0.02em;
+    font-family: var(--font-body);
+  }
+  .adh-fig-val-right { text-align: right; }
+
+  /* Key stats */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .kpi-card {
+    background: var(--hub-grey-100);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .kpi-card .adh-delta {
+    position: absolute;
+    top: 14px; right: 14px;
+    color: var(--hub-ok-600);
+  }
+  .kpi-card.down .adh-delta { color: var(--hub-risk-600); }
+  .kpi-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .kpi-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--hub-navy-900);
+    line-height: 1.25;
+    max-width: 140px;
+  }
+  .kpi-val {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--hub-navy-900);
+    letter-spacing: -0.02em;
+    margin-top: 6px;
+  }
+  .kpi-art {
+    width: 48px; height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hub-navy-700);
+  }
+  .kpi-art svg { width: 44px; height: 44px; }
+  .kpi-card.add {
+    background: #E6EBF9;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 12px;
+  }
+  .kpi-card.add .kpi-label { font-size: 15px; max-width: none; }
+
+  /* Stale banner variant */
+  .hub-stale {
+    background: var(--hub-warn-50);
+    color: var(--hub-warn-600);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .hub-stale svg { width: 14px; height: 14px; }
+
+  /* Footer legal strip */
+  .hub-legal-strip {
+    margin-top: auto;
+    background: #5F5EB1;
+    color: rgba(255,255,255,0.95);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    padding: 12px 24px;
+  }
+
+  /* ═══════════════ VIEW 3, PATIENT LIST ═══════════════ */
+  .pl-body {
+    padding: 32px 60px 40px;
+    background: #FAF3E7;
+    min-height: calc(800px - 78px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .pl-status-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .pl-status-card {
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
+    min-height: 90px;
+  }
+  .pl-status-card.one { background: #E2DAFC; }
+  .pl-status-card.two { background: var(--hub-teal-100); }
+  .pl-status-card.three { background: var(--hub-white); }
+  .pl-status-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--hub-navy-900);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .pl-status-head svg { width: 18px; height: 18px; }
+  .pl-status-nums {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pl-status-big {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--hub-navy-900);
+    letter-spacing: -0.02em;
+  }
+  .pl-status-pct {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--hub-navy-900);
+  }
+
+  .pl-tools {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    padding: 4px 0;
+  }
+  .pl-chip {
+    background: #F5E6D0;
+    color: var(--hub-grey-900);
+    padding: 8px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .pl-chip:hover { background: #EDD6B5; }
+  .pl-chip.is-active { background: var(--hub-navy-700); color: var(--hub-white); }
+
+  .pl-table-wrap {
+    background: transparent;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    width: 100%;
+  }
+  table.pl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    color: var(--hub-grey-900);
+    background: var(--hub-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  table.pl-table thead th {
+    background: var(--hub-navy-900);
+    color: var(--hub-white);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+  table.pl-table thead th.status-col { background: var(--hub-teal-400); color: var(--hub-navy-900); }
+  table.pl-table tbody td {
+    padding: 10px 14px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(10,27,77,0.04);
+  }
+  table.pl-table tbody tr { transition: background 0.15s; }
+  table.pl-table tbody tr.tint-cream { background: var(--hub-row-cream); }
+  table.pl-table tbody tr.tint-teal  { background: var(--hub-row-teal); }
+  table.pl-table tbody tr.tint-lilac { background: var(--hub-row-lilac); }
+  table.pl-table tbody tr.tint-none  { background: var(--hub-white); }
+  table.pl-table tbody tr:hover { filter: brightness(0.97); }
+  table.pl-table .pn { font-weight: 700; }
+  .pl-jump {
+    position: absolute;
+    bottom: 26px;
+    right: 30px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--hub-teal-400);
+    color: var(--hub-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-pop);
+    border: 3px solid rgba(255,255,255,0.8);
+    cursor: pointer;
+  }
+  .pl-jump svg { width: 18px; height: 18px; }
+
+  /* ═══════════════ SCROLLBAR ═══════════════ */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--hub-grey-300); border-radius: 3px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .hub-view.is-active { animation: fadeIn 0.25s ease; }
+</style>
+</head>
+<body>
+
+<div class="hub-shell" id="hubShell">
+
+  <!-- ═══════════════ SIDEBAR ═══════════════ -->
+  <aside class="hub-sidebar" role="complementary">
+    <div class="hub-brand">
+      <div class="hub-brand-mark" aria-hidden="true">N</div>
+      <div class="hub-brand-text">
+        <div class="hub-brand-name">Neurofenix Hub</div>
+        <div class="hub-brand-sub">Partner</div>
+      </div>
+    </div>
+
+    <nav class="hub-nav" aria-label="Main navigation">
+      <button class="hub-nav-item is-active" data-view="screen" onclick="switchView('screen')" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+          <path d="M5 18l0.5 1.5L7 20l-1.5 0.5L5 22l-0.5-1.5L3 20l1.5-0.5L5 18z"/>
+          <path d="M19 15l0.5 1.5L21 17l-1.5 0.5L19 19l-0.5-1.5L17 17l1.5-0.5L19 15z"/>
+        </svg>
+        <span>Bifurcator&trade;</span>
+        <span class="hub-nav-badge plus">Plus</span>
+      </button>
+      <button class="hub-nav-item" data-view="insights" onclick="switchView('insights')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span>Updates &amp; Insights</span>
+      </button>
+      <button class="hub-nav-item" data-view="patients" onclick="switchView('patients')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Patient list</span>
+        <span class="hub-nav-badge">20</span>
+      </button>
+      <a class="hub-nav-item" href="healthcare-group.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="4" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="13" width="7" height="7" rx="1.5"/>
+          <rect x="14" y="13" width="7" height="7" rx="1.5"/>
+        </svg>
+        <span>Care groups</span>
+        <span class="hub-nav-badge">4</span>
+      </a>
+    </nav>
+
+    <div class="hub-side-card">
+      <span class="hub-side-card-title">Baptist Health, Florida</span>
+      <span class="hub-side-card-meta">Partner since 2024, 3 programs active</span>
+    </div>
+  </aside>
+
+  <!-- ═══════════════ MAIN ═══════════════ -->
+  <main class="hub-main" role="main">
+
+    <!-- ╔════════ VIEW 1, SCREEN A NEW PATIENT ════════╗ -->
+    <section class="hub-view is-active" id="view-screen">
+
+      <!-- Question flow -->
+      <div class="bif-flow is-active" id="bifStateQuestion">
+        <div class="bif-page">
+          <div class="bif-eyebrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+            </svg>
+            Neurofenix Bifurcator&trade;
+          </div>
+          <h1 class="bif-page-title">Screen a new patient.</h1>
+          <p class="bif-page-sub">A short, zero-PHI flow to tell if remote Virtual Neuro Rehab is the right fit. Nothing is saved to records until you confirm.</p>
+
+          <div class="bif-stepper">
+            <span>Question <span id="bifStepNum">1</span> of <span id="bifStepTotal">3</span></span>
+            <div class="bif-stepper-dots" id="bifStepDots"></div>
+            <span class="bif-stepper-sep">·</span>
+            <span id="bifStepMin">~3 min left</span>
+          </div>
+
+          <div class="bif-survey">
+            <div class="bif-q-num" id="bifQNum">01</div>
+            <div class="bif-q-body">
+              <h2 class="bif-q-title" id="bifQTitle">In which joints does the patient have movement?</h2>
+              <div class="bif-q-hint" id="bifQHint" hidden>Select all that apply.</div>
+              <div class="bif-survey-opts" id="bifOptions">
+                <!-- options injected by JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="bif-why">
+            <span class="bif-why-label">Why we ask</span>
+            <span id="bifWhy">Movement in at least two upper limb joints amplifies patients' benefits from our programs. Our technology relies on patients' movements, and even small initial movements can be the first step toward progress.</span>
+          </div>
+
+          <div class="bif-actions">
+            <button class="bif-btn ghost" onclick="switchView('patients')" aria-label="Cancel screening">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              Cancel
+            </button>
+            <div class="bif-actions-right">
+              <button class="bif-btn ghost" id="bifBackBtn" onclick="prevQuestion()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Back
+              </button>
+              <button class="bif-btn primary" id="bifNextBtn" onclick="nextQuestion()" disabled>
+                <span id="bifNextLabel">Next</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success result -->
+      <div class="bif-success" id="bifStateSuccess">
+        <div class="bif-page">
+          <div class="bif-eyebrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/></svg>
+            Recommendation
+          </div>
+
+          <div class="bif-result-banner">
+            <div class="bif-result-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="bif-result-body">
+              <h3>Virtual Neuro Rehab is a strong fit.</h3>
+              <p>Based on the answers, we recommend the Stroke Recovery program, upper limb track. The patient can start onboarding this week.</p>
+            </div>
+            <button class="bif-result-cta" onclick="switchView('patients')">
+              Continue to patient
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <div class="bif-result-grid">
+            <div class="bif-result-card">
+              <div class="bif-card-title">Your answers</div>
+              <div id="bifAnswers">
+                <!-- rendered by JS -->
+              </div>
+            </div>
+            <div class="bif-result-card">
+              <div class="bif-card-title">What happens next</div>
+              <div class="bif-next-steps">
+                <div class="bif-next-step">
+                  <span class="bif-next-step-num">1</span>
+                  <span class="bif-next-step-label">Insurance screening</span>
+                  <span class="bif-next-step-time">1-2 days</span>
+                </div>
+                <div class="bif-next-step">
+                  <span class="bif-next-step-num">2</span>
+                  <span class="bif-next-step-label">OT evaluation booked</span>
+                  <span class="bif-next-step-time">this week</span>
+                </div>
+                <div class="bif-next-step">
+                  <span class="bif-next-step-num">3</span>
+                  <span class="bif-next-step-label">Device shipped to patient</span>
+                  <span class="bif-next-step-time">3-5 days</span>
+                </div>
+                <div class="bif-next-step">
+                  <span class="bif-next-step-num">4</span>
+                  <span class="bif-next-step-label">Onboarding call with clinician</span>
+                  <span class="bif-next-step-time">day 7</span>
+                </div>
+              </div>
+              <div class="bif-result-actions">
+                <button class="bif-btn ghost" onclick="resetBifurcator()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                  Screen another
+                </button>
+                <button class="bif-btn primary">Add to program</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ╔════════ VIEW 2, UPDATES AND INSIGHTS ════════╗ -->
+    <section class="hub-view" id="view-insights">
+      <div class="hub-view-body">
+        <div class="hub-stale" role="status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Data last synced 2h ago
+        </div>
+
+        <div class="hub-section-title">Patient Adherence Performance</div>
+        <div class="adh-row">
+          <div class="adh-card exc">
+            <div class="adh-head">
+              <div class="adh-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                Exceeded
+              </div>
+              <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 14 12 8 18 14"/></svg></div>
+            </div>
+            <div class="adh-figs">
+              <div><div class="adh-fig-label">nr of patients</div><div class="adh-fig-val">10</div></div>
+              <div><div class="adh-fig-label adh-fig-val-right">total ratio</div><div class="adh-fig-val adh-fig-val-right">16.6%</div></div>
+            </div>
+          </div>
+          <div class="adh-card good">
+            <div class="adh-head">
+              <div class="adh-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                Good
+              </div>
+              <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 14 12 8 18 14"/></svg></div>
+            </div>
+            <div class="adh-figs">
+              <div><div class="adh-fig-label">nr of patients</div><div class="adh-fig-val">30</div></div>
+              <div><div class="adh-fig-label adh-fig-val-right">total ratio</div><div class="adh-fig-val adh-fig-val-right">50%</div></div>
+            </div>
+          </div>
+          <div class="adh-card warn">
+            <div class="adh-head">
+              <div class="adh-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                Slightly Below
+              </div>
+              <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 10 12 16 18 10"/></svg></div>
+            </div>
+            <div class="adh-figs">
+              <div><div class="adh-fig-label">nr of patients</div><div class="adh-fig-val">10</div></div>
+              <div><div class="adh-fig-label adh-fig-val-right">total ratio</div><div class="adh-fig-val adh-fig-val-right">16.6%</div></div>
+            </div>
+          </div>
+          <div class="adh-card risk">
+            <div class="adh-head">
+              <div class="adh-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                Low
+              </div>
+              <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 10 12 16 18 10"/></svg></div>
+            </div>
+            <div class="adh-figs">
+              <div><div class="adh-fig-label">nr of patients</div><div class="adh-fig-val">10</div></div>
+              <div><div class="adh-fig-label adh-fig-val-right">total ratio</div><div class="adh-fig-val adh-fig-val-right">16.6%</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-section-title">Key Stats</div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 14 12 8 18 14"/></svg></div>
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-label">Goals Achievement<br>Rate</div>
+                <div class="kpi-val">82%</div>
+              </div>
+              <div class="kpi-art">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="34" width="10" height="10"/>
+                  <rect x="14" y="26" width="10" height="18"/>
+                  <rect x="24" y="18" width="10" height="26"/>
+                  <path d="M30 8 L36 18"/><path d="M30 8 L26 12 L32 14 Z" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card down">
+            <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 10 12 16 18 10"/></svg></div>
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-label">Patient<br>Satisfaction</div>
+                <div class="kpi-val">88%</div>
+              </div>
+              <div class="kpi-art">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M24 6 L28 10 L33 9 L35 14 L40 15 L39 20 L43 24 L39 28 L40 33 L35 34 L33 39 L28 38 L24 42 L20 38 L15 39 L13 34 L8 33 L9 28 L5 24 L9 20 L8 15 L13 14 L15 9 L20 10 Z"/>
+                  <polyline points="18 24 22 28 30 20"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 14 12 8 18 14"/></svg></div>
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-label">Berg Balance</div>
+                <div class="kpi-val">48/56</div>
+              </div>
+              <div class="kpi-art">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="24" y1="8" x2="24" y2="38"/>
+                  <line x1="10" y1="14" x2="38" y2="14"/>
+                  <path d="M4 22 L10 14 L16 22 Z"/>
+                  <path d="M32 22 L38 14 L44 22 Z"/>
+                  <line x1="4" y1="22" x2="16" y2="22"/>
+                  <line x1="32" y1="22" x2="44" y2="22"/>
+                  <rect x="20" y="36" width="8" height="4"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card down">
+            <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 10 12 16 18 10"/></svg></div>
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-label">Readmissions</div>
+                <div class="kpi-val">5%</div>
+              </div>
+              <div class="kpi-art">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="30" cy="10" r="3"/>
+                  <path d="M28 14 L22 24 L28 28 L24 36"/>
+                  <path d="M22 24 L16 22"/>
+                  <path d="M28 28 L34 32"/>
+                  <line x1="6" y1="42" x2="42" y2="42"/>
+                  <line x1="22" y1="42" x2="26" y2="38"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="adh-delta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 14 12 8 18 14"/></svg></div>
+            <div class="kpi-top">
+              <div>
+                <div class="kpi-label">Pain Levels</div>
+                <div class="kpi-val">3/10</div>
+              </div>
+              <div class="kpi-art">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="24" cy="24" r="18"/>
+                  <path d="M15 17 L19 21 M19 17 L15 21"/>
+                  <path d="M29 17 L33 21 M33 17 L29 21"/>
+                  <path d="M16 34 C16 30, 32 30, 32 34"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card add">
+            <div class="kpi-label">Add your own</div>
+            <div class="kpi-art">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="16" r="6"/>
+                <path d="M6 38 C6 30, 30 30, 30 38"/>
+                <line x1="36" y1="14" x2="36" y2="24"/>
+                <line x1="31" y1="19" x2="41" y2="19"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hub-legal-strip">This data is fictional for demonstration purposes of the Neurofenix Hub.</div>
+    </section>
+
+    <!-- ╔════════ VIEW 3, PATIENT LIST ════════╗ -->
+    <section class="hub-view" id="view-patients">
+      <div class="pl-body">
+        <div class="pl-status-row">
+          <div class="pl-status-card one">
+            <div class="pl-status-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              In Programs
+            </div>
+            <div class="pl-status-nums"><div class="pl-status-big">12</div><div class="pl-status-pct">60%</div></div>
+          </div>
+          <div class="pl-status-card two">
+            <div class="pl-status-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              Processing
+            </div>
+            <div class="pl-status-nums"><div class="pl-status-big">4</div><div class="pl-status-pct">20%</div></div>
+          </div>
+          <div class="pl-status-card three">
+            <div class="pl-status-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              Awaiting
+            </div>
+            <div class="pl-status-nums"><div class="pl-status-big">4</div><div class="pl-status-pct">20%</div></div>
+          </div>
+        </div>
+
+        <div class="pl-tools">
+          <button class="pl-chip is-active">All Groups</button>
+          <button class="pl-chip">Show as tiles</button>
+        </div>
+
+        <div class="pl-table-wrap">
+          <table class="pl-table">
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th class="status-col">Status</th>
+                <th>Care Provider</th>
+                <th>Phase duration</th>
+                <th>Adherence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tint-cream"><td class="pn">Madison Thompson</td><td>Referral Received</td><td>Not assigned yet</td><td>6h</td><td>N/A</td></tr>
+              <tr class="tint-cream"><td class="pn">Logan Fisher</td><td>Referral Received</td><td>Not assigned yet</td><td>6h</td><td>N/A</td></tr>
+              <tr class="tint-cream"><td class="pn">Olivia Garcia</td><td>Insurance Screening</td><td>Not assigned yet</td><td>1 day</td><td>N/A</td></tr>
+              <tr class="tint-cream"><td class="pn">Noah Mitchell</td><td>Insurance Screening</td><td>Not assigned yet</td><td>2 days</td><td>N/A</td></tr>
+              <tr class="tint-teal"><td class="pn">Bella Turner</td><td>OT evaluation</td><td>Amy Jo Rohe</td><td>1 day</td><td>N/A</td></tr>
+              <tr class="tint-teal"><td class="pn">Aiden Clark</td><td>OT evaluation</td><td>Katie Riccio</td><td>1 day</td><td>N/A</td></tr>
+              <tr class="tint-teal"><td class="pn">Lucas Roberts</td><td>Onboarding</td><td>Katie Riccio</td><td>4 days</td><td>N/A</td></tr>
+              <tr class="tint-teal"><td class="pn">Alexander Thomas</td><td>Onboarding</td><td>Amy Jo Rohe</td><td>2 days</td><td>N/A</td></tr>
+              <tr class="tint-lilac"><td class="pn">Jacob Martinez</td><td>Program 1</td><td>Katie Riccio</td><td>1 week</td><td>Good</td></tr>
+              <tr class="tint-lilac"><td class="pn">William Turc</td><td>Program 3</td><td>Amy Jo Rohe</td><td>3 weeks</td><td>Good</td></tr>
+              <tr class="tint-lilac"><td class="pn">Ethan Edwards</td><td>Program 2</td><td>Amy Jo Rohe</td><td>3 weeks</td><td>Exceeded</td></tr>
+              <tr class="tint-lilac"><td class="pn">Liam Robinson</td><td>Program 1</td><td>Katie Riccio</td><td>4 weeks</td><td>Low</td></tr>
+              <tr class="tint-lilac"><td class="pn">Isabella Rodriguez</td><td>Program 2</td><td>Katie Riccio</td><td>4 weeks</td><td>Slightly Below</td></tr>
+              <tr class="tint-lilac"><td class="pn">Victoria Hall</td><td>Program 3</td><td>Amy Jo Rohe</td><td>4 weeks</td><td>Good</td></tr>
+              <tr class="tint-lilac"><td class="pn"><a href="healthcare-group.html">Charlotte Campbell</a></td><td>Program 2</td><td>Amy Jo Rohe</td><td>5 weeks</td><td>Good</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button class="pl-jump" aria-label="Jump to bottom">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="hub-legal-strip">This data is fictional for demonstration purposes of the Neurofenix Hub.</div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// ═══════════════ VIEW SWITCHING ═══════════════
+function switchView(name) {
+  document.querySelectorAll('.hub-view').forEach(v => v.classList.remove('is-active'));
+  document.querySelectorAll('.hub-nav-item').forEach(i => i.classList.remove('is-active'));
+  document.getElementById('view-' + name).classList.add('is-active');
+  document.querySelector('.hub-nav-item[data-view="' + name + '"]').classList.add('is-active');
+  document.querySelector('.hub-main').scrollTo({top: 0, behavior: 'smooth'});
+  if (name === 'screen') {
+    // always reset to welcome when returning
+    resetBifurcator();
+  }
+}
+
+// ═══════════════ BIFURCATOR FLOW ═══════════════
+const bifQuestions = [
+  {
+    title: "In which joints does the patient have movement?",
+    why: "Movement in at least two upper limb joints amplifies patients' benefits from our programs. Even small initial movements can be the first step toward progress.",
+    multi: true,
+    options: [
+      { label: "Shoulder", desc: "Active range of motion" },
+      { label: "Elbow",    desc: "Flexion and extension" },
+      { label: "Wrist",    desc: "Some voluntary control" },
+      { label: "Fingers",  desc: "Gross grip or pinch" },
+    ]
+  },
+  {
+    title: "Can the patient stand up for 30 seconds with or without minimal assistance?",
+    why: "Standing for 30 seconds, with or without caregiver's help, is key for independence and fall prevention, and sets a baseline for lower limb and balance exercises. Minimal assistance is fine.",
+    multi: false,
+    options: [
+      { label: "Yes", desc: "With or without minimal assistance" },
+      { label: "No",  desc: "Cannot hold for 30 seconds" },
+    ]
+  },
+  {
+    title: "Can the patient follow two step instructions independently?",
+    why: "Following two step instructions indicates the cognitive load needed to complete remote sessions without live supervision. Occasional caregiver prompts are fine.",
+    multi: false,
+    options: [
+      { label: "Yes", desc: "Occasional prompts are fine" },
+      { label: "No",  desc: "Needs continuous guidance" },
+    ]
+  },
+  {
+    title: "Is the patient comfortable using technology?",
+    why: "Patients comfortable with technology often achieve the best results in virtual care. 79% of adults over 65 own a smartphone, consider if the patient can use one independently or with caregiver assistance.",
+    multi: false,
+    options: [
+      { label: "Yes", desc: "Uses a smartphone or tablet independently" },
+      { label: "No",  desc: "Would rely heavily on caregiver support" },
+    ]
+  },
+  {
+    title: "Does the patient have transportation to attend regular in-person appointments 2 to 3 times per week?",
+    why: "Transportation barriers can significantly impact stroke survivors' access to follow-up care, potentially leading to increased hospital readmissions and unfulfilled recovery potential.",
+    multi: false,
+    options: [
+      { label: "Yes", desc: "Reliable transport 2 to 3 times per week" },
+      { label: "No",  desc: "Limited or inconsistent transport" },
+    ]
+  },
+  {
+    title: "Does the patient live more than 15 miles away from the clinic?",
+    why: "Did you know? Patients in rural areas often travel farther for care, with distances averaging 13 to 22.5 miles. If the patient lives more than 15 miles from the clinic, the likelihood of cancelling or not showing up to in-person sessions increases.",
+    multi: false,
+    options: [
+      { label: "Yes", desc: "Lives 15 miles or more from the clinic" },
+      { label: "No",  desc: "Lives within 15 miles" },
+    ]
+  }
+];
+
+let currentQ = 0;
+let selections = [];
+
+function startBifurcator() {
+  document.getElementById('bifStateSuccess').classList.remove('is-active');
+  document.getElementById('bifStateQuestion').classList.add('is-active');
+  currentQ = 0;
+  selections = bifQuestions.map(q => q.multi ? [] : null);
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = bifQuestions[currentQ];
+  const total = bifQuestions.length;
+  const isLast = currentQ === total - 1;
+
+  // header numbers
+  document.getElementById('bifQNum').textContent = '0' + (currentQ + 1);
+  document.getElementById('bifStepNum').textContent = (currentQ + 1);
+  document.getElementById('bifStepTotal').textContent = total;
+  document.getElementById('bifStepMin').textContent = '~' + Math.max(1, total - currentQ) + ' min left';
+
+  // title + why + hint
+  document.getElementById('bifQTitle').textContent = q.title;
+  document.getElementById('bifWhy').textContent = q.why;
+  const hint = document.getElementById('bifQHint');
+  if (q.multi) { hint.hidden = false; hint.textContent = 'Select all that apply.'; }
+  else hint.hidden = true;
+
+  // dots
+  const dots = document.getElementById('bifStepDots');
+  dots.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'bif-stepper-dot' + (i < currentQ ? ' done' : i === currentQ ? ' cur' : '');
+    dots.appendChild(d);
+  }
+
+  // options
+  const box = document.getElementById('bifOptions');
+  box.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const card = document.createElement('button');
+    card.className = 'bif-survey-opt';
+    card.innerHTML = '<div class="bif-opt-head"><span class="bif-opt-title">' + opt.label + '</span>' +
+      '<span class="bif-opt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>' +
+      '</div>' +
+      '<span class="bif-opt-desc">' + opt.desc + '</span>';
+    card.onclick = () => selectOption(idx);
+    const sel = selections[currentQ];
+    const isSel = q.multi ? (sel || []).includes(idx) : sel === idx;
+    if (isSel) card.classList.add('is-selected');
+    box.appendChild(card);
+  });
+
+  // back button
+  const backBtn = document.getElementById('bifBackBtn');
+  backBtn.disabled = currentQ === 0;
+
+  // next button label + ready state
+  document.getElementById('bifNextLabel').textContent = isLast ? 'See recommendation' : 'Next';
+  updateNextBtn();
+}
+
+function selectOption(idx) {
+  const q = bifQuestions[currentQ];
+  if (q.multi) {
+    const sel = selections[currentQ];
+    const pos = sel.indexOf(idx);
+    if (pos >= 0) sel.splice(pos, 1); else sel.push(idx);
+    renderQuestion();
+    return;
+  }
+  // Single-select: record the answer, show the selected state briefly,
+  // then auto-advance to the next question (or to the success screen
+  // if this is the last one).
+  selections[currentQ] = idx;
+  renderQuestion();
+  setTimeout(() => {
+    if (currentQ < bifQuestions.length - 1) {
+      currentQ++;
+      renderQuestion();
+    } else {
+      showSuccess();
+    }
+  }, 380);
+}
+
+function updateNextBtn() {
+  const q = bifQuestions[currentQ];
+  const btn = document.getElementById('bifNextBtn');
+  const ready = q.multi ? (selections[currentQ] || []).length > 0 : selections[currentQ] !== null;
+  btn.disabled = !ready;
+}
+
+function nextQuestion() {
+  const btn = document.getElementById('bifNextBtn');
+  if (btn.disabled) return;
+  if (currentQ < bifQuestions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showSuccess();
+  }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+function showSuccess() {
+  document.getElementById('bifStateQuestion').classList.remove('is-active');
+  document.getElementById('bifStateSuccess').classList.add('is-active');
+
+  const box = document.getElementById('bifAnswers');
+  box.innerHTML = '';
+  bifQuestions.forEach((q, i) => {
+    const sel = selections[i];
+    let ans = '';
+    if (q.multi) ans = (sel || []).map(x => q.options[x].label).join(', ');
+    else if (sel !== null) ans = q.options[sel].label;
+    if (!ans) ans = 'Not answered';
+    const row = document.createElement('div');
+    row.className = 'bif-answer-row';
+    row.innerHTML = '<span class="bif-answer-q">' + q.title + '</span><span class="bif-answer-a">' + ans + '</span>';
+    box.appendChild(row);
+  });
+}
+
+function resetBifurcator() {
+  document.getElementById('bifStateSuccess').classList.remove('is-active');
+  document.getElementById('bifStateQuestion').classList.add('is-active');
+  currentQ = 0;
+  selections = bifQuestions.map(q => q.multi ? [] : null);
+  renderQuestion();
+}
+
+// ═══════════════ FILTER CHIPS, PATIENT LIST ═══════════════
+document.querySelectorAll('.pl-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.pl-chip').forEach(x => x.classList.remove('is-active'));
+    c.classList.add('is-active');
+  });
+});
+
+// ═══════════════ INIT ═══════════════
+startBifurcator();
+</script>
+
+</body>
+</html>

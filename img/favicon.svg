@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="The Product Office">
+  <rect width="240" height="240" fill="#C26A79"></rect>
+  <g fill="none" stroke="#130608" stroke-width="13" stroke-linecap="round">
+    <path d="M70 96 V70 H96"></path>
+    <path d="M144 70 H170 V96"></path>
+    <path d="M170 144 V170 H144"></path>
+    <path d="M96 170 H70 V144"></path>
+  </g>
+  <circle cx="120" cy="120" r="15" fill="#130608"></circle>
+</svg>
