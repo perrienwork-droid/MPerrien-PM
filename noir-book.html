@@ -18,6 +18,7 @@
 <meta name="twitter:image" content="https://mperrien.com/img/noir/hero-banner.webp">
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"vendor/react-dom.production.min.js"};</script>
 <script src="./support.js"></script>
+<script src="./contact.js"></script>
 </head>
 <body>
 <x-dc>
@@ -107,7 +108,7 @@
         <a class="tpo-navlink" href="index.html#work" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">Work</a>
         <a class="tpo-navlink" href="index.html#services" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">How I work</a>
         <a class="tpo-navlink" href="index.html#about" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">About</a>
-        <a class="tpo-navlink" href="mailto:perrien.work@gmail.com?subject=CV%20request\&body=Hi%20Malgo%2C%20I%27d%20like%20a%20copy%20of%20your%20CV.%0A%0ARole%3A%20%0ACompany%3A%20" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">CV</a>
+        <a class="tpo-navlink" href="#" data-mailto="1" data-subject="CV request" data-body="Hi Malgo, I&#39;d like a copy of your CV.&#10;&#10;Role: &#10;Company: " style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">CV</a>
         <a class="tpo-navlink" href="index.html#contact" style="color:var(--rose);font-size:.82rem;font-weight:500;transition:color .2s;">Get in touch →</a>
       </div>
         <button class="mp-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mp-nav-panel">
@@ -119,7 +120,7 @@
           <a href="index.html#work">Work</a>
           <a href="index.html#services">How I work</a>
           <a href="index.html#about">About</a>
-          <a href="mailto:perrien.work@gmail.com?subject=CV%20request\&body=Hi%20Malgo%2C%20I%27d%20like%20a%20copy%20of%20your%20CV.%0A%0ARole%3A%20%0ACompany%3A%20">CV</a>
+          <a href="#" data-mailto="1" data-subject="CV request" data-body="Hi Malgo, I&#39;d like a copy of your CV.&#10;&#10;Role: &#10;Company: ">CV</a>
           <a href="index.html#contact">Get in touch →</a>
       </div>
     </div>
@@ -148,7 +149,7 @@
         <div><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine);line-height:1;letter-spacing:-.03em;">127</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Topics, one consistent format</div></div>
         <div><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine);line-height:1;letter-spacing:-.03em;">200+</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Frameworks and methods with templates</div></div>
         <div><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine);line-height:1;letter-spacing:-.03em;">4</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Disciplines in one place</div></div>
-        <div><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine);line-height:1;letter-spacing:-.03em;">~350K</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Words, built and shipped solo</div></div>
+        <div><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine);line-height:1;letter-spacing:-.03em;">~350K</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Words, written and structured over the year</div></div>
       </div>
     </div>
   </section>
@@ -159,7 +160,7 @@
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Why I made it: I kept hunting for my own references</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <div style="border-left:2px solid var(--wine);padding-left:1.6rem;margin-bottom:2rem;">
-          <p style="margin-bottom:0;"><strong>My role:</strong> the whole thing, end to end. I chose the problem, defined the structure, curated and distilled the content, designed the system, and shipped it myself.</p>
+          <p style="margin-bottom:0;"><strong>My role:</strong> it started as my own problem and grew because other people kept asking for topics. I chose the problem, defined the structure, curated and distilled the content, designed the system, and shipped it.</p>
         </div>
         <p>Good frameworks were saved across scattered bookmarks, notes from courses faded after a month, useful things sat somewhere I could not quickly find again. Not always lost, but it usually took far too long to get back to the thing I needed.</p>
         <p>I also wanted one place that covered the disciplines together, UX, product, marketing, and content, instead of a different site for each. On real work they overlap constantly, so it helps to see them side by side. And I wanted every topic in one format I already know, so finding what I need is quick.</p>
@@ -192,7 +193,7 @@
   <!-- LIVE PROTOTYPE: library home -->
   <section class="cs-body" style="padding:3rem 2.5rem 2rem;">
     <div style="max-width:var(--read);margin:0 auto;">
-      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The product, live: search first, find what you need</h2>
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Try it yourself: search first, find what you need</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p><strong>The library below is the real, working product.</strong> Search it, toggle a discipline, filter by depth, open a topic. It runs on a design system I built myself, with light and dark mode.</p>
       </div>
@@ -267,7 +268,7 @@
         <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><div style="font-size:clamp(2.4rem,4vw,3.4rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">127</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Topics across UX, product, marketing, and content, each in the same three-part format.</p></div>
         <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;"><div style="font-size:clamp(2.4rem,4vw,3.4rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">200+</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Frameworks and methods, every one paired with a template to use directly.</p></div>
         <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;"><div style="font-size:clamp(2.4rem,4vw,3.4rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">1 system</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">A design system I built from scratch, with search, filtering, and light and dark mode.</p></div>
-        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .14s,transform 1.1s ease .14s;"><div style="font-size:clamp(2.4rem,4vw,3.4rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">0→1</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Structure, content, design, and a machine-readable layer, researched and shipped solo.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .14s,transform 1.1s ease .14s;"><div style="font-size:clamp(2.4rem,4vw,3.4rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">0→1</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Structure, content, design, and a machine-readable layer, taken from nothing to a working tool.</p></div>
       </div>
     </div>
   </section>
@@ -277,7 +278,7 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Why it is in my portfolio: notice a real problem, build the whole fix</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p>It is a straightforward example of how I like to work: notice a real, everyday problem, decide what would actually fix it, and build the whole thing, rather than stopping at a plan or a mockup. Not a deck, not a concept, a working tool people use on real projects.</p>
+        <p>It is a straightforward example of how I like to work: notice a real, everyday problem, decide what would actually fix it, and build the whole thing. People use it on real projects, which was the whole point.</p>
       </div>
     </div>
   </section>
@@ -296,7 +297,7 @@
   <footer style="background:var(--navy-deep);padding:3rem 2.5rem;">
     <div style="max-width:var(--read);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;">
       <a href="index.html#work" style="font-size:.9rem;color:var(--text-dim);">← Back to all work</a>
-      <a href="mailto:perrien.work@gmail.com?subject=Let%27s%20talk%3A%20Noir%20Book%20case%20study" style="font-size:.9rem;font-weight:500;color:var(--rose);">Get in touch →</a>
+      <a href="#" data-mailto="1" data-subject="Let&#39;s talk: Noir Book case study" style="font-size:.9rem;font-weight:500;color:var(--rose);">Get in touch →</a>
     </div>
     <div style="max-width:var(--read);margin:2rem auto 0;font-size:.78rem;color:var(--navy-muted);">© 2026 Malgo Perrien · Paris</div>
   </footer>

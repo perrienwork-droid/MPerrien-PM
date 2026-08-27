@@ -19,6 +19,7 @@
 <meta name="twitter:image" content="https://mperrien.com/img/eyewear/hero-stilllife.webp">
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"vendor/react-dom.production.min.js"};</script>
 <script src="./support.js"></script>
+<script src="./contact.js"></script>
 </head>
 <body>
 <style>
@@ -162,7 +163,7 @@
         <a class="tpo-navlink" href="index.html#work" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">Work</a>
         <a class="tpo-navlink" href="index.html#services" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">How I work</a>
         <a class="tpo-navlink" href="index.html#about" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">About</a>
-        <a class="tpo-navlink" href="mailto:perrien.work@gmail.com?subject=CV%20request\&body=Hi%20Malgo%2C%20I%27d%20like%20a%20copy%20of%20your%20CV.%0A%0ARole%3A%20%0ACompany%3A%20" style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">CV</a>
+        <a class="tpo-navlink" href="#" data-mailto="1" data-subject="CV request" data-body="Hi Malgo, I&#39;d like a copy of your CV.&#10;&#10;Role: &#10;Company: " style="color:var(--text-muted);font-size:.82rem;transition:color .2s;">CV</a>
         <a class="tpo-navlink" href="index.html#contact" style="color:var(--rose);font-size:.82rem;font-weight:500;transition:color .2s;">Get in touch →</a>
       </div>
         <button class="mp-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mp-nav-panel">
@@ -174,7 +175,7 @@
           <a href="index.html#work">Work</a>
           <a href="index.html#services">How I work</a>
           <a href="index.html#about">About</a>
-          <a href="mailto:perrien.work@gmail.com?subject=CV%20request\&body=Hi%20Malgo%2C%20I%27d%20like%20a%20copy%20of%20your%20CV.%0A%0ARole%3A%20%0ACompany%3A%20">CV</a>
+          <a href="#" data-mailto="1" data-subject="CV request" data-body="Hi Malgo, I&#39;d like a copy of your CV.&#10;&#10;Role: &#10;Company: ">CV</a>
           <a href="index.html#contact">Get in touch →</a>
       </div>
     </div>
@@ -202,7 +203,7 @@
       <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;max-width:var(--read);margin:0 auto;display:grid;grid-template-columns:var(--grid-4);gap:2.5rem;">
         <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">35–45%</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Typical in-store conversion, the number to lift</div></div>
         <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">~28,000</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Independent opticians in target markets</div></div>
-        <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">~1/3</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Of my first rankings the evidence overturned</div></div>
+        <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">~1/3</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Of my first rankings a real face overturned</div></div>
         <div><div style="font-size:clamp(1.7rem,2.9vw,2.5rem);font-weight:200;color:var(--wine);line-height:1.05;letter-spacing:-.03em;">7 reads</div><div style="font-size:.82rem;color:var(--text-dim);margin-top:.6rem;">Every pick traces to a stated rule</div></div>
       </div>
     </div>
@@ -214,7 +215,7 @@
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The outcome first: confident on paper, corrected by a real face</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <div style="border-left:2px solid var(--wine);padding-left:1.6rem;margin-bottom:2rem;">
-          <p class="cs-lead" style="margin-bottom:0;"><strong>What I owned:</strong> The whole thing, end to end. I chose the problem, wrote the scoring logic, stress-tested it against real evidence, sized the market, and designed and shipped the in-store product front end myself.</p>
+          <p class="cs-lead" style="margin-bottom:0;"><strong>What I owned:</strong> I took this from problem to shipped prototype: the scoring logic, the stress test against real evidence, the market sizing, and the in-store front end. The product is built around an optician correcting it, so their judgement is what the system learns from.</p>
         </div>
         <p>I built a recommendation engine that scores any eyewear frame against a face on seven weighted criteria, each with an explainable reason instead of a black-box guess. The scoring rests on established styling logic: how colour, shape and size play against a face. On studio product shots it looked right. Against real on-face photos, about a third of the rankings didn't hold, because a real face carries variables a rulebook flattens. That gap, model versus reality, is now the product's engine, and it is built to keep closing it.</p>
       </div>
@@ -227,7 +228,7 @@
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The problem I chose to solve: the hardest thing to scale</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p>Independent opticians survive on expertise, and expertise is expensive. A senior optician reads a face in seconds, colouring, shape, proportion, and narrows a whole wall of frames to the few that will work. A junior can't do that yet, and when the senior leaves, the instinct leaves too. Customers left to browse try on a dozen frames, tire of deciding, and walk. Conversion sits around 35 to 45 percent.</p>
-        <p>Online players compress margins from one side, staffing costs squeeze from the other. That gap, a scarce expert eye that cannot be cloned, is the product.</p>
+        <p>Online players compress margins from one side and staffing costs squeeze from the other. The expert eye in the middle is scarce and cannot be cloned, which is what makes it worth building.</p>
       </div>
     </div>
   </section>
@@ -237,7 +238,7 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The work: making judgment falsifiable</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p>Most "AI stylist" tools either visualise (here is what the frame looks like) or output a black-box pick. I went the other way and made the reasoning the product.</p>
+        <p>Most "AI stylist" tools either visualise the frame or hand you a black-box pick. Here the reasoning is the product.</p>
         <p>I broke "what suits a face" into seven weighted criteria. Then I wrote the compromise maths: exactly how much a mismatch costs, and where two mismatches compound. A frame scores 9.5 because warm tortoise hits best on colour and shape and misses only metal at the bridge. Every score traces to a rule. Anything that cannot (taste, era, vibe) is explicitly out of scope, so it cannot quietly move a number.</p>
       </div>
     </div>
@@ -275,7 +276,7 @@
 
   <section class="cs-body" style="padding:2rem 2.5rem 3rem;">
     <div style="max-width:var(--read);margin:0 auto;">
-      <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">That discipline is what makes the system trainable and defensible. A rule you can state is a rule you can prove wrong.</p>
+      <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">That is what makes the system trainable: a rule you can state is a rule you can prove wrong.</p>
     </div>
   </section>
 
@@ -348,7 +349,7 @@
   <!-- THE NUMBER -->
   <section class="cs-body" style="padding:4rem 2.5rem 2rem;">
     <div style="max-width:var(--read);margin:0 auto;">
-      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The number that changed the product: evidence overturned a third of my rankings</h2>
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The number that changed the product: a third of my rankings didn't survive a real face</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p>I scored frames from studio product shots, then checked each against photos of the same frames worn on a real face. About a third of the rankings didn't survive the move from paper to a person.</p>
         <p>On studio shots, bold high-contrast frames scored near the top on colour and shape. On a real face, several dropped hard. The variable I had underweighted was <strong>visual weight</strong>: how much a frame's mass and contrast assert themselves against a person's features. Bold frames are not wrong, strong features carry them, but a product shot can't show that interaction and a real face can. So the model doesn't hardcode a verdict; it reads visual weight per person and keeps learning.</p>
@@ -407,10 +408,10 @@
         <p style="color:var(--text-muted);font-weight:300;font-size:1rem;line-height:1.7;margin-bottom:.5rem;"><strong style="color:var(--text-on-dark);font-weight:600;">~28,000</strong> independent opticians across my target European markets.</p>
         <p style="color:var(--text-muted);font-weight:300;font-size:1rem;line-height:1.7;margin-bottom:.5rem;"><strong style="color:var(--text-on-dark);font-weight:600;">~50M EUR ARR</strong> serviceable market.</p>
         <p style="color:var(--text-muted);font-weight:300;font-size:1rem;line-height:1.7;margin-bottom:.9rem;"><strong style="color:var(--text-on-dark);font-weight:600;">560 to 1,400 stores</strong> as a realistic three-year target.</p>
-        <p style="color:var(--text-dim);font-weight:300;font-size:.92rem;line-height:1.6;margin-bottom:0;">These are hypotheses to test with optician interviews, not booked revenue.</p>
+        <p style="color:var(--text-dim);font-weight:300;font-size:.92rem;line-height:1.6;margin-bottom:0;">These are hypotheses to test with optician interviews rather than booked revenue.</p>
       </div>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p>I also designed and shipped the front end myself, the editorial brand, the tier system, the interactive card layout, so the concept could be shown and used, not just described.</p>
+        <p>I also built the front end, the editorial brand, the tier system and the interactive card layout, so the concept could be shown and used rather than only described.</p>
       </div>
     </div>
   </section>
@@ -423,9 +424,9 @@
         <p>The flow is used by an optician but read by a client, so the tone shifts mid-flow: working language for the professional (reads, scores, stock, overrides), warm plain language for the client (the welcome and the report). One product, two voices, switched on purpose. A few of the calls behind the prototype:</p>
       </div>
       <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;display:grid;grid-template-columns:var(--grid-3);gap:1.25rem;margin-top:2rem;">
-        <div style="background:var(--navy-2);border-radius:16px;padding:1.5rem;"><h4 style="font-size:.95rem;font-weight:600;color:var(--text-on-dark);letter-spacing:-.01em;margin-bottom:.5rem;">Guide the choice, don't just offer it</h4><p style="font-size:.85rem;color:var(--text-dim);line-height:1.65;font-weight:300;margin:0;">The criteria screen leads with one recommended path (read the face automatically) and a quiet secondary option for control. A default that is easy to accept and easy to override, not two equal options that make people hesitate.</p></div>
+        <div style="background:var(--navy-2);border-radius:16px;padding:1.5rem;"><h4 style="font-size:.95rem;font-weight:600;color:var(--text-on-dark);letter-spacing:-.01em;margin-bottom:.5rem;">Guide the choice, don't just offer it</h4><p style="font-size:.85rem;color:var(--text-dim);line-height:1.65;font-weight:300;margin:0;">The criteria screen leads with one recommended path (read the face automatically) and a quiet secondary option for control. A default that is easy to accept and easy to override, so nobody stalls between two equal options.</p></div>
         <div style="background:var(--navy-2);border-radius:16px;padding:1.5rem;"><h4 style="font-size:.95rem;font-weight:600;color:var(--text-on-dark);letter-spacing:-.01em;margin-bottom:.5rem;">Turn the fitting into signal</h4><p style="font-size:.85rem;color:var(--text-dim);line-height:1.65;font-weight:300;margin:0;">As frames go on and off, the optician taps each one loved, refused, or didn't suit once worn. One familiar gesture captures what actually happened in the fitting, feeds the client's report, and trains the model. Three tags, a lot of depth, no extra work.</p></div>
-        <div style="background:var(--navy-2);border-radius:16px;padding:1.5rem;"><h4 style="font-size:.95rem;font-weight:600;color:var(--text-on-dark);letter-spacing:-.01em;margin-bottom:.5rem;">Cap the report at six</h4><p style="font-size:.85rem;color:var(--text-dim);line-height:1.65;font-weight:300;margin:0;">Customers who try 5 to 12 frames hit decision fatigue and walk. The take-home report stops at six on purpose: enough to show range across colour and shape, few enough to actually decide from. Fewer, well-explained options convert better than a longer list.</p></div>
+        <div style="background:var(--navy-2);border-radius:16px;padding:1.5rem;"><h4 style="font-size:.95rem;font-weight:600;color:var(--text-on-dark);letter-spacing:-.01em;margin-bottom:.5rem;">Cap the report at six</h4><p style="font-size:.85rem;color:var(--text-dim);line-height:1.65;font-weight:300;margin:0;">Customers who try 5 to 12 frames hit decision fatigue and walk. The take-home report stops at six on purpose: enough to show range across colour and shape, few enough to actually decide from, with the reason attached to each one.</p></div>
       </div>
     </div>
   </section>
@@ -433,12 +434,12 @@
   <!-- OUTCOMES -->
   <section style="background:var(--cream);color:var(--ink);padding:6rem 2.5rem;">
     <div style="max-width:var(--read);margin:0 auto;">
-      <h2 data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;font-size:clamp(1.9rem,3.8vw,3rem);font-weight:200;letter-spacing:-.03em;line-height:1.12;color:var(--ink);margin-bottom:3rem;">Outcomes: what it delivered</h2>
+      <h2 data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;font-size:clamp(1.9rem,3.8vw,3rem);font-weight:200;letter-spacing:-.03em;line-height:1.12;color:var(--ink);margin-bottom:3rem;">Outcomes: what came out of it</h2>
       <div style="display:grid;grid-template-columns:var(--grid-2);gap:3rem 4rem;">
-        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">~1/3</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Of my first rankings overturned once tested against a real face, then recalibrated mid-process.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">~1/3</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Of my first rankings overturned once tested against a real face, which is what the correction loop was built for.</p></div>
         <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;"><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">7 reads</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">A weighted, explainable model where every pick traces to a stated rule, and out-of-scope factors can't move a number.</p></div>
         <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;"><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">~50M EUR</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Serviceable market I sized from the ground up, with a segmented three-year go-to-market thesis to test.</p></div>
-        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .14s,transform 1.1s ease .14s;"><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">0→1</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Problem, logic, brand, and a clickable in-store product, researched and shipped end to end.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .14s,transform 1.1s ease .14s;"><div style="font-size:clamp(2.2rem,3.6vw,3.2rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">0→1</div><p style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--ink-2);">Problem, logic, brand, and a clickable in-store product, taken from nothing to something usable.</p></div>
       </div>
     </div>
   </section>
@@ -448,7 +449,7 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">What I'd take from this: designing for the correction</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p>My starting instinct was mostly right; the third it got wrong is the part that mattered. The useful move wasn't having the better eye, it was building a system that expects to be corrected, by a real face, by the optician, by the store's own results, and gets better each time it is. That is what turns a point of view into a product.</p>
+        <p>My starting instinct was mostly right, and the third it got wrong is the part that mattered. What made it work was building a system that expects to be corrected, by a real face, by the optician, and by the store's own results, and gets better each time it is.</p>
       </div>
     </div>
   </section>
@@ -467,7 +468,7 @@
   <footer style="background:var(--navy-deep);padding:3rem 2.5rem;">
     <div style="max-width:var(--read);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;">
       <a href="index.html#work" style="font-size:.9rem;color:var(--text-dim);">← Back to all work</a>
-      <a href="mailto:perrien.work@gmail.com?subject=Let%27s%20talk%3A%20Reframe%20case%20study" style="font-size:.9rem;font-weight:500;color:var(--rose);">Get in touch →</a>
+      <a href="#" data-mailto="1" data-subject="Let&#39;s talk: Reframe case study" style="font-size:.9rem;font-weight:500;color:var(--rose);">Get in touch →</a>
     </div>
     <div style="max-width:var(--read);margin:2rem auto 0;font-size:.78rem;color:var(--navy-muted);">© 2026 Malgo Perrien · Paris</div>
   </footer>
