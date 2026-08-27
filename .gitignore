@@ -5,3 +5,9 @@ Thumbs.db
 
 screenshots/
 .fuse_hidden*
+
+# local drafts and working notes, not published
+*-draft.html
+Screenshot*.png
+AI-WRITING-TELLS.md
+COPY-AUDIT.md
