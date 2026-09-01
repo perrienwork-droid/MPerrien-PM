@@ -239,6 +239,7 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Market gap: what existed, and why it wasn't enough</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>In 2017, before we built anything, I benchmarked two categories rather than one. Telecom analytics, where the incumbents were probe-based tools pitched at network engineering, and the general analytics platform category, Looker, GoodData, MapD and Phocas, where the conventions for representing complex data were already being set. The gap was in neither category on its own: nobody was giving a telecom executive an interactive set of metrics they could read in thirty seconds and trust.</p>
         <p>Telecom analytics tools at the time were either internal engineering platforms, technically powerful but inaccessible to non-technical stakeholders, or lightweight competitive reports with no analytical depth. Nothing bridged executive decision-making and engineering diagnostics in one coherent platform.</p>
         <p>That was the strategic opening. Moving from data delivery to competitive intelligence meant the product had to do something none of the competition had attempted: make complex network data genuinely useful to business leaders as well as engineers.</p>
       </div>
@@ -342,6 +343,18 @@
     </div>
   </section>
 
+  <!-- WORKED EXAMPLE: what the product had to support -->
+  <section class="cs-body" style="padding:3rem 2.5rem;">
+    <div style="max-width:var(--read);margin:0 auto;">
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">How I learned what the product had to support</h2>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>Working real cases through with our internal analysts is how I learned the reasoning the product had to serve. One of them stuck.</p>
+        <p>Rakuten Mobile was Japan's fourth entrant and its national average speed looked poor. The explanation was not that the network was bad. It was structural, and it was two things. Rakuten had almost no spectrum for 4G, a single band, with some regions limited to 5 MHz. And its national average was being dragged down by specific regions, Kyushu, Chugoku and Tohoku, where its own customers were roaming onto a competitor's network at a hard 2 Mbps cap.</p>
+        <p>That reasoning chain is why the product decomposes metrics, offers regional granularity, and shows distributions rather than means. Without it the feature list is arbitrary. With it, the feature list is the answer to a workflow a CTO actually runs.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- KEY VISUAL: pi-charts (wide) -->
   <section style="padding:2rem 2.5rem;">
     <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease;max-width:var(--wide);margin:0 auto;">
@@ -357,6 +370,10 @@
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p>The core question I scoped this product around: "Where do I stand, and what's changing?" I defined an architecture that surfaced ranking positions across all key metrics with trend indicators on load, then allowed progressive disclosure into any metric. Every number included confidence intervals and methodology transparency, because C-suite users have high skepticism about data sources and low tolerance for anything that feels like a black box.</p>
         <p>The critical business constraint: these are the buyers. They need to feel confident in the data before their CTO will sign a contract, so trust had to come before usage.</p>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;background:var(--navy-2);border-radius:20px;padding:1.75rem 2rem;margin-bottom:1.5rem;">
+        <div style="font-size:.7rem;color:var(--rose);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;">Audience definition</div>
+        <p style="font-size:var(--fs-body-sm);margin-bottom:0;"><strong>The C-suite buyer at a tier-one operator.</strong> Accountable for the competitive position, not for network detail. Arrives with one question: where do we rank, and is it improving. The objection is trust, "can we rely on your data", which is why every number carries its confidence interval and its methodology.</p>
       </div>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;background:var(--navy-2);border-radius:20px;padding:1.75rem 2rem;margin-top:2.5rem;border-left:3px solid var(--wine);">
         <p style="font-size:var(--fs-body-md);color:var(--text-on-dark);font-weight:300;line-height:1.7;font-style:italic;margin-bottom:.8rem;">"It's very rare to see telecom operators lean forward and be actively excited by a demo, however, this is the effect Malgo's design has on customers. It's certainly a level above what they're used to."</p>
@@ -392,6 +409,23 @@
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p>Performance Intelligence serves a fundamentally different workflow: CTOs and network engineers decomposing metrics to find root causes. The question I scoped this product around: "Our video experience dropped in Region X, is it a capacity issue, a throttling policy, or a specific CDN?"</p>
         <p>I defined a product that supported analytical storytelling, users build a narrative by drilling into data across dimensions. Linked charts that update in context, time-of-day patterns, distribution views, geographic breakdowns. The principle we worked to was <strong>density without confusion.</strong> Every screen is data-rich, but the hierarchy is clear.</p>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;background:var(--navy-2);border-radius:20px;padding:1.75rem 2rem;margin-top:2.5rem;">
+        <div style="font-size:.7rem;color:var(--rose);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;">Audience definition</div>
+        <p style="font-size:var(--fs-body-sm);margin-bottom:0;"><strong>The network engineering lead at a national carrier.</strong> Accountable for the technical position and for improving it. Arrives with the question that follows the headline rank: what is driving it. Needs to drill into specifics, the cities where a competitor is hitting capacity limits, how new device capabilities are being used on their network against a rival's. The objection is not whether the data can be trusted, that was settled a product earlier. It is whether the tool goes deep enough to act on.</p>
+      </div>
+      <h3 data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;font-size:clamp(1.35rem,2.4vw,1.85rem);font-weight:200;letter-spacing:-.02em;line-height:1.2;color:var(--text-on-dark);margin:3rem 0 1.5rem;">The constraints the product had to absorb</h3>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
+        <p>I worked these out with the analyst and data science teams before the architecture was settled. Each one is a decision about what the product owes a sceptical buyer.</p>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;background:var(--navy-2);border-radius:20px;padding:1.75rem 2rem;">
+        <p style="font-size:var(--fs-body-sm);margin-bottom:1.2rem;"><strong>Confidence intervals on everything.</strong> Every reported metric carries one, calculated with Opensignal's data science methods.</p>
+        <p style="font-size:var(--fs-body-sm);margin-bottom:1.2rem;"><strong>Three levels of granularity.</strong> National, regional and city, for every metric, on standard internationally recognised area definitions.</p>
+        <p style="font-size:var(--fs-body-sm);margin-bottom:1.2rem;"><strong>Top-level metrics decompose into components.</strong> Video Experience into load time, stalling occurrence, data consumption and throughput. Speed into peak speed and speed consistency.</p>
+        <p style="font-size:var(--fs-body-sm);margin-bottom:0;"><strong>Aggregation over 30 or 90 days,</strong> with historical trends maintained.</p>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;margin-top:1.5rem;">
+        <p>And the constraint that made the architecture hard: <strong>not all technologies, 2G to 5G, are available for all metrics.</strong> That is an inconsistency the interface has to absorb without confusing anyone, and it is why the information architecture took longer to settle than the screens did.</p>
       </div>
     </div>
   </section>
