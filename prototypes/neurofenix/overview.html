@@ -142,6 +142,7 @@
   .patient-col-item .pdot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
   .patient-col-item .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .patient-alert-badge { width: 14px; height: 14px; border-radius: 50%; background: var(--status-low); color: white; font-size: 8px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-left: auto; flex-shrink: 0; }
+  .patient-alert-badge.watch { background: var(--status-slight); font-size: 9px; line-height: 1; }
   .patient-reviewed { font-size: 9px; color: var(--text-muted); font-family: var(--font-mono); margin-left: auto; white-space: nowrap; flex-shrink: 0; }
   .patient-reviewed.recent { color: var(--status-good); }
 
@@ -311,12 +312,12 @@
       </div>
       <div>
         <div class="patient-col-header"><span class="col-dot" style="background:var(--status-slight)"></span>Slightly Below</div>
-        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Garcia, Olivia</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Garcia, Olivia</span><span class="patient-reviewed">2d ago</span><span class="patient-alert-badge watch" title="Trending down this week">&#8595;</span></a>
         <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Mitchell, Noah</span></a>
-        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Turner, Bella</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Turner, Bella</span><span class="patient-reviewed">4d ago</span><span class="patient-alert-badge watch" title="Trending down this week">&#8595;</span></a>
         <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Clark, Aiden</span></a>
         <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Campbell, Charlotte</span></a>
-        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Martinez, Jacob</span></a>
+        <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Martinez, Jacob</span><span class="patient-reviewed">1d ago</span><span class="patient-alert-badge watch" title="Trending down this week">&#8595;</span></a>
         <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Hill, Sebastian</span></a>
         <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Jones, Leah</span></a>
         <a class="patient-col-item" href="patient-monitoring.html"><span class="pdot" style="background:var(--status-slight)" aria-hidden="true"></span><span class="truncate">Barnes, Chloe</span></a>
