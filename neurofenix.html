@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Neurofenix: a B2C to B2B2C pivot · Malgo Perrien, Product Manager</title>
-<meta name="description" content="Product strategy and design for a neurorehab platform serving patients, clinicians and health systems. Delivered a 50% activation lift.">
+<meta name="description" content="Product strategy for a neurorehab platform serving patients, clinicians and health systems, through a B2C to B2B2C pivot.">
 <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
 <link rel="stylesheet" href="tokens.css">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mperrien.com/neurofenix.html">
 <meta property="og:title" content="Neurofenix: a B2C to B2B2C pivot · Malgo Perrien, Product Manager">
-<meta property="og:description" content="Product strategy and design for a neurorehab platform serving patients, clinicians and health systems. Delivered a 50% activation lift.">
+<meta property="og:description" content="Product strategy for a neurorehab platform serving patients, clinicians and health systems, through a B2C to B2B2C pivot.">
 <meta property="og:image" content="https://mperrien.com/img/neurofenix/hero-composite.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Neurofenix: a B2C to B2B2C pivot · Malgo Perrien, Product Manager">
-<meta name="twitter:description" content="Product strategy and design for a neurorehab platform serving patients, clinicians and health systems. Delivered a 50% activation lift.">
+<meta name="twitter:description" content="Product strategy for a neurorehab platform serving patients, clinicians and health systems, through a B2C to B2B2C pivot.">
 <meta name="twitter:image" content="https://mperrien.com/img/neurofenix/hero-composite.webp">
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"vendor/react-dom.production.min.js"};</script>
 <script src="./support.js"></script>
@@ -69,6 +69,8 @@
   a{color:inherit;text-decoration:none;}
   a.tpo-navlink:hover{color:#D48D98;}
   ::selection{background:#C26A79;color:#FAF7F0;}
+  /* pink sections use --wine (#C26A79), the same hex as the highlight, so invert there */
+  .on-wine::selection,.on-wine ::selection{background:#12213F;color:#FAF7F0;}
   .cs-body p{font-size:var(--fs-body);font-weight:300;line-height:var(--lh-body);color:#C4CAD8;margin-bottom:1.5rem;}
   .cs-body p strong{color:#EDEFF6;font-weight:600;}
   .cs-body p.cs-lead{font-size:var(--fs-lead);line-height:var(--lh-lead);font-weight:250;letter-spacing:-.01em;color:#EDEFF6;margin-bottom:1.7rem;}
@@ -137,13 +139,13 @@
   </div>
 
   <!-- HERO (wine banner) -->
-  <section style="background:var(--wine);color:var(--cream);padding:11rem 2.5rem 6rem;">
+  <section class="on-wine" style="background:var(--wine);color:var(--cream);padding:11rem 2.5rem 6rem;">
     <div style="max-width:var(--hero-max);margin:0 auto;">
       <a href="index.html#work" data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1s ease,transform 1s ease;display:inline-block;font-size:.9rem;font-weight:500;color:var(--navy);margin-bottom:2.5rem;">← All work</a>
       <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1s ease .06s,transform 1s ease .06s;display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;font-size:.82rem;font-weight:500;letter-spacing:.04em;color:var(--navy);margin-bottom:2rem;">
         <span>MedTech</span><span>B2B2C</span><span>Enterprise Health</span><span>HIPAA</span><span>Remote Monitoring</span>
       </div>
-      <h1 data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1.1s ease .12s,transform 1.1s ease .12s;font-size:clamp(2.4rem,5.6vw,4.6rem);font-weight:200;line-height:1.06;letter-spacing:-.04em;max-width:var(--hero-measure);margin-bottom:1.8rem;">Owning a B2C→B2B2C pivot for a neurorehab platform, from strategy to shipped product</h1>
+      <h1 data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1.1s ease .12s,transform 1.1s ease .12s;font-size:clamp(2.4rem,5.6vw,4.6rem);font-weight:200;line-height:1.06;letter-spacing:-.04em;max-width:var(--hero-measure);margin-bottom:1.8rem;">A B2C→B2B2C pivot for a neurorehab platform, from strategy to shipped product</h1>
       <p data-reveal style="opacity:0;transform:translateY(24px);transition:opacity 1.1s ease .18s,transform 1.1s ease .18s;font-size:var(--fs-hero-sub);font-weight:400;color:var(--navy);letter-spacing:.01em;">Neurofenix · Product Manager · 2021–2025</p>
     </div>
   </section>
@@ -162,7 +164,7 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">What I owned: end-to-end product across three surfaces</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p class="cs-lead">I owned product across the Patient app (full rebuild), the Clinician Dashboard (net new), and the Partner Dashboard (net new). Before I joined, our CTO had been running product alongside his own role, and running it well. I took product over so he could get back to engineering, and he stayed closely involved throughout. From there I owned strategy, discovery, the roadmap, and the day-to-day with engineering and the clinical team.</p>
+        <p class="cs-lead">I owned product across the Patient app (full rebuild) and the Clinician and Partner Dashboards (both net new). I came in as a designer and quickly moved to co-owning the product, then owning it: strategy, discovery, the roadmap, and the day-to-day with engineering and the clinical team.</p>
         <div style="display:grid;grid-template-columns:var(--grid-2);gap:3rem;margin-top:2.5rem;max-width:none;">
           <div style="border-top:1px solid var(--navy-border);padding-top:1.4rem;">
             <div style="font-size:.82rem;font-weight:600;letter-spacing:.05em;color:var(--rose);margin-bottom:.9rem;">STRATEGY & DISCOVERY</div>
@@ -181,7 +183,7 @@
   <!-- CONTEXT -->
   <section class="cs-body" style="padding:5rem 2.5rem;">
     <div style="max-width:var(--read);margin:0 auto;">
-      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Context: no strategy, no traction, clinical stakes</h2>
+      <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Context: what I walked into</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p>Neurofenix builds connected neurorehabilitation technology for stroke and brain injury survivors recovering at home. Two product families, four surfaces, three of which I owned.</p>
       </div>
@@ -243,14 +245,14 @@
         <rect x="344" y="548" width="98" height="25" rx="12.5" fill="#D48D98" fill-opacity=".20"/>
         <text x="393" y="565" font-size="11" font-weight="600" text-anchor="middle" fill="#EEB6BF">I owned this</text>
         <line x1="16" y1="624" x2="604" y2="624" stroke="#FFFFFF" stroke-opacity=".14"/>
-        <text x="310" y="648" font-size="11.5" text-anchor="middle" fill="#FFFFFF" fill-opacity=".6">Both dashboards run on one underlying system, split into two views.</text>
+        <text x="310" y="648" font-size="11.5" text-anchor="middle" fill="#FFFFFF" fill-opacity=".6"></text>
         </svg>
       </div>
     </div>
 
     <div style="max-width:var(--read);margin:0 auto;">
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p>The NeuroBall was the strong part. Patented, validated across four clinical trials including one at Johns Hopkins, and working for roughly 90% of patients. Some did struggle with it, but hardware changes are expensive and the device wasn't where we were losing most people. The software was. The Patient App was an early MVP, the B2B channel existed more on paper than in practice, and patients were disengaging at home because the app couldn't support independent use and there was no clinical support between sessions.</p>
+        <p>The NeuroBall was the strong part. Patented, validated across four clinical trials including one at Johns Hopkins, and working for roughly 90% of patients. Some did struggle with it, but hardware changes are expensive and the device wasn't where we were losing most people. The software was. The Patient App was geeky and not user friendly. It had never had a proper redesign, it just kept gaining features. The B2B channel existed more on paper than in practice, and patients were disengaging at home because the app couldn't support independent use and there was no clinical support between sessions.</p>
       </div>
       <figure data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;margin:2.2rem 0 2.4rem;">
         <div style="border-radius:20px;overflow:hidden;background:#FFFFFF;"><img data-src="img/neurofenix/neuroball.webp" alt="The NeuroBall in a patient's hand, above its charging dock" style="width:100%;display:block;"></div>
@@ -259,9 +261,9 @@
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p>There was already a strict engineering process. The NeuroBall is a medical device, so its software sat under IEC 62304 and ISO 14971: safety analysis, traceability from requirement to test, a documentation file for every release. The process governed how software got built safely. It said nothing about what should be built. Requirements arrived already decided, and engineering delivered them properly. The missing step came earlier: deciding what was worth building at all.</p>
         <p>The pivot was two changes at once: B2C to B2B2C, and UK to US. In the UK we sold to the person using it. In the US the buyer is a health system, a rehab facility or an ACO, and they buy on reimbursement and risk. This is why adherence data became billing evidence, and the monitoring log had to be auditable, not merely useful.</p>
-        <p>HIPAA changed how the product had to be built. Only authorised people can open a patient's record, and every time someone does, it has to be logged. That isn't something you bolt on later, so it went into the first spec.</p>
+        <p>HIPAA changed how the product had to be built. Only authorised people can open a patient's record, and every time someone does, it has to be logged.</p>
         <p>Patient consent forms were a separate problem. Handling them means running certified infrastructure, so we used an external HIPAA-compliant provider and connected it to our systems rather than building and certifying our own.</p>
-        <p>The sales cycle ran to 18 months, so we had to anticipate objections in the product rather than react to them.</p>
+        <p>The sales cycle ran 12 to 24 months, so we had to anticipate objections in the product rather than react to them.</p>
       </div>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;margin-top:3rem;">
         <div style="font-size:1rem;font-weight:500;letter-spacing:.01em;color:var(--rose);margin-bottom:2rem;">What existed when I joined</div>
@@ -322,7 +324,7 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
         <p><strong>Patients</strong>, stroke and brain injury survivors, many elderly, needed radical simplicity. Every friction point was a dropout risk.</p>
-        <p><strong>Clinicians</strong> managing 20–40+ patients remotely needed prioritised signal: which patients are falling behind, and who needs an intervention today. They needed a triage tool that surfaces the next action to take today.</p>
+        <p><strong>Clinicians</strong> managing 20–40+ patients remotely needed prioritised signal: which patients are falling behind, and who needs an intervention today. Onboarding friction fed straight into that. A patient who could not get set up at home showed up as silence in the data, and most of ours were elderly stroke survivors, for whom a tablet, a wifi setup and pairing a device were not trivial.</p>
         <p><strong>Health system administrators</strong> drove the enterprise sales cycle. They needed population-level outcomes, Medicare billing compliance, and ROI evidence to justify procurement.</p>
         </div>
     </div>
@@ -403,8 +405,8 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Enabling the business: enterprise needs into roadmap decisions</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p>I worked directly with the commercial team to understand what health system buyers actually needed to sign, and turned that into product priorities: HIPAA-compliant remote monitoring, EHR integration points, and measurement across all three stakeholder groups, so the commercial team had evidence of clinical ROI to put in front of procurement rather than usage stats.</p>
-        <p><strong>The first enterprise pilot:</strong> we secured the company's first health system pilot. I built the live demo, ran the stakeholder sessions with clinicians, and reprioritised the near-term roadmap around the objections we were hearing in sales cycles.</p>
+        <p>Health system buyers already ran their own systems, so the question was never what to add, it was how we fitted alongside what they already had. Overlap with the tools they had created friction, the same problem I had hit at Opensignal. Working with the commercial team, I turned that into product priorities: HIPAA-compliant remote monitoring, EHR integration points, and measurement across all three stakeholder groups, so the commercial team had evidence of clinical ROI to put in front of procurement rather than usage stats.</p>
+        <p><strong>The first enterprise pilot:</strong> we secured the company's first health system pilot. I co-built the live demo, co-ran the stakeholder sessions with clinicians, and reprioritised the near-term roadmap around the objections we were hearing in sales cycles.</p>
         </div>
     </div>
   </section>
@@ -414,7 +416,7 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 class="cs-h2" data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Patient app: phased rebuild, prioritised for activation</h2>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;">
-        <p>We sequenced the rebuild across 2–3 releases so patients with established routines weren't disrupted mid-recovery. Activation came first. If a patient couldn't get set up at home alone, their first clinical session turned into a troubleshooting call: wifi, pairing the device, tablet settings. That is not therapeutic session time, so it can't be claimed from Medicare.</p>
+        <p>We redesigned the app to be genuinely useful and understandable, and shipped it as a new system rather than a patch. Activation was part of that: onboarding, problem solving, and getting a patient set up at home on their own. If they could not, their first clinical session turned into a troubleshooting call: wifi, pairing the device, tablet settings. That is not therapeutic session time, so it can't be claimed from Medicare.</p>
         <p><strong>Accessible from the first release:</strong> we agreed one principle up front, that every product decision had to work for the most impaired user first. Oversized touch targets, simplified navigation, no time-sensitive interactions, and fewer elements on any given screen. Warm rather than clinical.</p>
       </div>
     </div>
@@ -428,7 +430,7 @@
 
   <section class="cs-body" style="padding:3rem 2.5rem 2rem;">
     <div style="max-width:var(--read);margin:0 auto;">
-      <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><strong>Onboarding as product strategy:</strong> Before the rebuild, there was no structured first-run experience. I defined a step-by-step flow, one action per screen, video walkthroughs for each app section, and visual confirmation at every stage. Result: a <strong>+50% activation lift</strong>.</p>
+      <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><strong>Onboarding as product strategy:</strong> Before the rebuild, there was no structured first-run experience. I defined a step-by-step flow, one action per screen, video walkthroughs for each app section, and visual confirmation at every stage.</p>
     </div>
   </section>
 
@@ -443,10 +445,9 @@
   <section class="cs-body" style="padding:4rem 2.5rem 2rem;">
     <div style="max-width:var(--read);margin:0 auto;">
       <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Calibration was a known drop-off point, a dry technical step patients abandoned. We rebuilt it as a guided sequence so setup ended in a small win rather than a chore.</p>
-      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;display:grid;grid-template-columns:var(--grid-3);gap:1.5rem;margin-top:1.5rem;">
+      <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;display:grid;grid-template-columns:1fr;gap:1.5rem;margin-top:1.5rem;">
         <figure style="margin:0;"><div style="border-radius:18px;overflow:hidden;"><img data-src="img/neurofenix/calibration-1.webp" alt="Calibration, left and right" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption-sm);color:var(--text-dim);margin-top:.8rem;">Calibrating left &amp; right movement</figcaption></figure>
         <figure style="margin:0;"><div style="border-radius:18px;overflow:hidden;"><img data-src="img/neurofenix/calibration-2.webp" alt="Calibration, grasp and grip" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption-sm);color:var(--text-dim);margin-top:.8rem;">Calibrating grasp / grip</figcaption></figure>
-        <figure style="margin:0;"><div style="border-radius:18px;overflow:hidden;"><img data-src="img/neurofenix/calibration-3.webp" alt="Calibration, shoulder" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption-sm);color:var(--text-dim);margin-top:.8rem;">Calibrating shoulder movement</figcaption></figure>
       </div>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;margin-top:2.5rem;">
         <p><strong>Retention mechanics with clinical intent.</strong> Our CTO was pushing hard for gamification and serious games, and we worked out together what that should mean for these users. Mostly it meant restraint. Streaks, challenges, progress tracking and a social leaderboard, built on one research finding: stroke survivors want evidence they are improving more than they want cartoon rewards. We left out the mechanics that make consumer apps compulsive, because a patient who feels punished for missing a day stops doing therapy, and one pushed too hard can overdo it. Every mechanic was co-validated with clinicians and patients before it shipped.</p>
@@ -462,7 +463,7 @@
 
   <section class="cs-body" style="padding:3rem 2.5rem 2rem;">
     <div style="max-width:var(--read);margin:0 auto;">
-      <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">The retention system sustained <strong>5.5-day/week adherence</strong>, top quartile for digital therapeutics. By the time I left, the platform's therapy data ran to 31M+ repetitions across 680K+ sessions and more than 26,000 hours of at-home rehabilitation.</p>
+      <p data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;">Cohort adherence averaged around four days a week. By the time I left, the platform's therapy data ran to 31M+ repetitions across 680K+ sessions and more than 26,000 hours of at-home rehabilitation.</p>
       <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;display:grid;grid-template-columns:var(--grid-2);gap:2rem;margin:1.5rem 0 2.5rem;">
         <figure style="margin:0;"><div style="border-radius:20px;overflow:hidden;"><img data-src="img/neurofenix/streak-5.webp" alt="Streak notification" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption-sm);color:var(--text-dim);margin-top:.8rem;">Streak notifications, tied to clinically-meaningful frequency targets</figcaption></figure>
         <figure style="margin:0;"><div style="border-radius:20px;overflow:hidden;"><img data-src="img/neurofenix/streak-hearts.webp" alt="Hearts explanation" style="width:100%;display:block;"></div><figcaption style="font-size:var(--fs-caption-sm);color:var(--text-dim);margin-top:.8rem;">Hearts system, earned through daily practice</figcaption></figure>
@@ -482,9 +483,9 @@
     <div style="max-width:var(--read);margin:0 auto;">
       <h2 data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;font-size:clamp(1.9rem,3.8vw,3rem);font-weight:200;letter-spacing:-.03em;line-height:1.12;color:var(--ink);margin-bottom:3rem;">Outcomes: what it delivered</h2>
       <div style="display:grid;grid-template-columns:var(--grid-2);gap:3rem 4rem;">
-        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><div style="font-size:clamp(2.6rem,4.4vw,3.8rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">+50%</div><p style="font-size:var(--fs-body-md);font-weight:300;line-height:1.7;color:var(--ink-2);">Activation lift, driven by a structured onboarding strategy and a phased rollout approach.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease,transform 1.1s ease;"><div style="font-size:clamp(2.6rem,4.4vw,3.8rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">12%</div><p style="font-size:var(--fs-body-md);font-weight:300;line-height:1.7;color:var(--ink-2);">Monthly churn against the 5.6% the business model assumed, peaking at 20%. Diagnosing that gap set the rebuild priorities.</p></div>
         <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .06s,transform 1.1s ease .06s;"><div style="font-size:clamp(2.6rem,4.4vw,3.8rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">31M+ reps</div><p style="font-size:var(--fs-body-md);font-weight:300;line-height:1.7;color:var(--ink-2);">Across 680K+ sessions, retention mechanics that worked clinically and behaviourally.</p></div>
-        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;"><div style="font-size:clamp(2.6rem,4.4vw,3.8rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">5.5 days/wk</div><p style="font-size:var(--fs-body-md);font-weight:300;line-height:1.7;color:var(--ink-2);">Patient adherence, top quartile for digital therapeutics globally.</p></div>
+        <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;"><div style="font-size:clamp(2.6rem,4.4vw,3.8rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">~4 days/wk</div><p style="font-size:var(--fs-body-md);font-weight:300;line-height:1.7;color:var(--ink-2);">Cohort adherence sustained by the retention system.</p></div>
         <div data-reveal style="opacity:0;transform:translateY(28px);transition:opacity 1.1s ease .14s,transform 1.1s ease .14s;"><div style="font-size:clamp(2.6rem,4.4vw,3.8rem);font-weight:200;color:var(--wine-deep);line-height:1;letter-spacing:-.03em;margin-bottom:.8rem;">B2C → B2B2C</div><p style="font-size:var(--fs-body-md);font-weight:300;line-height:1.7;color:var(--ink-2);">Full platform pivot delivered: patient app, clinician dashboard, enterprise pilot secured.</p></div>
       </div>
     </div>
