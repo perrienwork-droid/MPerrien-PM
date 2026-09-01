@@ -20,14 +20,41 @@
 <script src="./support.js"></script>
 <script src="./contact.js"></script>
 <style>
-  .nfx-kit summary::-webkit-details-marker{display:none;}
-  .nfx-kit-toggle{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:.55rem;
-    font-size:1rem;font-weight:500;color:var(--rose);background:rgba(var(--white-rgb),.06);
-    border:1px solid var(--navy-border);border-radius:100px;padding:.62rem 1.25rem;
-    transition:background .25s ease,border-color .25s ease;}
-  .nfx-kit-toggle:hover{background:rgba(var(--white-rgb),.11);border-color:var(--rose);}
-  .nfx-kit-toggle svg{transition:transform .3s ease;flex-shrink:0;}
-  .nfx-kit[open] .nfx-kit-toggle svg{transform:rotate(180deg);}
+  /* ---- "What Neurofenix sells": HTML/CSS, replaced the two SVGs ---- */
+  .nfx-zone{border:1px solid rgba(var(--white-rgb),.10);border-radius:20px;
+    padding:1.85rem 1.8rem 1.6rem;background:rgba(var(--white-rgb),.015);}
+  .nfx-zone-label{font-size:.82rem;font-weight:600;letter-spacing:.13em;color:var(--rose);margin-bottom:.5rem;}
+  .nfx-zone-name{font-size:1.45rem;font-weight:400;color:var(--text-on-dark);margin-bottom:1.45rem;}
+  .nfx-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;}
+  .nfx-card{border-radius:16px;padding:1.35rem 1.35rem 1.2rem;display:flex;flex-direction:column;min-height:176px;}
+  .nfx-card.is-own{background:var(--navy-2);border:1px solid rgba(var(--white-rgb),.10);}
+  .nfx-card.is-not{background:transparent;border:1px solid rgba(var(--white-rgb),.14);}
+  .nfx-card h4{font-size:1.1rem;font-weight:600;color:var(--text-on-dark);margin:0 0 .65rem;}
+  .nfx-card p{font-size:.94rem;font-weight:400;line-height:1.5;color:rgba(var(--white-rgb),.72);margin:0 0 .25rem;}
+  .nfx-card.is-not h4{color:rgba(var(--white-rgb),.60);font-weight:500;}
+  .nfx-card.is-not p{color:rgba(var(--white-rgb),.40);}
+  .nfx-tag{align-self:flex-start;margin-top:auto;font-size:.8rem;font-weight:600;border-radius:999px;padding:.48rem .95rem;}
+  .nfx-tag.yes{background:rgba(var(--rose-rgb),.20);color:#EEB6BF;}
+  .nfx-tag.no{background:rgba(var(--white-rgb),.045);color:rgba(var(--white-rgb),.40);font-weight:500;}
+  .nfx-extras{margin-top:1.4rem;padding-top:1.3rem;border-top:1px solid rgba(var(--white-rgb),.10);}
+  .nfx-extras-lead{font-size:.85rem;color:rgba(var(--white-rgb),.40);margin-bottom:.7rem;}
+  .nfx-chips{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .nfx-chip{font:inherit;font-size:.92rem;font-weight:500;color:rgba(var(--white-rgb),.72);cursor:pointer;
+    background:rgba(var(--white-rgb),.05);border:1px solid rgba(var(--white-rgb),.10);border-radius:999px;
+    padding:.52rem 1rem;display:inline-flex;align-items:center;gap:.45rem;
+    transition:background .18s ease,color .18s ease,border-color .18s ease;}
+  .nfx-chip:hover{background:rgba(var(--white-rgb),.10);color:var(--text-on-dark);}
+  .nfx-chip[aria-expanded="true"]{background:rgba(var(--rose-rgb),.18);border-color:rgba(var(--rose-rgb),.45);color:#EEB6BF;}
+  .nfx-chip svg{width:13px;height:13px;transition:transform .2s ease;flex-shrink:0;}
+  .nfx-chip[aria-expanded="true"] svg{transform:rotate(180deg);}
+  .nfx-panel{display:none;font-size:1rem;font-weight:300;line-height:1.7;color:var(--text-muted);
+    margin-top:1rem;padding:.2rem 0 .2rem 1.1rem;border-left:2px solid var(--rose);max-width:64ch;}
+  .nfx-panel.is-open{display:block;}
+  .nfx-panel strong{color:var(--text-on-dark);font-weight:500;}
+  .nfx-flow{display:flex;align-items:center;gap:.95rem;padding:1.35rem .25rem;color:var(--rose);
+    font-size:.94rem;font-style:italic;}
+  .nfx-flow::before,.nfx-flow::after{content:"";flex:1;height:1px;background:rgba(var(--white-rgb),.10);}
+  @media (max-width:680px){ .nfx-cards{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -191,62 +218,56 @@
 
     <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity 1.1s ease .1s,transform 1.1s ease .1s;max-width:880px;margin:2.5rem auto 2.2rem;">
       <div style="padding:.5rem 0 1rem;">
-        <div style="text-align:center;font-size:clamp(1.65rem,3.4vw,2.4rem);font-weight:300;letter-spacing:-.025em;line-height:1.15;color:var(--rose);margin-bottom:2rem;">What Neurofenix sells</div>
-        <svg viewBox="0 0 620 250" xmlns="http://www.w3.org/2000/svg" role="img" style="width:100%;display:block;" font-family="Inter, sans-serif">
-          <title>Neuro Rehab Kit</title>
-          <desc>The patient side: the Patient App on a tablet, paired with the NeuroBall device.</desc>
-
-        <title>Neurofenix product structure</title>
-        <desc>Two product families: the Neuro Rehab Kit used by patients at home, and the NeuroDashboard used by clinics. Three of the four surfaces were owned by Malgo Perrien.</desc>
-        <text x="16" y="20" font-size="11" font-weight="600" letter-spacing="1.3" fill="#D48D98">AT HOME</text>
-        <text x="16" y="50" font-size="20" font-weight="400" fill="#FFFFFF">Neuro Rehab Kit</text>
-        <rect x="16" y="68" width="282" height="172" rx="14" fill="#1C2E52" stroke="#FFFFFF" stroke-opacity=".10"/>
-        <text x="38" y="106" font-size="15" font-weight="600" fill="#FFFFFF">Patient App</text>
-        <text x="38" y="132" font-size="12.5" fill="#FFFFFF" fill-opacity=".72">on a tablet</text>
-        <text x="38" y="154" font-size="12.5" fill="#FFFFFF" fill-opacity=".72">gamified home therapy</text>
-        <rect x="38" y="194" width="98" height="25" rx="12.5" fill="#D48D98" fill-opacity=".20"/>
-        <text x="87" y="211" font-size="11" font-weight="600" text-anchor="middle" fill="#EEB6BF">I owned this</text>
-        <rect x="322" y="68" width="282" height="172" rx="14" fill="none" stroke="#FFFFFF" stroke-opacity=".22"/>
-        <text x="344" y="106" font-size="15" font-weight="600" fill="#FFFFFF">NeuroBall</text>
-        <text x="344" y="132" font-size="12.5" fill="#FFFFFF" fill-opacity=".6">upper limb device</text>
-        <text x="344" y="154" font-size="12.5" fill="#FFFFFF" fill-opacity=".6">patented, 4 clinical trials</text>
-        <rect x="344" y="194" width="98" height="25" rx="12.5" fill="#FFFFFF" fill-opacity=".08"/>
-        <text x="393" y="211" font-size="11" font-weight="600" text-anchor="middle" fill="#FFFFFF">not my remit</text>
-        <line x1="298" y1="154" x2="322" y2="154" stroke="#D48D98" stroke-width="1.5"/>
-        </svg>
-        <div style="padding:0 2.6%;margin:.6rem 0 1.4rem;">
-          <p style="font-size:.9rem;color:rgba(var(--white-rgb),.5);margin:0 0 1rem;">plus Fitbit &#183; NeuroVision &#183; PhysiApp &#183; NeuroSpace</p>
-          <details class="nfx-kit">
-          <summary class="nfx-kit-toggle">What the rest of the kit was for<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-          <div style="font-size:var(--fs-body-sm);font-weight:300;line-height:1.7;color:var(--text-muted);padding-top:1rem;max-width:62ch;">
-            <p style="margin:0 0 .9rem;"><strong style="font-weight:500;color:var(--text-on-dark);">Fitbit and NeuroVision.</strong> Health systems weren't going to buy a platform that only treated an arm. Step and activity data from Fitbit, and camera-based motion tracking through NeuroVision, let us cover walking and whole-body movement. This came from what buyers asked for, not from what we most wanted to build.</p>
-            <p style="margin:0 0 .9rem;"><strong style="font-weight:500;color:var(--text-on-dark);">PhysiApp.</strong> A library of video exercises for the rest of the body, which clinicians assigned per patient alongside their NeuroBall programme.</p>
-            <p style="margin:0;"><strong style="font-weight:500;color:var(--text-on-dark);">NeuroSpace.</strong> Troubleshooting and tutorials, built as its own website and linked from the tablet rather than built into the app. That took the content out of the sprint cycle. I could write and update it without spending engineering time, and a confusing instruction could be fixed the same day instead of waiting for a release.</p>
+        <div style="text-align:center;font-size:clamp(1.9rem,3.9vw,2.75rem);font-weight:300;letter-spacing:-.025em;line-height:1.15;color:var(--rose);margin-bottom:2rem;">What Neurofenix sells</div>
+        <div class="nfx-zone">
+          <div class="nfx-zone-label">AT HOME</div>
+          <div class="nfx-zone-name">Neuro Rehab Kit</div>
+          <div class="nfx-cards">
+            <div class="nfx-card is-own">
+              <h4>Patient App</h4>
+              <p>on a tablet</p>
+              <p>gamified home therapy</p>
+              <span class="nfx-tag yes">I owned this</span>
+            </div>
+            <div class="nfx-card is-not">
+              <h4>NeuroBall</h4>
+              <p>upper limb device</p>
+              <p>patented, 4 clinical trials</p>
+              <span class="nfx-tag no">not my remit</span>
+            </div>
           </div>
-        </details>
+          <div class="nfx-extras">
+            <div class="nfx-extras-lead">The kit also included</div>
+            <div class="nfx-chips">
+              <button type="button" class="nfx-chip" aria-expanded="false" aria-controls="nfx-p-fit" data-panel="nfx-p-fit">Fitbit<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <button type="button" class="nfx-chip" aria-expanded="false" aria-controls="nfx-p-fit" data-panel="nfx-p-fit">NeuroVision<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <button type="button" class="nfx-chip" aria-expanded="false" aria-controls="nfx-p-phy" data-panel="nfx-p-phy">PhysiApp<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+              <button type="button" class="nfx-chip" aria-expanded="false" aria-controls="nfx-p-spa" data-panel="nfx-p-spa">NeuroSpace<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            </div>
+            <div class="nfx-panel" id="nfx-p-fit"><strong>Fitbit and NeuroVision.</strong> Health systems weren&#8217;t going to buy a platform that only treated an arm. Step and activity data from Fitbit, and camera-based motion tracking through NeuroVision, let us cover walking and whole-body movement. This came from what buyers asked for, not from what we most wanted to build.</div>
+            <div class="nfx-panel" id="nfx-p-phy"><strong>PhysiApp.</strong> A library of video exercises for the rest of the body, which clinicians assigned per patient alongside their NeuroBall programme.</div>
+            <div class="nfx-panel" id="nfx-p-spa"><strong>NeuroSpace.</strong> Troubleshooting and tutorials, built as its own website and linked from the tablet rather than built into the app. That took the content out of the sprint cycle. I could write and update it without spending engineering time, and a confusing instruction could be fixed the same day instead of waiting for a release.</div>
+          </div>
         </div>
-        <svg viewBox="0 280 620 388" xmlns="http://www.w3.org/2000/svg" role="img" style="width:100%;display:block;" font-family="Inter, sans-serif">
-          <title>NeuroDashboard</title>
-          <desc>The clinic side: the Clinician Dashboard and the Partner Dashboard.</desc>
-        <line x1="16" y1="296" x2="604" y2="296" stroke="#FFFFFF" stroke-opacity=".14"/>
-        <text x="310" y="328" font-size="12" font-style="italic" text-anchor="middle" fill="#D48D98">&#8595;&#160; therapy data, and the billing evidence built from it</text>
-        <text x="16" y="374" font-size="11" font-weight="600" letter-spacing="1.3" fill="#D48D98">AT THE CLINIC</text>
-        <text x="16" y="404" font-size="20" font-weight="400" fill="#FFFFFF">NeuroDashboard</text>
-        <rect x="16" y="422" width="282" height="172" rx="14" fill="#1C2E52" stroke="#FFFFFF" stroke-opacity=".10"/>
-        <text x="38" y="460" font-size="15" font-weight="600" fill="#FFFFFF">Clinician Dashboard</text>
-        <text x="38" y="486" font-size="12.5" fill="#FFFFFF" fill-opacity=".72">care delivery teams</text>
-        <text x="38" y="508" font-size="12.5" fill="#FFFFFF" fill-opacity=".72">caseload triage &#183; RTM</text>
-        <rect x="38" y="548" width="98" height="25" rx="12.5" fill="#D48D98" fill-opacity=".20"/>
-        <text x="87" y="565" font-size="11" font-weight="600" text-anchor="middle" fill="#EEB6BF">I owned this</text>
-        <rect x="322" y="422" width="282" height="172" rx="14" fill="#1C2E52" stroke="#FFFFFF" stroke-opacity=".10"/>
-        <text x="344" y="460" font-size="15" font-weight="600" fill="#FFFFFF">Partner Dashboard</text>
-        <text x="344" y="486" font-size="12.5" fill="#FFFFFF" fill-opacity=".72">coordination &amp; operations</text>
-        <text x="344" y="508" font-size="12.5" fill="#FFFFFF" fill-opacity=".72">screening &#183; outcomes</text>
-        <rect x="344" y="548" width="98" height="25" rx="12.5" fill="#D48D98" fill-opacity=".20"/>
-        <text x="393" y="565" font-size="11" font-weight="600" text-anchor="middle" fill="#EEB6BF">I owned this</text>
-        <line x1="16" y1="624" x2="604" y2="624" stroke="#FFFFFF" stroke-opacity=".14"/>
-        <text x="310" y="648" font-size="11.5" text-anchor="middle" fill="#FFFFFF" fill-opacity=".6"></text>
-        </svg>
+        <div class="nfx-flow">&#8595;&#160; therapy data, and the billing evidence built from it</div>
+        <div class="nfx-zone">
+          <div class="nfx-zone-label">AT THE CLINIC</div>
+          <div class="nfx-zone-name">NeuroDashboard</div>
+          <div class="nfx-cards">
+            <div class="nfx-card is-own">
+              <h4>Clinician Dashboard</h4>
+              <p>care delivery teams</p>
+              <p>caseload triage &#183; RTM</p>
+              <span class="nfx-tag yes">I owned this</span>
+            </div>
+            <div class="nfx-card is-own">
+              <h4>Partner Dashboard</h4>
+              <p>coordination &amp; operations</p>
+              <p>screening &#183; outcomes</p>
+              <span class="nfx-tag yes">I owned this</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -586,6 +607,28 @@ class Component extends DCLogic {
   window.addEventListener('resize',function(){
     if(window.innerWidth>820) root.classList.remove('mp-nav-open');
   },{passive:true});
+})();
+</script>
+<script>
+/* Delegated on document: this page re-renders sections after load, which would
+   drop listeners bound directly to the chips. */
+(function(){
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest&&e.target.closest('.nfx-chip');
+    if(!btn)return;
+    var id=btn.getAttribute('data-panel');
+    var panel=document.getElementById(id);
+    if(!panel)return;
+    var wasOpen=panel.classList.contains('is-open');
+    document.querySelectorAll('.nfx-panel').forEach(function(p){p.classList.remove('is-open');});
+    document.querySelectorAll('.nfx-chip').forEach(function(c){c.setAttribute('aria-expanded','false');});
+    if(!wasOpen){
+      panel.classList.add('is-open');
+      document.querySelectorAll('.nfx-chip[data-panel="'+id+'"]').forEach(function(c){
+        c.setAttribute('aria-expanded','true');
+      });
+    }
+  });
 })();
 </script>
 </body>
